@@ -1,0 +1,8 @@
+*.suo
+*.user
+obj/
+bin/
+_ReSharper.*
+TestResult.xml
+*.VisualState.xml
+src/Ponoko.Net.Acceptance.Tests/App.config

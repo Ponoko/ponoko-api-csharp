@@ -1,0 +1,7 @@
+﻿<NUnitProject>
+  <Settings activeconfig="Debug" />
+  <Config name="Debug" appbase="bin\Debug" configfile="Ponoko.Net.Acceptance.Tests.dll.config" binpathtype="Auto">
+    <assembly path="Ponoko.Net.Acceptance.Tests.dll" />
+  </Config>
+  <Config name="Release" binpathtype="Auto" />
+</NUnitProject>

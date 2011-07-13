@@ -1,0 +1,38 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 10.00
+# Visual Studio 2008
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ponoko.Net", "src\Ponoko.Net\Ponoko.Net.csproj", "{FACBA19D-639D-4155-8FB3-95D1B4477C53}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ponoko.Net.Acceptance.Tests", "src\Ponoko.Net.Acceptance.Tests\Ponoko.Net.Acceptance.Tests.csproj", "{B8954D9A-1E76-4451-B8BA-B0D4FFB0E2C7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ponoko.Net.Unit.Tests", "src\Ponoko.Net.Unit.Tests\Ponoko.Net.Unit.Tests.csproj", "{BDFD483B-1950-43AB-A00F-77F0220EA498}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ponoko.Net.Integration.Tests", "src\Ponoko.Net.Integration.Tests\Ponoko.Net.Integration.Tests.csproj", "{47A290B6-6FAE-48C8-83FF-67FF433639FE}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{FACBA19D-639D-4155-8FB3-95D1B4477C53}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FACBA19D-639D-4155-8FB3-95D1B4477C53}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FACBA19D-639D-4155-8FB3-95D1B4477C53}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FACBA19D-639D-4155-8FB3-95D1B4477C53}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B8954D9A-1E76-4451-B8BA-B0D4FFB0E2C7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B8954D9A-1E76-4451-B8BA-B0D4FFB0E2C7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B8954D9A-1E76-4451-B8BA-B0D4FFB0E2C7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B8954D9A-1E76-4451-B8BA-B0D4FFB0E2C7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BDFD483B-1950-43AB-A00F-77F0220EA498}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BDFD483B-1950-43AB-A00F-77F0220EA498}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BDFD483B-1950-43AB-A00F-77F0220EA498}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BDFD483B-1950-43AB-A00F-77F0220EA498}.Release|Any CPU.Build.0 = Release|Any CPU
+		{47A290B6-6FAE-48C8-83FF-67FF433639FE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{47A290B6-6FAE-48C8-83FF-67FF433639FE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{47A290B6-6FAE-48C8-83FF-67FF433639FE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{47A290B6-6FAE-48C8-83FF-67FF433639FE}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
