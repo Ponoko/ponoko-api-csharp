@@ -4,7 +4,7 @@ using System.Collections.Specialized;
 using System.Text;
 using System.IO;
 
-namespace Ponoko.Net.Rest {
+namespace Ponoko.Api.Rest {
 	public class MultipartFormData : HttpContentType {
 		private readonly MemoryStream _stream = new MemoryStream();
 		private readonly Encoding _characterEncoding = Encoding.UTF8;

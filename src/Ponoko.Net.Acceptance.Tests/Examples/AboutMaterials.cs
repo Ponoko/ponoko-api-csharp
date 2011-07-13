@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Net;
 using NUnit.Framework;
-using Ponoko.Net.Json;
+using Ponoko.Api.Json;
 
-namespace Ponoko.Net.Acceptance.Tests.Examples {
+namespace Ponoko.Api.Acceptance.Tests.Examples {
 	[TestFixture]
 	public class AboutMaterials : AcceptanceTest {
 		[Test]

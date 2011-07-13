@@ -1,12 +1,11 @@
 ﻿using System;
 using System.Collections.Specialized;
 using NUnit.Framework;
-using Ponoko.Net.Rest;
-using Ponoko.Net.Security.OAuth.Core;
-using Ponoko.Net.Security.OAuth.Impl.OAuth.Net;
+using Ponoko.Api.Security.OAuth.Core;
+using Ponoko.Api.Security.OAuth.Impl.OAuth.Net;
 using Rhino.Mocks;
 
-namespace Ponoko.Net.Unit.Tests.Security.OAuth.Impl.OAuth.Net {
+namespace Ponoko.Api.Unit.Tests.Security.OAuth.Impl.OAuth.Net {
     [TestFixture]
     public class MadgexOAuthHeaderTests {
     	private Clock _clock;

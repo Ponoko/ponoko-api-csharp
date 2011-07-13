@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Text;
 
-namespace Ponoko.Net.Rest {
+namespace Ponoko.Api.Rest {
 	public class Parameter {
 		public string Name { get; private set; }
 		public string Value { get; private set; }

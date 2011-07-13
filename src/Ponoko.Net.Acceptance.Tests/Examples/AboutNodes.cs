@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Net;
 using NUnit.Framework;
-using Ponoko.Net.Rest;
+using Ponoko.Api.Rest;
 
-namespace Ponoko.Net.Acceptance.Tests.Examples {
+namespace Ponoko.Api.Acceptance.Tests.Examples {
     [TestFixture]
     public class AboutNodes : AcceptanceTest {
     	[Test]

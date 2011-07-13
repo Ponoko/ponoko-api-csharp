@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("Ponoko.Net.Acceptance.Tests")]
+[assembly: AssemblyTitle("Ponoko.Api.Acceptance.Tests")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("Ponoko.Net.Acceptance.Tests")]
+[assembly: AssemblyProduct("Ponoko.Api.Acceptance.Tests")]
 [assembly: AssemblyCopyright("Copyright ©  2011")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]

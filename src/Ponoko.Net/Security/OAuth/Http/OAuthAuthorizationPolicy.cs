@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Net;
-using Ponoko.Net.Security.OAuth.Core;
+using Ponoko.Api.Security.OAuth.Core;
 
-namespace Ponoko.Net.Security.OAuth.Http {
+namespace Ponoko.Api.Security.OAuth.Http {
 	public class OAuthAuthorizationPolicy : AuthorizationPolicy {
 		private readonly OAuthHeader _oAuthHeader;
 

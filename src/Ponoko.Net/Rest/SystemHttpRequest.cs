@@ -2,7 +2,7 @@
 using System.IO;
 using System.Net;
 
-namespace Ponoko.Net.Rest {
+namespace Ponoko.Api.Rest {
 	public class SystemHttpRequest : IHttpRequest {
 		private readonly HttpWebRequest _innerRequest = null;
 

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Ponoko.Net.Security.OAuth.Core {
+namespace Ponoko.Api.Security.OAuth.Core {
     public class Credential {
         public static readonly Credential Empty = new Credential(String.Empty, String.Empty);
         public string Key { get; private set; }

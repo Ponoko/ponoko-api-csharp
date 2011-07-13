@@ -5,13 +5,13 @@ using System.IO;
 using System.Net;
 using Newtonsoft.Json;
 using NUnit.Framework;
-using Ponoko.Net.Json;
-using Ponoko.Net.Rest;
-using Ponoko.Net.Security.OAuth.Core;
-using Ponoko.Net.Security.OAuth.Http;
-using Ponoko.Net.Security.OAuth.Impl.OAuth.Net;
+using Ponoko.Api.Json;
+using Ponoko.Api.Rest;
+using Ponoko.Api.Security.OAuth.Core;
+using Ponoko.Api.Security.OAuth.Http;
+using Ponoko.Api.Security.OAuth.Impl.OAuth.Net;
 
-namespace Ponoko.Net.Acceptance.Tests {
+namespace Ponoko.Api.Acceptance.Tests {
 	public class AcceptanceTest {
 		private readonly Credential _consumer = new Credential(
 			ConfigurationManager.AppSettings["Ponoko.Consumer.Key"], 

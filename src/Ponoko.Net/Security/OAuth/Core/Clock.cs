@@ -1,7 +1,7 @@
 ﻿using System;
 using OAuth.Net.Common;
 
-namespace Ponoko.Net.Security.OAuth.Core {
+namespace Ponoko.Api.Security.OAuth.Core {
     public interface Clock { String NewTimestamp(); }
 
     public class SystemClock : Clock {

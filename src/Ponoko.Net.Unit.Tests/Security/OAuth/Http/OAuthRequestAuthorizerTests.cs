@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.Specialized;
 using NUnit.Framework;
-using Ponoko.Net.Security.OAuth.Core;
-using Ponoko.Net.Security.OAuth.Http;
+using Ponoko.Api.Security.OAuth.Core;
+using Ponoko.Api.Security.OAuth.Http;
 using Rhino.Mocks;
 
-namespace Ponoko.Net.Unit.Tests.Security.OAuth.Http {
+namespace Ponoko.Api.Unit.Tests.Security.OAuth.Http {
 	[TestFixture]
 	public class OAuthRequestAuthorizerTests {
 		private OAuthHeader _oAuthHeaderProvider;

@@ -4,10 +4,10 @@ using System.Collections.Specialized;
 using System.IO;
 using System.Net;
 using NUnit.Framework;
-using Ponoko.Net.Json;
-using Ponoko.Net.Rest;
+using Ponoko.Api.Json;
+using Ponoko.Api.Rest;
 
-namespace Ponoko.Net.Acceptance.Tests.Examples {
+namespace Ponoko.Api.Acceptance.Tests.Examples {
 	[TestFixture]
 	public class AboutProducts : AcceptanceTest {
     	[Test]

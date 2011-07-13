@@ -5,10 +5,10 @@ using System.Configuration;
 using System.IO;
 using System.Net;
 using NUnit.Framework;
-using Ponoko.Net.Rest;
-using Ponoko.Net.Security.OAuth.Core;
+using Ponoko.Api.Rest;
+using Ponoko.Api.Security.OAuth.Core;
 
-namespace Ponoko.Net.Acceptance.Tests {
+namespace Ponoko.Api.Acceptance.Tests {
 	[TestFixture]
 	public class Characterization : AcceptanceTest {
 		[Test, Ignore("Probably not required now, but useful as verification.")]

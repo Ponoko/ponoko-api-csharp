@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Text;
 
-namespace Ponoko.Net.Rest {
+namespace Ponoko.Api.Rest {
 	public class MultipartFormDataDataItemFormatter {
 		private readonly string _boundary;
 

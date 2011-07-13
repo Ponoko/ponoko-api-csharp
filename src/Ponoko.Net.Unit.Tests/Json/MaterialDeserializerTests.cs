@@ -1,8 +1,8 @@
 ﻿using System;
 using NUnit.Framework;
-using Ponoko.Net.Json;
+using Ponoko.Api.Json;
 
-namespace Ponoko.Net.Unit.Tests.Json {
+namespace Ponoko.Api.Unit.Tests.Json {
 	class MaterialDeserializerTests {
 		[Test] public void 
 		you_can_deserialize_a_single_material() {

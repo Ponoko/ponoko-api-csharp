@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using Ponoko.Net.Core;
+using Ponoko.Api.Core;
 
-namespace Ponoko.Net.Json {
+namespace Ponoko.Api.Json {
 	public static class MaterialListDeserializer {
 		public static Material[] Deserialize(String json) {
 			var theList = new Deserializer().Deserialize(json);

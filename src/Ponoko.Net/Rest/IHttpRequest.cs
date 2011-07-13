@@ -2,7 +2,7 @@
 using System.IO;
 using System.Net;
 
-namespace Ponoko.Net.Rest {
+namespace Ponoko.Api.Rest {
 	public interface IHttpRequest {
 		String ContentType { get; set; }
 		Int64 ContentLength { get; set; }

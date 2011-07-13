@@ -5,11 +5,11 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>9.0.21022</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{B8954D9A-1E76-4451-B8BA-B0D4FFB0E2C7}</ProjectGuid>
+    <ProjectGuid>{FACBA19D-639D-4155-8FB3-95D1B4477C53}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Ponoko.Net.Acceptance.Tests</RootNamespace>
-    <AssemblyName>Ponoko.Net.Acceptance.Tests</AssemblyName>
+    <RootNamespace>Ponoko.Api</RootNamespace>
+    <AssemblyName>Ponoko.Api</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -35,10 +35,6 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\lib\Newtonsoft.Json.Net20.dll</HintPath>
     </Reference>
-    <Reference Include="nunit.framework, Version=2.5.10.11092, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\lib\nunit.framework.dll</HintPath>
-    </Reference>
     <Reference Include="OAuth.Net.Common, Version=0.7.1.0, Culture=neutral, PublicKeyToken=32209861c86e8a0d, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\lib\OAuth.Net.Common.dll</HintPath>
@@ -52,11 +48,13 @@
       <HintPath>..\..\lib\OAuth.Net.Consumer.dll</HintPath>
     </Reference>
     <Reference Include="System" />
-    <Reference Include="System.configuration" />
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
     <Reference Include="System.Web" />
+    <Reference Include="System.Web.Extensions">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
     <Reference Include="System.Xml.Linq">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
@@ -67,29 +65,35 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AcceptanceTest.cs" />
-    <Compile Include="Characterization.cs" />
-    <Compile Include="Examples\AboutAuthorization.cs" />
-    <Compile Include="Examples\AboutMaterials.cs" />
-    <Compile Include="Examples\AboutNodes.cs" />
-    <Compile Include="Examples\AboutProducts.cs" />
+    <Compile Include="Core\Material.cs" />
+    <Compile Include="Json\Deserializer.cs" />
+    <Compile Include="Json\MaterialDeserializer.cs" />
+    <Compile Include="Json\MaterialListDeserializer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="TheInternet.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Ponoko.Net\Ponoko.Net.csproj">
-      <Project>{FACBA19D-639D-4155-8FB3-95D1B4477C53}</Project>
-      <Name>Ponoko.Net</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="App.config" />
-    <Content Include="res\bottom_new.stl">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="res\not_an_eps_really.eps">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
+    <Compile Include="Rest\FormUrlEncoded.cs" />
+    <Compile Include="Rest\HttpContentType.cs" />
+    <Compile Include="Rest\IHttpRequest.cs" />
+    <Compile Include="Rest\MultipartFormDataDataItemFormatter.cs" />
+    <Compile Include="Rest\Payload.cs" />
+    <Compile Include="Rest\SystemHttpRequest.cs" />
+    <Compile Include="Security\OAuth\Core\Credential.cs" />
+    <Compile Include="Security\OAuth\Core\CredentialSet.cs" />
+    <Compile Include="Security\OAuth\Core\Clock.cs" />
+    <Compile Include="Security\OAuth\Core\RequestLine.cs" />
+    <Compile Include="Security\OAuth\Http\BasicAuthorizationPolicy.cs" />
+    <Compile Include="Rest\MultipartFormData.cs" />
+    <Compile Include="Security\OAuth\Http\OAuthAuthorizationPolicy.cs" />
+    <Compile Include="Security\OAuth\Http\AuthorizationPolicy.cs" />
+    <Compile Include="Rest\DataItem.cs" />
+    <Compile Include="Rest\Parameter.cs" />
+    <Compile Include="Security\OAuth\Impl\OAuth.Net\MadgexOAuthHeader.cs" />
+    <Compile Include="Security\OAuth\Impl\OAuth.Net\MadgexSignature.cs" />
+    <Compile Include="Security\OAuth\Core\NonceFactory.cs" />
+    <Compile Include="Security\OAuth\Core\OAuthHeader.cs" />
+    <Compile Include="Security\OAuth\Core\Options.cs" />
+    <Compile Include="Security\OAuth\Core\Request.cs" />
+    <Compile Include="Security\OAuth\Core\ParameterInclusionPolicy.cs" />
+    <Compile Include="Sugar\Un.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

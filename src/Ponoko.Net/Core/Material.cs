@@ -1,7 +1,7 @@
 ﻿using System;
 using Newtonsoft.Json;
 
-namespace Ponoko.Net.Core {
+namespace Ponoko.Api.Core {
 	public class Material {
 		public String Color;
 		[JsonProperty(PropertyName = "updated_at")]

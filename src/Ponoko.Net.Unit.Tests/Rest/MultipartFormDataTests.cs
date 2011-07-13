@@ -1,10 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.Collections.Specialized;
 using NUnit.Framework;
-using Ponoko.Net.Rest;
+using Ponoko.Api.Rest;
 using Rhino.Mocks;
 
-namespace Ponoko.Net.Unit.Tests.Rest {
+namespace Ponoko.Api.Unit.Tests.Rest {
 	[TestFixture]
 	public class MultipartFormDataTests {
 		public void 

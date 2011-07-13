@@ -2,10 +2,10 @@
 using System.Collections.Specialized;
 using NUnit.Framework;
 using OAuth.Net.Common;
-using Ponoko.Net.Security.OAuth.Core;
-using Ponoko.Net.Security.OAuth.Impl.OAuth.Net;
+using Ponoko.Api.Security.OAuth.Core;
+using Ponoko.Api.Security.OAuth.Impl.OAuth.Net;
 
-namespace Ponoko.Net.Integration.Tests.Security.OAuth.Impl {
+namespace Ponoko.Api.Integration.Tests.Security.OAuth.Impl {
 	[TestFixture]
 	public class MadgexSignatureTests {
 		[Test]

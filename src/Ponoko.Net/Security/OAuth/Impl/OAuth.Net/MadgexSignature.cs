@@ -1,10 +1,10 @@
 ﻿using System;
 using OAuth.Net.Common;
 using OAuth.Net.Components;
-using Ponoko.Net.Security.OAuth.Core;
-using Ponoko.Net.Sugar;
+using Ponoko.Api.Security.OAuth.Core;
+using Ponoko.Api.Sugar;
 
-namespace Ponoko.Net.Security.OAuth.Impl.OAuth.Net {
+namespace Ponoko.Api.Security.OAuth.Impl.OAuth.Net {
     public class MadgexSignature {
         public String Sign(
             Request request,

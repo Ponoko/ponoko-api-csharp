@@ -5,11 +5,11 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>9.0.21022</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{47A290B6-6FAE-48C8-83FF-67FF433639FE}</ProjectGuid>
+    <ProjectGuid>{BDFD483B-1950-43AB-A00F-77F0220EA498}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Ponoko.Net.Integration.Tests</RootNamespace>
-    <AssemblyName>Ponoko.Net.Integration.Tests</AssemblyName>
+    <RootNamespace>Ponoko.Api.Unit.Tests</RootNamespace>
+    <AssemblyName>Ponoko.Api.Unit.Tests</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -31,13 +31,25 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Newtonsoft.Json.Net20, Version=3.5.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\lib\Newtonsoft.Json.Net20.dll</HintPath>
+    </Reference>
     <Reference Include="nunit.framework, Version=2.5.10.11092, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\lib\nunit.framework.dll</HintPath>
+      <HintPath>..\..\lib\nunit.framework.dll</HintPath>
     </Reference>
     <Reference Include="OAuth.Net.Common, Version=0.7.1.0, Culture=neutral, PublicKeyToken=32209861c86e8a0d, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\lib\OAuth.Net.Common.dll</HintPath>
+    </Reference>
+    <Reference Include="OAuth.Net.Components, Version=0.7.1.0, Culture=neutral, PublicKeyToken=32209861c86e8a0d, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\lib\OAuth.Net.Components.dll</HintPath>
+    </Reference>
+    <Reference Include="OAuth.Net.Consumer, Version=0.7.1.0, Culture=neutral, PublicKeyToken=32209861c86e8a0d, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\lib\OAuth.Net.Consumer.dll</HintPath>
     </Reference>
     <Reference Include="Rhino.Mocks, Version=3.6.0.0, Culture=neutral, PublicKeyToken=0b3305902db7183f, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -47,7 +59,9 @@
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
-    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Extensions">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
     <Reference Include="System.Xml.Linq">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
@@ -58,20 +72,20 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Security\OAuth\Impl\MadgexSignatureTests.cs" />
+    <Compile Include="Json\DeserializerTests.cs" />
+    <Compile Include="Json\MaterialDeserializerTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Rest\MultipartFormDataTests.cs" />
+    <Compile Include="Rest\DataItemTests.cs" />
+    <Compile Include="Security\OAuth\Core\RequestTests.cs" />
+    <Compile Include="Security\OAuth\Http\OAuthRequestAuthorizerTests.cs" />
+    <Compile Include="Security\OAuth\Impl\OAuth.Net\MadgexOAuthHeaderTests.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Ponoko.Net\Ponoko.Net.csproj">
+    <ProjectReference Include="..\Ponoko.Net\Ponoko.Api.csproj">
       <Project>{FACBA19D-639D-4155-8FB3-95D1B4477C53}</Project>
-      <Name>Ponoko.Net</Name>
+      <Name>Ponoko.Api</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="an_example_file.txt" />
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Rest\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

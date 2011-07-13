@@ -1,8 +1,8 @@
 ﻿using System.Net;
 using NUnit.Framework;
-using Ponoko.Net.Security.OAuth.Core;
+using Ponoko.Api.Security.OAuth.Core;
 
-namespace Ponoko.Net.Acceptance.Tests.Examples {
+namespace Ponoko.Api.Acceptance.Tests.Examples {
 	public class AboutAuthorization : AcceptanceTest {
 		[Test]
 		public void invalid_credentials_returns_401() {

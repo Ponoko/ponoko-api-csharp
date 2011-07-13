@@ -1,7 +1,7 @@
 ﻿using System;
 using System.IO;
 
-namespace Ponoko.Net.Rest {
+namespace Ponoko.Api.Rest {
 	public class DataItem {
 		private Byte[] _data;
 		private readonly FileInfo _file;

@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Globalization;
 using Newtonsoft.Json;
-using Ponoko.Net.Core;
+using Ponoko.Api.Core;
 
-namespace Ponoko.Net.Json {
+namespace Ponoko.Api.Json {
 	public static class MaterialDeserializer {
 		public static Material Deserialize(String json) {
 			var settings = new JsonSerializerSettings {

@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Collections.Specialized;
 
-namespace Ponoko.Net.Rest {
+namespace Ponoko.Api.Rest {
 	public class Payload {
 		public NameValueCollection Parameters { get; private set; }
 		public List<DataItem> DataItems { get; private set; }

@@ -1,13 +1,13 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 10.00
 # Visual Studio 2008
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ponoko.Net", "src\Ponoko.Net\Ponoko.Net.csproj", "{FACBA19D-639D-4155-8FB3-95D1B4477C53}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ponoko.Api", "src\Ponoko.Net\Ponoko.Api.csproj", "{FACBA19D-639D-4155-8FB3-95D1B4477C53}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ponoko.Net.Acceptance.Tests", "src\Ponoko.Net.Acceptance.Tests\Ponoko.Net.Acceptance.Tests.csproj", "{B8954D9A-1E76-4451-B8BA-B0D4FFB0E2C7}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ponoko.Api.Acceptance.Tests", "src\Ponoko.Net.Acceptance.Tests\Ponoko.Api.Acceptance.Tests.csproj", "{B8954D9A-1E76-4451-B8BA-B0D4FFB0E2C7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ponoko.Net.Unit.Tests", "src\Ponoko.Net.Unit.Tests\Ponoko.Net.Unit.Tests.csproj", "{BDFD483B-1950-43AB-A00F-77F0220EA498}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ponoko.Api.Unit.Tests", "src\Ponoko.Net.Unit.Tests\Ponoko.Api.Unit.Tests.csproj", "{BDFD483B-1950-43AB-A00F-77F0220EA498}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ponoko.Net.Integration.Tests", "src\Ponoko.Net.Integration.Tests\Ponoko.Net.Integration.Tests.csproj", "{47A290B6-6FAE-48C8-83FF-67FF433639FE}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ponoko.Api.Integration.Tests", "src\Ponoko.Net.Integration.Tests\Ponoko.Api.Integration.Tests.csproj", "{47A290B6-6FAE-48C8-83FF-67FF433639FE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

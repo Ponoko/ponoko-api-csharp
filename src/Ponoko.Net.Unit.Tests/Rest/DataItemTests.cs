@@ -1,8 +1,8 @@
 ﻿using System.IO;
 using NUnit.Framework;
-using Ponoko.Net.Rest;
+using Ponoko.Api.Rest;
 
-namespace Ponoko.Net.Unit.Tests.Rest {
+namespace Ponoko.Api.Unit.Tests.Rest {
 	[TestFixture]
 	public class DataItemTests {
 		[Test] public void 

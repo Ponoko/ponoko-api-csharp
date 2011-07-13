@@ -2,11 +2,11 @@
 using System.Collections.Specialized;
 using System.IO;
 using System.Net;
-using Ponoko.Net.Rest;
-using Ponoko.Net.Security.OAuth.Core;
-using Ponoko.Net.Security.OAuth.Http;
+using Ponoko.Api.Rest;
+using Ponoko.Api.Security.OAuth.Core;
+using Ponoko.Api.Security.OAuth.Http;
 
-namespace Ponoko.Net.Acceptance.Tests {
+namespace Ponoko.Api.Acceptance.Tests {
 	public class TheInternet {
 		private readonly AuthorizationPolicy _authPolicy;
 

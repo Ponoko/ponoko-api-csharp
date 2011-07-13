@@ -1,8 +1,8 @@
 ﻿using System.Collections.Specialized;
-using Ponoko.Net.Rest;
-using Ponoko.Net.Security.OAuth.Core;
+using Ponoko.Api.Rest;
+using Ponoko.Api.Security.OAuth.Core;
 
-namespace Ponoko.Net.Security.OAuth.Http {
+namespace Ponoko.Api.Security.OAuth.Http {
 	public class BasicAuthorizationPolicy : AuthorizationPolicy {
 		public Request Authorize(Request request, CredentialSet credentials) {
 			var parameters = new NameValueCollection {
