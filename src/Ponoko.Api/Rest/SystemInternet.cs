@@ -101,17 +101,5 @@ namespace Ponoko.Api.Rest {
 				return reader.ReadToEnd();
 			}
 		}
-
-		private String ToQuery(NameValueCollection parameters) {
-			return String.Join("&", 
-				Array.ConvertAll(
-					parameters.AllKeys, 
-			        key => String.Format("{0}={1}", 
-						Uri.EscapeDataString(key), 
-						Uri.EscapeDataString(parameters[key])
-			        )
-				)
-			);
-		}
 	}
 }
