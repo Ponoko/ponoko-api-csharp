@@ -46,14 +46,17 @@ namespace Ponoko.Api.Security.OAuth.Impl.OAuth.Net {
 				Version         = options.Version.ToString()
 			};
 
-			parameters.AdditionalParameters.Add(request.RequestLine.Parameters);
-			parameters.AdditionalParameters.Add(request.Payload.Parameters);
+			parameters.AdditionalParameters.Add(CollectAllParameters(request));
 
 			un.less(() => String.IsNullOrEmpty(credentials.Token.Key), () => 
 				parameters.Token = credentials.Token.Key
 			);
 
 			return parameters;
+		}
+
+		private NameValueCollection CollectAllParameters(Request from) {
+			return new NameValueCollection { from.RequestLine.Parameters, from.Payload.Parameters };
 		}
 
         private String NewTimestamp { get { return _clock.NewTimestamp(); }}

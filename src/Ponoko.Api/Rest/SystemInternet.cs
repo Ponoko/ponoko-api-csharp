@@ -75,10 +75,6 @@ namespace Ponoko.Api.Rest {
 		private SystemHttpRequest Convert(Request authorized) {
 			var uriBuilder = new UriBuilder(authorized.RequestLine.Uri);
 
-			if (authorized.RequestLine.Verb == "GET") {
-				uriBuilder.Query = ToQuery(authorized.Payload.Parameters);
-			}
-
 			var result = new SystemHttpRequest(uriBuilder.Uri) {Method = authorized.RequestLine.Verb};
 
 			foreach (var key in authorized.Headers.Keys) {
