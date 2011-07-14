@@ -31,7 +31,6 @@ namespace Ponoko.Api.Acceptance.Tests.Examples {
 
 			using (var response = Post(uri, new Payload(parameters, theFile))) {
 				var body = Json(response);
-				Console.WriteLine(body);
 				Assert.AreEqual(HttpStatusCode.OK, response.StatusCode, body);
 			}
     	}
