@@ -40,8 +40,8 @@ namespace Ponoko.Api.Security.OAuth.Impl.OAuth.Net {
 
 			var parameters = new OAuthParameters {
 				ConsumerKey     = credentials.Consumer.Key,
-				Timestamp       = NewTimestamp(),
-				Nonce           = NewNonce(),
+				Timestamp       = NewTimestamp,
+				Nonce           = NewNonce,
 				SignatureMethod = options.SignatureMethod,
 				Version         = options.Version.ToString()
 			};
@@ -56,7 +56,7 @@ namespace Ponoko.Api.Security.OAuth.Impl.OAuth.Net {
 			return parameters;
 		}
 
-        private String NewTimestamp() { return _clock.NewTimestamp(); }
-        private String NewNonce() { return _nonceFactory.NewNonce(); }
+        private String NewTimestamp { get { return _clock.NewTimestamp(); }}
+        private String NewNonce { get { return _nonceFactory.NewNonce(); }}
     }
 }
