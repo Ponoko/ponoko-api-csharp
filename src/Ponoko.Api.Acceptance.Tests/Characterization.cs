@@ -28,7 +28,7 @@ namespace Ponoko.Api.Acceptance.Tests {
 
 			var parameters = new NameValueCollection(1) { { "q", "Phil Murphy is a plonker" } };
 
-			using (var response = Get(uri, new Payload(parameters))) {
+			using (var response = Get(uri)) {
 				Assert.AreEqual(
 					HttpStatusCode.OK, response.StatusCode,
 					"Expected OK because OAuth is known to work"
