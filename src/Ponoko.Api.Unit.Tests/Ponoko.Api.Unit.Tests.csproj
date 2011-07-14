@@ -82,7 +82,7 @@
     <Compile Include="Security\OAuth\Impl\OAuth.Net\MadgexOAuthHeaderTests.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Ponoko.Net\Ponoko.Api.csproj">
+    <ProjectReference Include="..\Ponoko.Api\Ponoko.Api.csproj">
       <Project>{FACBA19D-639D-4155-8FB3-95D1B4477C53}</Project>
       <Name>Ponoko.Api</Name>
     </ProjectReference>
