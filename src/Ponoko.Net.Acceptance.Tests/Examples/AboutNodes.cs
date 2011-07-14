@@ -7,7 +7,7 @@ namespace Ponoko.Api.Acceptance.Tests.Examples {
     [TestFixture]
     public class AboutNodes : AcceptanceTest {
     	[Test]
-        public void can_get_nodes() {
+        public void can_get_nodes_whcih_represent_the_available_making_nodes() {
             var uri = Map("/nodes");
 			
 			using (var response = Get(uri, Credentials)) {
