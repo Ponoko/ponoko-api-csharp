@@ -29,7 +29,7 @@ namespace Ponoko.Api.Acceptance.Tests.Examples {
 
 			var uri = Map("{0}", "/products");
 
-			using (var response = Post(uri, new Payload(parameters, theFile), Credentials)) {
+			using (var response = Post(uri, new Payload(parameters, theFile))) {
 				var body = Json(response);
 				Console.WriteLine(body);
 				Assert.AreEqual(HttpStatusCode.OK, response.StatusCode, body);
@@ -45,7 +45,7 @@ namespace Ponoko.Api.Acceptance.Tests.Examples {
 
 			var uri = Map("{0}", "/products");
 
-			using (var response = Post(uri, new Payload(parameters), Credentials)) {
+			using (var response = Post(uri, new Payload(parameters))) {
 				var body = Json(response);
 
 				Assert.AreEqual(HttpStatusCode.BadRequest, response.StatusCode, body);
@@ -67,7 +67,7 @@ namespace Ponoko.Api.Acceptance.Tests.Examples {
 
 			var uri = Map("{0}", "/products");
 
-			using (var response = Post(uri, new Payload(parameters, missingFile), Credentials)) {
+			using (var response = Post(uri, new Payload(parameters, missingFile))) {
 				var body = Json(response);
 				Assert.AreEqual(HttpStatusCode.BadRequest, response.StatusCode, body);
 				Assert.That(body, Is.StringMatching("\"error_message\": \"Missing design file data.\""));
@@ -93,7 +93,7 @@ namespace Ponoko.Api.Acceptance.Tests.Examples {
 
 			var uri = Map("{0}", "/products");
 
-			using (var response = Post(uri, new Payload(parameters, theFile), Credentials)) {
+			using (var response = Post(uri, new Payload(parameters, theFile))) {
 				var body = Json(response);
 				Assert.AreEqual(HttpStatusCode.BadRequest, response.StatusCode, body);
 				Assert.That(body, Is.StringMatching("could not find requested material. is it available to this Node's materail catalog?"));
@@ -121,7 +121,7 @@ namespace Ponoko.Api.Acceptance.Tests.Examples {
 
 			var uri = Map("{0}", "/products");
 
-			using (var response = Post(uri, new Payload(parameters, theFile), Credentials)) {
+			using (var response = Post(uri, new Payload(parameters, theFile))) {
 				var body = Json(response);
 				Console.WriteLine(body);
 				Assert.AreEqual(HttpStatusCode.BadRequest, response.StatusCode, body);
@@ -135,7 +135,7 @@ namespace Ponoko.Api.Acceptance.Tests.Examples {
 
 			var uri = Map("/products");
 
-			using (var response = Get(uri, Credentials)) {
+			using (var response = Get(uri)) {
 				var result = new Deserializer().Deserialize(Body(response));
 				
 				Assert.AreEqual(HttpStatusCode.OK, response.StatusCode, "Expected okay");
@@ -153,7 +153,7 @@ namespace Ponoko.Api.Acceptance.Tests.Examples {
 			var id = FindFirstProductKey();
 			var uri = Map("/products/{0}", id);
 
-			using (var response = Get(uri, Credentials)) {
+			using (var response = Get(uri)) {
 				Assert.AreEqual(HttpStatusCode.OK, response.StatusCode);
 				Console.WriteLine(Json(response));
 			}
@@ -166,13 +166,13 @@ namespace Ponoko.Api.Acceptance.Tests.Examples {
 			var id = FindFirstProductKey();
 			var uri = Map("/products/{0}", id);
 
-			using (var response = Get(uri, Credentials)) {
+			using (var response = Get(uri)) {
 				Assert.AreEqual(HttpStatusCode.OK, response.StatusCode);
 			}
 
 			uri = Map("/products/{0}", "MUST_NOT_EXIST");
 
-			using (var response = Get(uri, Credentials)) {
+			using (var response = Get(uri)) {
 				Assert.AreEqual(HttpStatusCode.NotFound, response.StatusCode);
 			}
 		}
@@ -184,7 +184,7 @@ namespace Ponoko.Api.Acceptance.Tests.Examples {
 			var id = FindFirstProductKey();
 			var uri = Map("/products/delete/{0}", id);
 
-			using (var response = Get(Map("/products/{0}", id), Credentials)) {
+			using (var response = Get(Map("/products/{0}", id))) {
 				Assert.AreEqual(HttpStatusCode.OK, response.StatusCode, 
 					"Expected the product to exist before we delete it."
 				);
@@ -192,11 +192,11 @@ namespace Ponoko.Api.Acceptance.Tests.Examples {
 
 			var theStatusReturnedByDelete = -1;
 
-			using (var response = Post(uri, Payload.Empty, Credentials)) {
+			using (var response = Post(uri, Payload.Empty)) {
 				theStatusReturnedByDelete = (Int32)response.StatusCode;
 			}
 
-			using (var response = Get(Map("/products/{0}", id), Credentials)) {
+			using (var response = Get(Map("/products/{0}", id))) {
 				Assert.AreEqual(HttpStatusCode.NotFound, response.StatusCode, 
 					"Expected the product to have been deleted, but it's still there."
 				);
@@ -223,7 +223,7 @@ namespace Ponoko.Api.Acceptance.Tests.Examples {
 
 			var uri = Map("{0}", "/products");
 
-			using (var response = Post(uri, new Payload(parameters, theFile), Credentials)) {
+			using (var response = Post(uri, new Payload(parameters, theFile))) {
 				var body = Body(response);
 				Assert.AreEqual(HttpStatusCode.OK, response.StatusCode, body);
 			}
@@ -232,7 +232,7 @@ namespace Ponoko.Api.Acceptance.Tests.Examples {
 		private String FindFirstProductKey() {
 			var uri = Map("/products");
 
-			using (var response = Get(uri, Credentials)) {
+			using (var response = Get(uri)) {
 				var temp = new Deserializer().Deserialize(Body(response));
 				
 				var products = temp["products"];

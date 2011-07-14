@@ -34,7 +34,8 @@ namespace Ponoko.Api.Acceptance.Tests {
 						new MadgexOAuthHeader(
 							new SystemClock(), 
 							new SystemNonceFactory()
-						)
+						), 
+						Credentials
 					)
 				);
 			}
@@ -59,28 +60,28 @@ namespace Ponoko.Api.Acceptance.Tests {
 			}
 		}
 
-		protected HttpWebResponse Head(Uri uri, CredentialSet credentials) {
-			return Head(uri, new NameValueCollection(), credentials);
+		protected HttpWebResponse Head(Uri uri) {
+			return Head(uri, new NameValueCollection());
 		}
 
-		protected HttpWebResponse Head(Uri uri, NameValueCollection parameters, CredentialSet credentials) {
-			return Internet.Head(uri, new Payload(parameters), credentials);
+		protected HttpWebResponse Head(Uri uri, NameValueCollection parameters) {
+			return Internet.Head(uri, new Payload(parameters));
 		}
 
-		protected HttpWebResponse Get(Uri uri, CredentialSet credentials) {
-			return Get(uri, Payload.Empty, credentials);
+		protected HttpWebResponse Get(Uri uri) {
+			return Get(uri, Payload.Empty);
 		}
 
-		protected HttpWebResponse Get(Uri uri, Payload payload, CredentialSet credentials) {
-			return Internet.Get(uri, payload, credentials);
+		protected HttpWebResponse Get(Uri uri, Payload payload) {
+			return Internet.Get(uri, payload);
 		}
 
-		protected HttpWebResponse Post(Uri uri, Payload payload, CredentialSet credentials) {
-			return Internet.Post(uri, payload, credentials);
+		protected HttpWebResponse Post(Uri uri, Payload payload) {
+			return Internet.Post(uri, payload);
 		}
 
-		protected HttpWebResponse Options(Uri uri, Payload payload, CredentialSet credentials) {
-			return Internet.Options(uri, payload, credentials);
+		protected HttpWebResponse Options(Uri uri, Payload payload) {
+			return Internet.Options(uri, payload);
 		}
 
 		[SetUp]

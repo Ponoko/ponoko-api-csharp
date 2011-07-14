@@ -5,18 +5,20 @@ using Ponoko.Api.Security.OAuth.Core;
 namespace Ponoko.Api.Security.OAuth.Http {
 	public class OAuthAuthorizationPolicy : AuthorizationPolicy {
 		private readonly OAuthHeader _oAuthHeader;
+		private readonly CredentialSet _credentials;
 
-		public OAuthAuthorizationPolicy(OAuthHeader oAuthHeader) {
+		public OAuthAuthorizationPolicy(OAuthHeader oAuthHeader, CredentialSet credentials) {
 			_oAuthHeader = oAuthHeader;
+			_credentials = credentials;
 		}
 
-		public Request Authorize(Request request, CredentialSet credentials) {
-			if (null == credentials)
+		public Request Authorize(Request request) {
+			if (null == _credentials)
 				throw new InvalidOperationException("Credentials are required.");
 
 			var result = (HttpWebRequest) WebRequest.Create(request.RequestLine.Uri);
 			result.Method = request.RequestLine.Verb;
-			request.Headers.Add("Authorization", GetAuthHeader(request, credentials));
+			request.Headers.Add("Authorization", GetAuthHeader(request, _credentials));
 			return request;
 		}
 

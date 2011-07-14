@@ -7,10 +7,10 @@ namespace Ponoko.Api.Acceptance.Tests.Examples {
     [TestFixture]
     public class AboutNodes : AcceptanceTest {
     	[Test]
-        public void can_get_nodes_whcih_represent_the_available_making_nodes() {
+        public void can_get_nodes_which_represent_the_available_making_nodes() {
             var uri = Map("/nodes");
 			
-			using (var response = Get(uri, Credentials)) {
+			using (var response = Get(uri)) {
 				Assert.AreEqual(HttpStatusCode.OK, response.StatusCode, "Expected okay");
 				
 				var json = Json(response);
@@ -23,7 +23,7 @@ namespace Ponoko.Api.Acceptance.Tests.Examples {
         public void can_get_options() {
             var uri = Map("/nodes");
 			
-			using (var response = Options(uri, Payload.Empty, Credentials)) {
+			using (var response = Options(uri, Payload.Empty)) {
 				Assert.AreEqual(HttpStatusCode.OK, response.StatusCode, "Expected okay");
 				
 				var json = Json(response);

@@ -14,43 +14,43 @@ namespace Ponoko.Api.Acceptance.Tests {
 			_authPolicy = authPolicy;
 		}
 
-		public HttpWebResponse Head(Uri uri, Payload payload, CredentialSet credentials) {
-			var request = AuthorizeAndConvert(new Request(RequestLine.Head(uri), payload), credentials);
+		public HttpWebResponse Head(Uri uri, Payload payload) {
+			var request = AuthorizeAndConvert(new Request(RequestLine.Head(uri), payload));
 
 			return TryExecute(request);
 		}
 
-		public HttpWebResponse Get(Uri uri, CredentialSet credentials) {
-			return Get(uri, Payload.Empty, credentials);
+		public HttpWebResponse Get(Uri uri) {
+			return Get(uri, Payload.Empty);
 		}
 
-		public HttpWebResponse Get(Uri uri, Payload payload, CredentialSet credentials) {
+		public HttpWebResponse Get(Uri uri, Payload payload) {
 			var unauthorized = Request.Get(uri, payload.Parameters);
 			unauthorized.ContentType = SelectContentType(payload).ContentType;
 
-			var request = AuthorizeAndConvert(unauthorized, credentials);
+			var request = AuthorizeAndConvert(unauthorized);
 
 			return TryExecute(request);
 		}
 
-		public HttpWebResponse Post(Uri uri, Payload payload, CredentialSet credentials) {
+		public HttpWebResponse Post(Uri uri, Payload payload) {
 			var unauthorized = new Request(RequestLine.Post(uri), payload) {
 				ContentType = SelectContentType(payload).ContentType
 			};
 
-			var authorized = AuthorizeAndConvert(unauthorized, credentials);
+			var authorized = AuthorizeAndConvert(unauthorized);
 			
 			AddBody(authorized, payload);
 
 			return TryExecute(authorized);
 		}
 
-		public HttpWebResponse Options(Uri uri, Payload payload, CredentialSet credentials) {
+		public HttpWebResponse Options(Uri uri, Payload payload) {
 			var unauthorized = new Request(new RequestLine("OPTIONS", uri), new NameValueCollection(), payload) {
 				ContentType = SelectContentType(payload).ContentType
 			};
 
-			var request = AuthorizeAndConvert(unauthorized, credentials);
+			var request = AuthorizeAndConvert(unauthorized);
 
 			return TryExecute(request);
 		}
@@ -63,8 +63,8 @@ namespace Ponoko.Api.Acceptance.Tests {
 			}
 		}
 
-		private SystemHttpRequest AuthorizeAndConvert(Request request, CredentialSet credentials) {
-			var authorized = _authPolicy.Authorize(request, credentials);
+		private SystemHttpRequest AuthorizeAndConvert(Request request) {
+			var authorized = _authPolicy.Authorize(request);
 			
 			return Convert(authorized);
 		}

@@ -80,7 +80,6 @@
     <Compile Include="Security\OAuth\Core\CredentialSet.cs" />
     <Compile Include="Security\OAuth\Core\Clock.cs" />
     <Compile Include="Security\OAuth\Core\RequestLine.cs" />
-    <Compile Include="Security\OAuth\Http\BasicAuthorizationPolicy.cs" />
     <Compile Include="Rest\MultipartFormData.cs" />
     <Compile Include="Security\OAuth\Http\OAuthAuthorizationPolicy.cs" />
     <Compile Include="Security\OAuth\Http\AuthorizationPolicy.cs" />

@@ -12,7 +12,7 @@ namespace Ponoko.Api.Acceptance.Tests.Examples {
 		public void first_you_need_key_for_a_making_node() {
 			var uri = Map("/nodes");
 			
-			using (var response = Get(uri, Credentials)) {
+			using (var response = Get(uri)) {
 				var json = new Deserializer().Deserialize(Body(response));
 
 				var theNodeKey = json["nodes"].First.Value<String>("key");
@@ -26,7 +26,7 @@ namespace Ponoko.Api.Acceptance.Tests.Examples {
 			var nodeKey = FirstNodeKey;
 			var uri = Map("{0}/{1}", "/nodes/material-catalog", nodeKey);
 
-			using (var response = Get(uri, Credentials)) {
+			using (var response = Get(uri)) {
 				Assert.AreEqual(HttpStatusCode.OK, response.StatusCode, "Expected okay");
 			}
 		}
@@ -36,7 +36,7 @@ namespace Ponoko.Api.Acceptance.Tests.Examples {
 			var nodeKey = FirstNodeKey;
 			var uri = Map("{0}/{1}", "/nodes/material-catalog", nodeKey);
 
-			using (var response = Get(uri, Credentials)) {
+			using (var response = Get(uri)) {
 				Assert.AreEqual(HttpStatusCode.OK, response.StatusCode, "Expected okay");
 				var json = Json(response);
 				var result = MaterialListDeserializer.Deserialize(json);
@@ -51,7 +51,7 @@ namespace Ponoko.Api.Acceptance.Tests.Examples {
 		private string FindFirstNodeKey() {
 			var uri = Map("/nodes");
 
-			using (var response = Get(uri, Credentials)) {
+			using (var response = Get(uri)) {
 				var json = new Deserializer().Deserialize(Body(response));
 
 				return json["nodes"].First.Value<String>("key");

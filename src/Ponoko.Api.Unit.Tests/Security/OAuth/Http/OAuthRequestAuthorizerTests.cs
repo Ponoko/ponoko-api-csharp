@@ -24,9 +24,9 @@ namespace Ponoko.Api.Unit.Tests.Security.OAuth.Http {
 		public void it_adds_an_oauth_header() {
 			var request = Request.Get(new Uri("http://xxx"));
 			
-			var oAuthRequestAuthorizer = new OAuthAuthorizationPolicy(_oAuthHeaderProvider);
+			var oAuthRequestAuthorizer = new OAuthAuthorizationPolicy(_oAuthHeaderProvider, AnyCredentials);
 
-			var result = oAuthRequestAuthorizer.Authorize(request, AnyCredentials);
+			var result = oAuthRequestAuthorizer.Authorize(request);
 			
 			Assert.That(result.Headers.Count, Is.GreaterThan(0));
 		}
@@ -35,7 +35,7 @@ namespace Ponoko.Api.Unit.Tests.Security.OAuth.Http {
 		public void it_uses_its_oauth_header_once_to_generate_the_header() {
 			var request = Request.Get(new Uri("http://xxx"));
 
-			new OAuthAuthorizationPolicy(_oAuthHeaderProvider).Authorize(request, AnyCredentials);
+			new OAuthAuthorizationPolicy(_oAuthHeaderProvider, AnyCredentials).Authorize(request);
 			
 			_oAuthHeaderProvider.AssertWasCalled(
 				provider => provider.New(
@@ -50,7 +50,7 @@ namespace Ponoko.Api.Unit.Tests.Security.OAuth.Http {
 		public void it_preserves_supplied_uri() {
 			var request = Request.Get(new Uri("http://xxx?jazz=a%20fat%20tart"));
 
-			var result = new OAuthAuthorizationPolicy(_oAuthHeaderProvider).Authorize(request, AnyCredentials);
+			var result = new OAuthAuthorizationPolicy(_oAuthHeaderProvider, AnyCredentials).Authorize(request);
 
 			Assert.AreEqual(request.RequestLine.Uri, result.RequestLine.Uri, 
 				"Expected that the initial URI stay the same (implying query parameters are not parsed)"
@@ -61,7 +61,7 @@ namespace Ponoko.Api.Unit.Tests.Security.OAuth.Http {
 		public void it_does_not_parse_query_string_from_uri() {
 			var request = Request.Get(new Uri("http://xxx?jazz=a%20fat%20tart"));
 
-			var result = new OAuthAuthorizationPolicy(_oAuthHeaderProvider).Authorize(request, AnyCredentials);
+			var result = new OAuthAuthorizationPolicy(_oAuthHeaderProvider, AnyCredentials).Authorize(request);
 
 			Assert.IsNull(result.Payload.Parameters["jazz"], 
 				"Expected that the returned parameters NOT include the one we put in the query string."
@@ -80,7 +80,7 @@ namespace Ponoko.Api.Unit.Tests.Security.OAuth.Http {
 
 			var request = Request.Get(new Uri("http://xxx"), parameters);
 
-			var result = new OAuthAuthorizationPolicy(_oAuthHeaderProvider).Authorize(request, AnyCredentials);
+			var result = new OAuthAuthorizationPolicy(_oAuthHeaderProvider, AnyCredentials).Authorize(request);
 
 			Assert.That(result.Payload.Parameters, Contains.Item(anyTwat));	
 			Assert.That(result.Payload.Parameters, Contains.Item(anyOtherTwat));	
@@ -89,10 +89,12 @@ namespace Ponoko.Api.Unit.Tests.Security.OAuth.Http {
 		[Test]
 		public void it_fails_with_null_credentials() {
 			var request = Request.Get(new Uri("http://xxx"));
-			var oAuthRequestAuthorizer = new OAuthAuthorizationPolicy(_oAuthHeaderProvider);
+			CredentialSet nullCredentials = null;
+			
+			var oAuthRequestAuthorizer = new OAuthAuthorizationPolicy(_oAuthHeaderProvider, nullCredentials);
 
 			var theError = Assert.Throws<InvalidOperationException>(() => 
-				oAuthRequestAuthorizer.Authorize(request, null)
+				oAuthRequestAuthorizer.Authorize(request)
 			);
 
 			Assert.AreEqual("Credentials are required.", theError.Message);

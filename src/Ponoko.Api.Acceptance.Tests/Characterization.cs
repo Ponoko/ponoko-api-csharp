@@ -28,7 +28,7 @@ namespace Ponoko.Api.Acceptance.Tests {
 
 			var parameters = new NameValueCollection(1) { { "q", "Phil Murphy is a plonker" } };
 
-			using (var response = Get(uri, new Payload(parameters), credentials)) {
+			using (var response = Get(uri, new Payload(parameters))) {
 				Assert.AreEqual(
 					HttpStatusCode.OK, response.StatusCode,
 					"Expected OK because OAuth is known to work"
@@ -54,7 +54,7 @@ namespace Ponoko.Api.Acceptance.Tests {
 
 			var payload = new Payload(parameters, dataItems);
 
-			using (var response = Post(uri, payload, Credentials)) {
+			using (var response = Post(uri, payload)) {
 				var body = Body(response);
 
 				var expectedMessage = String.Format("You uploaded {0} bytes", theExpectedFileSizeInBytes);
