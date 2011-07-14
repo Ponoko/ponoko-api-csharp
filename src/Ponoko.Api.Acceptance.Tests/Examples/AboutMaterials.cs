@@ -55,7 +55,7 @@ namespace Ponoko.Api.Acceptance.Tests.Examples {
 				Settings.Credentials
 			);
 			
-			var theInternet = new TheInternet(authorizationPolicy);
+			var theInternet = new SystemInternet(authorizationPolicy);
 
 			var catalogue = new MaterialsCatalogue(theInternet, Settings.BaseUrl);
 			var all = catalogue.FindAll(FirstNodeKey);

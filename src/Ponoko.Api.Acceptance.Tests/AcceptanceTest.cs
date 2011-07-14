@@ -14,7 +14,7 @@ namespace Ponoko.Api.Acceptance.Tests {
 	public class AcceptanceTest {
 		protected TheInternet Internet {
 			get {
-				return new TheInternet(
+				return new SystemInternet(
 					new OAuthAuthorizationPolicy(
 						new MadgexOAuthHeader(
 							new SystemClock(), 
