@@ -66,6 +66,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Core\Material.cs" />
+    <Compile Include="Core\MaterialsCatalogue.cs" />
     <Compile Include="Json\Deserializer.cs" />
     <Compile Include="Json\MaterialDeserializer.cs" />
     <Compile Include="Json\MaterialListDeserializer.cs" />
@@ -76,13 +77,14 @@
     <Compile Include="Rest\MultipartFormDataDataItemFormatter.cs" />
     <Compile Include="Rest\Payload.cs" />
     <Compile Include="Rest\SystemHttpRequest.cs" />
+    <Compile Include="Rest\TheInternet.cs" />
     <Compile Include="Security\OAuth\Core\Credential.cs" />
     <Compile Include="Security\OAuth\Core\CredentialSet.cs" />
     <Compile Include="Security\OAuth\Core\Clock.cs" />
     <Compile Include="Security\OAuth\Core\RequestLine.cs" />
     <Compile Include="Rest\MultipartFormData.cs" />
     <Compile Include="Security\OAuth\Http\OAuthAuthorizationPolicy.cs" />
-    <Compile Include="Security\OAuth\Http\AuthorizationPolicy.cs" />
+    <Compile Include="Rest\AuthorizationPolicy.cs" />
     <Compile Include="Rest\DataItem.cs" />
     <Compile Include="Rest\Parameter.cs" />
     <Compile Include="Security\OAuth\Impl\OAuth.Net\MadgexOAuthHeader.cs" />
