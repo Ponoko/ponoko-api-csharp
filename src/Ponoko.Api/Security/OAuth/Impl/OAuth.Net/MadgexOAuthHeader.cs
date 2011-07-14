@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Specialized;
 using OAuth.Net.Common;
 using Ponoko.Api.Security.OAuth.Core;
 using Ponoko.Api.Sugar;
@@ -45,6 +46,7 @@ namespace Ponoko.Api.Security.OAuth.Impl.OAuth.Net {
 				Version         = options.Version.ToString()
 			};
 
+			parameters.AdditionalParameters.Add(request.RequestLine.Parameters);
 			parameters.AdditionalParameters.Add(request.Payload.Parameters);
 
 			un.less(() => String.IsNullOrEmpty(credentials.Token.Key), () => 

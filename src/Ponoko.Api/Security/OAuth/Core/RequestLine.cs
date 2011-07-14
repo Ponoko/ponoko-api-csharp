@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Specialized;
+using Ponoko.Api.Rest;
 
 namespace Ponoko.Api.Security.OAuth.Core {
 	public class RequestLine {
@@ -15,6 +17,10 @@ namespace Ponoko.Api.Security.OAuth.Core {
 			Verb	= method;
 			Uri		= uri;
 			Version = version;
+		}
+
+		public NameValueCollection Parameters {
+			get { return System.Web.HttpUtility.ParseQueryString(Uri.Query); }
 		}
 	}
 }

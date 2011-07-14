@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Specialized;
 using OAuth.Net.Common;
 using OAuth.Net.Components;
 using Ponoko.Api.Security.OAuth.Core;
@@ -39,10 +40,9 @@ namespace Ponoko.Api.Security.OAuth.Impl.OAuth.Net {
 
 			// You can tell if there is a body or not by checking the existence of Content-length -- but our
 			// requests are not fully-formed enough -- we don't have concept of body.
-
-    		un.less(() => ParameterInclusionPolicy.IncludeParameters(request), () => 
+    		un.less(() => ParameterInclusionPolicy.IncludeParameters(request), () =>  
 				parameters.AdditionalParameters.Clear()
-			);
+    		);
 
     		return SignatureBase.Create(request.RequestLine.Verb, request.RequestLine.Uri, parameters);
     	}

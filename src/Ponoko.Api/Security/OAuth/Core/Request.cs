@@ -12,7 +12,6 @@ namespace Ponoko.Api.Security.OAuth.Core {
 
     	public RequestLine RequestLine { get; private set; }
     	public NameValueCollection Headers { get; private set; }
-    	public Boolean HasAnyParameters { get { return Payload.Parameters.Count > 0; } }
         public Payload Payload { get; private set; }
     	public String ContentType { get; set; }
 
