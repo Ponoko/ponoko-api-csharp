@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Net;
 using Ponoko.Api.Json;
 using Ponoko.Api.Rest;
 
@@ -24,6 +25,10 @@ namespace Ponoko.Api.Core {
 
 		private String Get(Uri uri) {
 			var response = _internet.Get(uri);
+			return ReadAll(response);
+		}
+
+		private string ReadAll(HttpWebResponse response) {
 			using (var rdr = new StreamReader(response.GetResponseStream())) {
 				return rdr.ReadToEnd();
 			}
