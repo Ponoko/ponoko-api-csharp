@@ -2,6 +2,7 @@
 using System.Collections.Specialized;
 using NUnit.Framework;
 using Ponoko.Api.Rest;
+using Ponoko.Api.Rest.Mime;
 using Rhino.Mocks;
 
 namespace Ponoko.Api.Unit.Tests.Rest {

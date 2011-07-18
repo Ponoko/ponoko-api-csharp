@@ -3,7 +3,7 @@ using System.Collections.Specialized;
 using System.Text;
 using System.IO;
 
-namespace Ponoko.Api.Rest {
+namespace Ponoko.Api.Rest.Mime {
 	// See: http://www.w3.org/TR/REC-html40/interact/forms.html#h-17.13.4.1
 	public class FormUrlEncoded : HttpContentType {
 		public string ContentType {
