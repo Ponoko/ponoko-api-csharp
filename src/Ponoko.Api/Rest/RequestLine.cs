@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Specialized;
 
-namespace Ponoko.Api.Rest.Security.OAuth.Core {
+namespace Ponoko.Api.Rest {
 	public class RequestLine {
 		public String Verb		{ get; private set; }
 		public Uri Uri			{ get; private set; }

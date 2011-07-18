@@ -82,9 +82,9 @@
     <Compile Include="Rest\Security\OAuth\Core\Credential.cs" />
     <Compile Include="Rest\Security\OAuth\Core\CredentialSet.cs" />
     <Compile Include="Rest\Security\OAuth\Core\Clock.cs" />
-    <Compile Include="Rest\Security\OAuth\Core\RequestLine.cs" />
+    <Compile Include="Rest\RequestLine.cs" />
     <Compile Include="Rest\Mime\MultipartFormData.cs" />
-    <Compile Include="Rest\Security\OAuth\Core\Response.cs" />
+    <Compile Include="Rest\Response.cs" />
     <Compile Include="Rest\Security\OAuth\Http\OAuthAuthorizationPolicy.cs" />
     <Compile Include="Rest\AuthorizationPolicy.cs" />
     <Compile Include="Rest\DataItem.cs" />
@@ -94,7 +94,7 @@
     <Compile Include="Rest\Security\OAuth\Core\NonceFactory.cs" />
     <Compile Include="Rest\Security\OAuth\Core\OAuthHeader.cs" />
     <Compile Include="Rest\Security\OAuth\Core\Options.cs" />
-    <Compile Include="Rest\Security\OAuth\Core\Request.cs" />
+    <Compile Include="Rest\Request.cs" />
     <Compile Include="Rest\Security\OAuth\Core\ParameterInclusionPolicy.cs" />
     <Compile Include="Sugar\Un.cs" />
   </ItemGroup>
