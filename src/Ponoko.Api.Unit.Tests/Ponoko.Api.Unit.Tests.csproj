@@ -72,6 +72,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Core\MaterialsCatalogueTests.cs" />
     <Compile Include="Json\DeserializerTests.cs" />
     <Compile Include="Json\MaterialDeserializerTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

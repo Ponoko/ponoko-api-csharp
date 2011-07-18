@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Net;
 using Ponoko.Api.Json;
 using Ponoko.Api.Rest;
+using Ponoko.Api.Security.OAuth.Core;
 
 namespace Ponoko.Api.Core {
 	public class MaterialsCatalogue {
@@ -28,7 +28,7 @@ namespace Ponoko.Api.Core {
 			return ReadAll(response);
 		}
 
-		private string ReadAll(HttpWebResponse response) {
+		private string ReadAll(Response response) {
 			using (var rdr = new StreamReader(response.GetResponseStream())) {
 				return rdr.ReadToEnd();
 			}

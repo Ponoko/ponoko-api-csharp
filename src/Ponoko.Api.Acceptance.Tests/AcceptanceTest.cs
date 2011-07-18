@@ -31,27 +31,27 @@ namespace Ponoko.Api.Acceptance.Tests {
 			return new Uri(String.Format("{0}{1}", Settings.BaseUrl, relativeUrl));
 		}
 
-		protected String Json(HttpWebResponse response) {
+		protected String Json(Response response) {
 			return new Deserializer().Deserialize(Body(response)).ToString(Formatting.Indented);
 		}
 
-		protected String Body(HttpWebResponse response) {
+		protected String Body(Response response) {
 			using (var reader = new StreamReader(response.GetResponseStream())) {
 				return reader.ReadToEnd();
 			}
 		}
 
-		protected HttpWebResponse Head(Uri uri) {
+		protected Response Head(Uri uri) {
 			return Head(uri, new NameValueCollection());
 		}
 
-		protected HttpWebResponse Head(Uri uri, NameValueCollection parameters) {
+		protected Response Head(Uri uri, NameValueCollection parameters) {
 			return Internet.Head(uri);
 		}
 
-		protected HttpWebResponse Get(Uri uri) { return Internet.Get(uri); }
+		protected Response Get(Uri uri) { return Internet.Get(uri); }
 
-		protected HttpWebResponse Post(Uri uri, Payload payload) {
+		protected Response Post(Uri uri, Payload payload) {
 			return Internet.Post(uri, payload);
 		}
 

@@ -12,13 +12,13 @@ namespace Ponoko.Api.Rest {
 			_authPolicy = authPolicy;
 		}
 
-		public override HttpWebResponse Head(Uri uri) {
+		public override Response Head(Uri uri) {
 			var request = AuthorizeAndConvert(new Request(RequestLine.Head(uri)));
 
 			return TryExecute(request);
 		}
 
-		public override HttpWebResponse Get(Uri uri) {
+		public override Response Get(Uri uri) {
 			var unauthorized = Request.Get(uri);
 			unauthorized.ContentType = new FormUrlEncoded().ContentType;
 			var request = AuthorizeAndConvert(unauthorized);
@@ -26,7 +26,7 @@ namespace Ponoko.Api.Rest {
 			return TryExecute(request);
 		}
 
-		public override HttpWebResponse Post(Uri uri, Payload payload) {
+		public override Response Post(Uri uri, Payload payload) {
 			var unauthorized = new Request(RequestLine.Post(uri), payload) {
 				ContentType = SelectContentType(payload).ContentType
 			};
@@ -73,18 +73,22 @@ namespace Ponoko.Api.Rest {
 			return result;
 		}
 
-		private HttpWebResponse TryExecute(SystemHttpRequest request) {
+		private Response TryExecute(SystemHttpRequest request) {
 			Print(request);
-			
+
+			HttpWebResponse innerResponse;
+
 			try {
 				request.AllowAutoRedirect = false;
-				return request.GetResponse();
+				innerResponse = request.GetResponse();
 			} catch (WebException e) {
 				if (e.Status != WebExceptionStatus.ProtocolError)
 					throw;
 
-				return (HttpWebResponse)e.Response;
-			}   
+				innerResponse = (HttpWebResponse)e.Response;
+			}
+
+			return new SystemResponse(innerResponse);
 		}
 
 		private void Print(SystemHttpRequest request) {
