@@ -17,8 +17,6 @@ namespace Ponoko.Api.Security.OAuth.Http {
 			if (null == _credentials)
 				throw new InvalidOperationException("Credentials are required.");
 
-			var result = (HttpWebRequest) WebRequest.Create(request.RequestLine.Uri);
-			result.Method = request.RequestLine.Verb;
 			request.Headers.Add("Authorization", GetAuthHeader(request, _credentials));
 			return request;
 		}
