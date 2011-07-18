@@ -5,7 +5,7 @@ using System.Net;
 namespace Ponoko.Api.Security.OAuth.Core {
 	public interface Response : IDisposable {
 		HttpStatusCode StatusCode { get; }
-		Stream GetResponseStream();
+		Stream Open();
 	}
 
 	public class SystemResponse : Response {
@@ -14,7 +14,7 @@ namespace Ponoko.Api.Security.OAuth.Core {
 
 		// TODO: Consider elminating dependency on System.Net.
 		public HttpStatusCode StatusCode {  get { return _innerResponse.StatusCode; } }
-		public Stream GetResponseStream() { return _innerResponse.GetResponseStream(); }
+		public Stream Open() { return _innerResponse.GetResponseStream(); }
 		public void Dispose() { _innerResponse.Close(); }
 	}
 }

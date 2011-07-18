@@ -13,7 +13,7 @@ namespace Ponoko.Api.Unit.Tests.Core {
 		[Test]
 		public void it_queries_the_internet() {
 			var fakeResponse = MockRepository.GenerateMock<Response>();
-			fakeResponse.Stub(it => it.GetResponseStream()).Return(SomeReadableJson("{\"materials\": []}"));
+			fakeResponse.Stub(it => it.Open()).Return(SomeReadableJson("{\"materials\": []}"));
 
 			var internet = MockRepository.GenerateMock<TheInternet>();
 			

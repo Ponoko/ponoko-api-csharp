@@ -25,7 +25,7 @@ namespace Ponoko.Api.Acceptance.Tests.Examples {
 
 		private String Get(Uri uri) {
 			var response = _internet.Get(uri);
-			using (var rdr = new StreamReader(response.GetResponseStream())) {
+			using (var rdr = new StreamReader(response.Open())) {
 				return rdr.ReadToEnd();
 			}
 		}

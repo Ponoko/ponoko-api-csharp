@@ -36,7 +36,7 @@ namespace Ponoko.Api.Acceptance.Tests {
 		}
 
 		protected String Body(Response response) {
-			using (var reader = new StreamReader(response.GetResponseStream())) {
+			using (var reader = new StreamReader(response.Open())) {
 				return reader.ReadToEnd();
 			}
 		}
