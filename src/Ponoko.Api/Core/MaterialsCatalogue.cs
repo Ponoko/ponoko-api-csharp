@@ -24,11 +24,12 @@ namespace Ponoko.Api.Core {
 		}
 
 		private String Get(Uri uri) {
-			var response = _internet.Get(uri);
-			return ReadAll(response);
+			using (var response = _internet.Get(uri)) {
+				return ReadAll(response);
+			}
 		}
 
-		private string ReadAll(Response response) {
+		private String ReadAll(Response response) {
 			using (var rdr = new StreamReader(response.Open())) {
 				return rdr.ReadToEnd();
 			}
