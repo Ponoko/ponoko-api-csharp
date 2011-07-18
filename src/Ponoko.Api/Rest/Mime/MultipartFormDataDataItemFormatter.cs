@@ -24,12 +24,12 @@ namespace Ponoko.Api.Rest.Mime {
 		}
 
 		public String NameValuePair(String name, String value) {
-			var buffer = new StringBuilder();
-			buffer.AppendFormat("--{0}\r\n", _boundary);
-			buffer.AppendFormat("Content-Disposition: form-data; name=\"{0}\"", name);
-			buffer.Append("\r\n\r\n");
-			buffer.AppendFormat("{0}\r\n", value);
-			return buffer.ToString();
+			var builder = new StringBuilder();
+			builder.AppendFormat("--{0}\r\n", _boundary);
+			builder.AppendFormat("Content-Disposition: form-data; name=\"{0}\"", name);
+			builder.Append("\r\n\r\n");
+			builder.AppendFormat("{0}\r\n", value);
+			return builder.ToString();
 		}
 	}
 }
