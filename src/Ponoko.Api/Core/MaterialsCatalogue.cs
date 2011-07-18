@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using Ponoko.Api.Json;
 using Ponoko.Api.Rest;
-using Ponoko.Api.Security.OAuth.Core;
+using Ponoko.Api.Rest.Security.OAuth.Core;
 
 namespace Ponoko.Api.Core {
 	public class MaterialsCatalogue {

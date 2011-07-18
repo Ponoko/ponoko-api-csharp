@@ -2,7 +2,7 @@
 using System.IO;
 using System.Net;
 
-namespace Ponoko.Api.Security.OAuth.Core {
+namespace Ponoko.Api.Rest.Security.OAuth.Core {
 	public interface Response : IDisposable {
 		HttpStatusCode StatusCode { get; }
 		Stream Open();

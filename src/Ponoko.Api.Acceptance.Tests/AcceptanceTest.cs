@@ -6,9 +6,9 @@ using Newtonsoft.Json;
 using NUnit.Framework;
 using Ponoko.Api.Json;
 using Ponoko.Api.Rest;
-using Ponoko.Api.Security.OAuth.Core;
-using Ponoko.Api.Security.OAuth.Http;
-using Ponoko.Api.Security.OAuth.Impl.OAuth.Net;
+using Ponoko.Api.Rest.Security.OAuth.Core;
+using Ponoko.Api.Rest.Security.OAuth.Http;
+using Ponoko.Api.Rest.Security.OAuth.Impl.OAuth.Net;
 
 namespace Ponoko.Api.Acceptance.Tests {
 	public class AcceptanceTest {

@@ -1,6 +1,6 @@
 ﻿using System;
 using NUnit.Framework;
-using Ponoko.Api.Security.OAuth.Core;
+using Ponoko.Api.Rest.Security.OAuth.Core;
 
 namespace Ponoko.Api.Unit.Tests.Security.OAuth.Core {
 	[TestFixture]

@@ -2,8 +2,8 @@
 using System.Collections.Specialized;
 using NUnit.Framework;
 using OAuth.Net.Common;
-using Ponoko.Api.Security.OAuth.Core;
-using Ponoko.Api.Security.OAuth.Impl.OAuth.Net;
+using Ponoko.Api.Rest.Security.OAuth.Core;
+using Ponoko.Api.Rest.Security.OAuth.Impl.OAuth.Net;
 
 namespace Ponoko.Api.Integration.Tests.Security.OAuth.Impl {
 	[TestFixture]

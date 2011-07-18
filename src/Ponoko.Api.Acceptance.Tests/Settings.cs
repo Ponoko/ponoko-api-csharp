@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Configuration;
-using Ponoko.Api.Security.OAuth.Core;
+using Ponoko.Api.Rest.Security.OAuth.Core;
 
 namespace Ponoko.Api.Acceptance.Tests {
 	public static class Settings {

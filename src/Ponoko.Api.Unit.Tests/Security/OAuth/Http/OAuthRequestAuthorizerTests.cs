@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Specialized;
 using NUnit.Framework;
-using Ponoko.Api.Security.OAuth.Core;
-using Ponoko.Api.Security.OAuth.Http;
+using Ponoko.Api.Rest.Security.OAuth.Core;
+using Ponoko.Api.Rest.Security.OAuth.Http;
 using Rhino.Mocks;
 
 namespace Ponoko.Api.Unit.Tests.Security.OAuth.Http {

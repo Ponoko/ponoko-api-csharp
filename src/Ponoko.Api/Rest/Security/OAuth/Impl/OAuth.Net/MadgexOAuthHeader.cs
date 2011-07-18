@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Specialized;
 using OAuth.Net.Common;
-using Ponoko.Api.Security.OAuth.Core;
+using Ponoko.Api.Rest.Security.OAuth.Core;
 using Ponoko.Api.Sugar;
 
-namespace Ponoko.Api.Security.OAuth.Impl.OAuth.Net {
+namespace Ponoko.Api.Rest.Security.OAuth.Impl.OAuth.Net {
     public class MadgexOAuthHeader : OAuthHeader {
         private readonly Clock _clock;
         private readonly NonceFactory _nonceFactory;

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Ponoko.Api.Security.OAuth.Core {
+namespace Ponoko.Api.Rest.Security.OAuth.Core {
     public class Options {
         public static Options Default = new Options("HMAC-SHA1", Decimal.Parse("1.0"));
         public String SignatureMethod { get; private set; }

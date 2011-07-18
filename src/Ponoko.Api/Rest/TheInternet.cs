@@ -1,5 +1,5 @@
 ﻿using System;
-using Ponoko.Api.Security.OAuth.Core;
+using Ponoko.Api.Rest.Security.OAuth.Core;
 
 namespace Ponoko.Api.Rest {
 	public abstract class TheInternet {

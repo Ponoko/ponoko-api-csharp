@@ -2,7 +2,7 @@
 using System.Collections.Specialized;
 using System.IO;
 using System.Net;
-using Ponoko.Api.Security.OAuth.Core;
+using Ponoko.Api.Rest.Security.OAuth.Core;
 
 namespace Ponoko.Api.Rest {
 	public class SystemInternet : TheInternet {

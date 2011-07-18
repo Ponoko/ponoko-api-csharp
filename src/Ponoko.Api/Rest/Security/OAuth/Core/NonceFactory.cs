@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Ponoko.Api.Security.OAuth.Core {
+namespace Ponoko.Api.Rest.Security.OAuth.Core {
     public interface NonceFactory { String NewNonce(); }
 
     public class SystemNonceFactory : NonceFactory {

@@ -1,4 +1,4 @@
-﻿namespace Ponoko.Api.Security.OAuth.Core {
+﻿namespace Ponoko.Api.Rest.Security.OAuth.Core {
     public class CredentialSet {
         public Credential Consumer { get; private set; }
         public Credential Token { get; private set; }

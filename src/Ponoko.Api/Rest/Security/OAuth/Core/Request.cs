@@ -1,8 +1,7 @@
 ﻿using System;
 using System.Collections.Specialized;
-using Ponoko.Api.Rest;
 
-namespace Ponoko.Api.Security.OAuth.Core {
+namespace Ponoko.Api.Rest.Security.OAuth.Core {
     public class Request {
     	public static Request Get(Uri uri) { return Get(uri, Empty); }
     	public static Request Get(Uri uri, NameValueCollection parameters) { return Get(uri, Empty, parameters); }
