@@ -1,18 +1,28 @@
-﻿using System.Net;
+﻿using System;
 using NUnit.Framework;
+using Ponoko.Api.Core;
+using Ponoko.Api.Rest;
 using Ponoko.Api.Rest.Security.OAuth.Core;
+using Ponoko.Api.Rest.Security.OAuth.Http;
+using Ponoko.Api.Rest.Security.OAuth.Impl.OAuth.Net;
 
 namespace Ponoko.Api.Acceptance.Tests.Examples {
 	public class AboutAuthorization : AcceptanceTest {
-		[Test, Ignore("We need another way to produce 401")]
-		public void invalid_credentials_returns_401() {
-			var anyValidUri = Map("/nodes");
+		[Test]
+		public void if_you_supply_invalid_credentials_you_get_an_error() {
+			var invalidCredentials = new CredentialSet(new Credential("xxx_clearly_invalid", ""));
+			
+			var authorizationPolicy = new OAuthAuthorizationPolicy(
+				new MadgexOAuthHeader(new SystemClock(), new SystemNonceFactory()),
+				invalidCredentials 
+			);
+			
+			var theInternet = new SystemInternet(authorizationPolicy);
+			var nodes = new Nodes(theInternet, Settings.BaseUrl);
 
-			var invalidCredentials = new CredentialSet(new Credential("xxx", "yyy"));
+			var theError = Assert.Throws<Exception>(() => nodes.FindAll());
 
-			using (var response = Get(anyValidUri)) {
-				Assert.AreEqual(HttpStatusCode.Unauthorized, response.StatusCode);
-			}
+			Assert.That(theError.Message, Is.EqualTo("Invalid OAuth Request. The server returned status Unauthorized (401)."));
 		}
 	}
 }

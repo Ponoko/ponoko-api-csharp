@@ -1,6 +1,4 @@
-﻿using System;
-using System.Net;
-using NUnit.Framework;
+﻿using NUnit.Framework;
 using Ponoko.Api.Core;
 using Ponoko.Api.Rest;
 using Ponoko.Api.Rest.Security.OAuth.Core;

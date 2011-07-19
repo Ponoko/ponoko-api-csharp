@@ -23,7 +23,7 @@ namespace Ponoko.Api.Core {
 			}
 		}
 
-		private String ReadAll(Response response) {
+		protected String ReadAll(Response response) {
 			using (var rdr = new StreamReader(response.Open())) {
 				return rdr.ReadToEnd();
 			}
