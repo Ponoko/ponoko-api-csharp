@@ -1,5 +1,6 @@
 ﻿using System;
 using NUnit.Framework;
+using Ponoko.Api.Core;
 using Ponoko.Api.Json;
 
 namespace Ponoko.Api.Unit.Tests.Json {
@@ -21,7 +22,7 @@ namespace Ponoko.Api.Unit.Tests.Json {
 			"	\"kind\": \"Fabric\"" +
 			"}";
 
-			var result = MaterialDeserializer.Deserialize(json);
+			var result = SimpleDeserializer<Material>.Deserialize(json);
 
 			var expectedDate = new DateTime(2011, 3, 17, 2, 8, 51, DateTimeKind.Utc);
 

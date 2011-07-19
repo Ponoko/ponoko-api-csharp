@@ -1,5 +1,6 @@
 ﻿using System;
 using NUnit.Framework;
+using Ponoko.Api.Core;
 using Ponoko.Api.Json;
 
 namespace Ponoko.Api.Unit.Tests.Json {
@@ -14,7 +15,7 @@ namespace Ponoko.Api.Unit.Tests.Json {
 				"	\"key\": \"2e9d8c90326e012e359f133762cdb04a\"" +
 				"}";
 
-			var result = NodeDeserializer.Deserialize(json);
+			var result = SimpleDeserializer<Node>.Deserialize(json);
 
 			var greatFireOfRomeBegins = new DateTime(0064, 6, 19, 7, 0, 0, DateTimeKind.Utc);
 

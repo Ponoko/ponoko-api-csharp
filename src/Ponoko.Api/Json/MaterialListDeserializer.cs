@@ -9,7 +9,7 @@ namespace Ponoko.Api.Json {
 			var result = new List<Material>();
 
 			foreach (var materialJson in theList["materials"].Children()) {
-				result.Add(MaterialDeserializer.Deserialize(materialJson.ToString()));
+				result.Add(SimpleDeserializer<Material>.Deserialize(materialJson.ToString()));
 			}
 
 			return result.ToArray();

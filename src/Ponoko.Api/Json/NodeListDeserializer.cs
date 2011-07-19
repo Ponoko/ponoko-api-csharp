@@ -9,7 +9,7 @@ namespace Ponoko.Api.Json {
 			var result = new List<Node>();
 
 			foreach (var nodeJson in theList["nodes"].Children()) {
-				result.Add(NodeDeserializer.Deserialize(nodeJson.ToString()));
+				result.Add(SimpleDeserializer<Node>.Deserialize(nodeJson.ToString()));
 			}
 
 			return result.ToArray();
