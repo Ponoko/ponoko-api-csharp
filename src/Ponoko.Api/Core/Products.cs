@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.IO;
 using System.Net;
+using Ponoko.Api.Json;
 using Ponoko.Api.Rest;
 
 namespace Ponoko.Api.Core {
@@ -31,12 +32,23 @@ namespace Ponoko.Api.Core {
 
 			using (var response = Post(uri, new Payload(parameters, theFile))) {
 				if (response.StatusCode != HttpStatusCode.OK)
-					throw new Exception();
+					throw Error(response);
 			}
 		}
 
 		private Response Post(Uri uri, Payload payload) {
 			return _internet.Post(uri, payload);
+		}
+
+		private Exception Error(Response response) {
+			var theError = new Deserializer().Deserialize(ReadAll(response))["error"].Value<String>("message");
+
+			return new Exception(String.Format(
+				"Failed to save product. The server returned status {0} ({1}), and error message: \"{2}\"", 
+				response.StatusCode, 
+				(Int32)response.StatusCode, 
+				theError
+			));
 		}
 	}
 }
