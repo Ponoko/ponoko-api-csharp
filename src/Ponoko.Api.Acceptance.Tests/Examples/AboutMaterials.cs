@@ -27,38 +27,15 @@ namespace Ponoko.Api.Acceptance.Tests.Examples {
 		}
 
 		[Test]
-		public void can_get_materials_catalogue() {
-			var nodeKey = FirstNodeKey;
-			var uri = Map("{0}/{1}", "/nodes/material-catalog", nodeKey);
-
-			using (var response = Get(uri)) {
-				Assert.AreEqual(HttpStatusCode.OK, response.StatusCode, "Expected okay");
-			}
-		}
-
-		[Test]
-		public void and_you_can_deserialize_the_result() {
-			var nodeKey = FirstNodeKey;
-			var uri = Map("{0}/{1}", "/nodes/material-catalog", nodeKey);
-
-			using (var response = Get(uri)) {
-				Assert.AreEqual(HttpStatusCode.OK, response.StatusCode, "Expected okay");
-				var json = Json(response);
-				var result = MaterialListDeserializer.Deserialize(json);
-				Assert.AreEqual(347, result.Length);
-			}
-		}
-
-		[Test]
-		public void there_is_a_domain_object_for_that() {
+		public void can_get_the_full_catalogue_of_materials() {
 			var authorizationPolicy = new OAuthAuthorizationPolicy(
 				new MadgexOAuthHeader(new SystemClock(), new SystemNonceFactory()),
 				Settings.Credentials
 			);
 			
 			var theInternet = new SystemInternet(authorizationPolicy);
-
 			var catalogue = new MaterialsCatalogue(theInternet, Settings.BaseUrl);
+			
 			var all = catalogue.FindAll(FirstNodeKey);
 
 			Assert.Greater(all.Count, 0, "Expected at least some materials for the node key <{0}>.", FirstNodeKey);
