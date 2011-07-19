@@ -4,35 +4,41 @@ using System.Collections.Specialized;
 using System.IO;
 using System.Net;
 using NUnit.Framework;
+using Ponoko.Api.Core;
 using Ponoko.Api.Json;
 using Ponoko.Api.Rest;
+using Ponoko.Api.Rest.Security.OAuth.Core;
+using Ponoko.Api.Rest.Security.OAuth.Http;
+using Ponoko.Api.Rest.Security.OAuth.Impl.OAuth.Net;
 
 namespace Ponoko.Api.Acceptance.Tests.Examples {
 	[TestFixture]
 	public class AboutProducts : AcceptanceTest {
     	[Test]
 		public void can_create_a_product_provided_you_have_a_design_file_and_a_matching_valid_material() {
-			var parameters = new NameValueCollection {
-				{"name"						, "example"}, 
-				{"designs[][ref]"			, "42"},
-				{"designs[][filename]"		, "bottom_new.stl"},
-				{"designs[][quantity]"		, "1"},
-				{"designs[][material_key]"	, "6bb50fd03269012e3526404062cdb04a"},
-			};
+			var authorizationPolicy = new OAuthAuthorizationPolicy(
+				new MadgexOAuthHeader(new SystemClock(), new SystemNonceFactory()),
+				Settings.Credentials
+			);
+			
+			var theInternet = new SystemInternet(authorizationPolicy);
 
-			var theFile = new List<DataItem> {
-				new DataItem(
-					"designs[][uploaded_data]", 
-					new FileInfo(@"res\bottom_new.stl"), "text/plain"
-				)
-			};
+    		var products = new Products(theInternet, Settings.BaseUrl);
 
-			var uri = Map("{0}", "/products");
+    		var aValidMaterialKey = "6bb50fd03269012e3526404062cdb04a";
 
-			using (var response = Post(uri, new Payload(parameters, theFile))) {
-				var body = Json(response);
-				Assert.AreEqual(HttpStatusCode.OK, response.StatusCode, body);
-			}
+    		var design = new Design {
+            	Filename = new FileInfo(@"res\bottom_new.stl").FullName,
+            	MaterialKey = aValidMaterialKey,
+            	Quantity = 1,
+            	Reference = "42"
+    		};
+
+    		var product = new Product {Name = "xxx"};
+
+			product.Designs.Add(design);
+
+    		products.Save(product);
     	}
 
 		[Test]

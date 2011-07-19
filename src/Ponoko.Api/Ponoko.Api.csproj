@@ -70,6 +70,8 @@
     <Compile Include="Core\MaterialsCatalogue.cs" />
     <Compile Include="Core\Node.cs" />
     <Compile Include="Core\Nodes.cs" />
+    <Compile Include="Core\Product.cs" />
+    <Compile Include="Core\Products.cs" />
     <Compile Include="Json\DateTimeReader.cs" />
     <Compile Include="Json\Deserializer.cs" />
     <Compile Include="Json\Generic\SimpleDeserializer.cs" />
