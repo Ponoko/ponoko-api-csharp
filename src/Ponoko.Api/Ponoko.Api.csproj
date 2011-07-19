@@ -72,7 +72,7 @@
     <Compile Include="Core\Nodes.cs" />
     <Compile Include="Json\DateTimeReader.cs" />
     <Compile Include="Json\Deserializer.cs" />
-    <Compile Include="Json\SimpleDeserializer.cs" />
+    <Compile Include="Json\Generic\SimpleDeserializer.cs" />
     <Compile Include="Json\MaterialListDeserializer.cs" />
     <Compile Include="Json\NodeListDeserializer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

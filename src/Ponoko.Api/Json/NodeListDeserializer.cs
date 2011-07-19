@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Ponoko.Api.Core;
+using Ponoko.Api.Json.Generic;
 
 namespace Ponoko.Api.Json {
 	public static class NodeListDeserializer {

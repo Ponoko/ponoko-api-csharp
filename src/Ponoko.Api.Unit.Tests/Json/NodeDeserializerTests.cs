@@ -2,6 +2,7 @@
 using NUnit.Framework;
 using Ponoko.Api.Core;
 using Ponoko.Api.Json;
+using Ponoko.Api.Json.Generic;
 
 namespace Ponoko.Api.Unit.Tests.Json {
 	[TestFixture]
