@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using Ponoko.Api.Core;
-using Ponoko.Api.Json.Generic;
 
 namespace Ponoko.Api.Json {
 	public static class MaterialListDeserializer {
@@ -10,7 +9,7 @@ namespace Ponoko.Api.Json {
 			var result = new List<Material>();
 
 			foreach (var materialJson in theList["materials"].Children()) {
-				result.Add(SimpleDeserializer<Material>.Deserialize(materialJson.ToString()));
+				result.Add(MaterialDeserializer.Deserialize(materialJson.ToString()));
 			}
 
 			return result.ToArray();

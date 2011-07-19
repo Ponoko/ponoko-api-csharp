@@ -1,20 +1,17 @@
 ﻿using System;
+using System.Collections.Specialized;
 using Newtonsoft.Json;
 
 namespace Ponoko.Api.Core {
 	public class Material {
-		public String Color;
+		private readonly NameValueCollection _attributes = new NameValueCollection();
+		public String Key;
+		public String Name;
+		public String Type;
+
 		[JsonProperty(PropertyName = "updated_at")]
 		public DateTime UpdatedAt { get; set; }
-		public String Weight;
-		public String Type;
-		public String Key;
-		public String Thickness;
-		public String Name;
-		public String Width;
-		[JsonProperty(PropertyName = "material_type")]
-		public String MaterialType;
-		public String Length;
-		public String Kind;
+
+		public NameValueCollection Attributes { get { return _attributes; } }
 	}
 }
