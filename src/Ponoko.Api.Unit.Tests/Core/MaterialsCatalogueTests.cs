@@ -27,7 +27,7 @@ namespace Ponoko.Api.Unit.Tests.Core {
 
 			var theResponse = NewFakeResponse();
 
-			internet.Stub(it => it.Get(Arg<Uri>.Is.Anything)).Return(theResponse).Repeat.AtLeastOnce();
+			internet.Stub(it => it.Get(Arg<Uri>.Is.Anything)).Return(theResponse).Repeat.Once();
 
 			new MaterialsCatalogue(internet, "http://xxx/").FindAll("xxx");
 
