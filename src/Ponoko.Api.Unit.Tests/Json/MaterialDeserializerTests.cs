@@ -3,21 +3,22 @@ using NUnit.Framework;
 using Ponoko.Api.Json;
 
 namespace Ponoko.Api.Unit.Tests.Json {
+	[TestFixture]
 	class MaterialDeserializerTests {
-		[Test] public void 
-		you_can_deserialize_a_single_material() {
+		[Test] 
+		public void you_can_deserialize_a_single_material() {
 			var json = "{" + 
-				"\"updated_at\": \"2011/03/17 02:08:51 +0000\"," +
-				"\"type\": \"P1\"," +
-				"\"weight\": \"0.1 kg\"," +
-				"\"color\": \"Fuchsia\"," +
-				"\"key\": \"6812d5403269012e2f2f404062cdb04a\"," +
-				"\"thickness\": \"3.0 mm\"," +
-				"\"name\": \"Felt\"," +
-				"\"width\": \"181.0 mm\"," +
-				"\"material_type\": \"sheet\"," +
-				"\"length\": \"181.0 mm\"," +
-				"\"kind\": \"Fabric\"" +
+			"	\"updated_at\": \"2011/03/17 02:08:51 +0000\"," +
+			"	\"type\": \"P1\"," +
+			"	\"weight\": \"0.1 kg\"," +
+			"	\"color\": \"Fuchsia\"," +
+			"	\"key\": \"6812d5403269012e2f2f404062cdb04a\"," +
+			"	\"thickness\": \"3.0 mm\"," +
+			"	\"name\": \"Felt\"," +
+			"	\"width\": \"181.0 mm\"," +
+			"	\"material_type\": \"sheet\"," +
+			"	\"length\": \"181.0 mm\"," +
+			"	\"kind\": \"Fabric\"" +
 			"}";
 
 			var result = MaterialDeserializer.Deserialize(json);
@@ -37,33 +38,34 @@ namespace Ponoko.Api.Unit.Tests.Json {
 			Assert.AreEqual("Fabric"							, result.Kind);
 		}
 
-		[Test] public void 
-		or_an_array_of_materials() {
-			var json = "{\"materials\": [{" + 
-				"\"updated_at\": \"2011/03/17 02:08:51 +0000\"," +
-				"\"type\": \"P1\"," +
-				"\"weight\": \"0.1 kg\"," +
-				"\"color\": \"Fuchsia\"," +
-				"\"key\": \"key_0\"," +
-				"\"thickness\": \"3.0 mm\"," +
-				"\"name\": \"Felt\"," +
-				"\"width\": \"181.0 mm\"," +
-				"\"material_type\": \"sheet\"," +
-				"\"length\": \"181.0 mm\"," +
-				"\"kind\": \"Fabric\"" +
+		[Test] 
+		public void or_an_array_of_materials() {
+			var json = "{\"materials\": [" + 
+				"{" + 
+				"	\"updated_at\": \"2011/03/17 02:08:51 +0000\"," +
+				"	\"type\": \"P1\"," +
+				"	\"weight\": \"0.1 kg\"," +
+				"	\"color\": \"Fuchsia\"," +
+				"	\"key\": \"key_0\"," +
+				"	\"thickness\": \"3.0 mm\"," +
+				"	\"name\": \"Felt\"," +
+				"	\"width\": \"181.0 mm\"," +
+				"	\"material_type\": \"sheet\"," +
+				"	\"length\": \"181.0 mm\"," +
+				"	\"kind\": \"Fabric\"" +
 				"}," + 
 				"{" + 
-				"\"updated_at\": \"2011/03/17 02:08:51 +0000\"," +
-				"\"type\": \"P1\"," +
-				"\"weight\": \"0.1 kg\"," +
-				"\"color\": \"Black\"," +
-				"\"key\": \"key_1\"," +
-				"\"thickness\": \"7.0 mm\"," +
-				"\"name\": \"Brick\"," +
-				"\"width\": \"181.0 mm\"," +
-				"\"material_type\": \"block\"," +
-				"\"length\": \"181.0 mm\"," +
-				"\"kind\": \"Stone\"" +
+				"	\"updated_at\": \"2011/03/17 02:08:51 +0000\"," +
+				"	\"type\": \"P1\"," +
+				"	\"weight\": \"0.1 kg\"," +
+				"	\"color\": \"Black\"," +
+				"	\"key\": \"key_1\"," +
+				"	\"thickness\": \"7.0 mm\"," +
+				"	\"name\": \"Brick\"," +
+				"	\"width\": \"181.0 mm\"," +
+				"	\"material_type\": \"block\"," +
+				"	\"length\": \"181.0 mm\"," +
+				"	\"kind\": \"Stone\"" +
 				"}" + 
 			"]}";
 

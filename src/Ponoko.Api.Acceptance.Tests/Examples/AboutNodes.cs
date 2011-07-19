@@ -1,23 +1,28 @@
-﻿using System.Net;
+﻿using System;
+using System.Net;
 using NUnit.Framework;
+using Ponoko.Api.Core;
+using Ponoko.Api.Rest;
+using Ponoko.Api.Rest.Security.OAuth.Core;
+using Ponoko.Api.Rest.Security.OAuth.Http;
+using Ponoko.Api.Rest.Security.OAuth.Impl.OAuth.Net;
 
 namespace Ponoko.Api.Acceptance.Tests.Examples {
     [TestFixture]
     public class AboutNodes : AcceptanceTest {
     	[Test]
-        public void can_get_nodes_which_represent_the_available_making_nodes() {
-            var uri = Map("/nodes");
+        public void you_can_get_the_list_of_available_making_nodes() {
+			var authorizationPolicy = new OAuthAuthorizationPolicy(
+				new MadgexOAuthHeader(new SystemClock(), new SystemNonceFactory()),
+				Settings.Credentials
+			);
 			
-			using (var response = Get(uri)) {
-				Assert.AreEqual(HttpStatusCode.OK, response.StatusCode, "Expected okay");
-				
-				var json = Json(response);
+			var theInternet = new SystemInternet(authorizationPolicy);
+			var nodes = new Nodes(theInternet, Settings.BaseUrl);
 
-				Assert.That(json, Is.StringMatching("\"name\": \"Ponoko - United States\""));
-			}
-        }
+    		var all = nodes.FindAll();
 
-		// TEST: It rejects an invalid consumer key when everything else is okay
-		// TEST: using the same nonce and timestamp combination results in 401
+			Assert.Less(0, all.Count, "Expected at least one making node to be returned.");
+    	}
     }
 }

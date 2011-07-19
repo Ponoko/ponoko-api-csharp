@@ -75,6 +75,7 @@
     <Compile Include="Core\MaterialsCatalogueTests.cs" />
     <Compile Include="Json\DeserializerTests.cs" />
     <Compile Include="Json\MaterialDeserializerTests.cs" />
+    <Compile Include="Json\NodeDeserializerTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Rest\MultipartFormDataTests.cs" />
     <Compile Include="Rest\DataItemTests.cs" />

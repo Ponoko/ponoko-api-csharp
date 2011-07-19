@@ -4,7 +4,6 @@ using System.Text;
 using NUnit.Framework;
 using Ponoko.Api.Core;
 using Ponoko.Api.Rest;
-using Ponoko.Api.Rest.Security.OAuth.Core;
 using Rhino.Mocks;
 
 namespace Ponoko.Api.Unit.Tests.Core {
