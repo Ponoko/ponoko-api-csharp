@@ -15,7 +15,7 @@ namespace Ponoko.Api.Acceptance.Tests.Examples {
 	[TestFixture]
 	public class AboutProducts : AcceptanceTest {
     	[Test]
-		public void can_create_a_product_provided_you_have_a_design_file_and_a_matching_valid_material() {
+		public void can_create_a_product_provided_you_have_a_design_file_with_matching_valid_material() {
 			var authorizationPolicy = new OAuthAuthorizationPolicy(
 				new MadgexOAuthHeader(new SystemClock(), new SystemNonceFactory()),
 				Settings.Credentials
@@ -25,20 +25,18 @@ namespace Ponoko.Api.Acceptance.Tests.Examples {
 
     		var products = new Products(theInternet, Settings.BaseUrl);
 
-    		var aValidMaterialKey = "6bb50fd03269012e3526404062cdb04a";
+    		var design = NewDesign();
 
-    		var design = new Design {
-            	Filename = new FileInfo(@"res\bottom_new.stl").FullName,
-            	MaterialKey = aValidMaterialKey,
-            	Quantity = 1,
-            	Reference = "42"
-    		};
+    		var expectedNewProductName = "Any new product name";
 
-    		var product = new Product {Name = "xxx"};
+    		var theNewProduct = products.Save(expectedNewProductName, design);
 
-			product.Designs.Add(design);
-
-    		products.Save(product);
+			Assert.AreEqual(expectedNewProductName	, theNewProduct.Name, "Expected the returned product to have the name supplied.");
+			Assert.IsFalse(theNewProduct.IsLocked	, "Expected the newly-created product to be unlocked.");
+			Assert.IsNotNull(theNewProduct.Key		, "Expected the product to be returned with a key.");
+    		Assert.IsNotNull(theNewProduct.NodeKey	, "Expected the product to be returned with a node key.");
+			
+    		// Assert that the product has the same design.
     	}
 
 		[Test]
@@ -229,10 +227,20 @@ namespace Ponoko.Api.Acceptance.Tests.Examples {
 			var uri = Map("{0}", "/products");
 
 			using (var response = Post(uri, new Payload(parameters, theFile))) {
-				var body = Body(response);
-				Assert.AreEqual(HttpStatusCode.OK, response.StatusCode, body);
+				Assert.AreEqual(HttpStatusCode.OK, response.StatusCode, Body(response));
 			}
     	}
+
+		private Design NewDesign() {
+			var aValidMaterialKey = "6bb50fd03269012e3526404062cdb04a";
+
+			return new Design {
+				Filename	= new FileInfo(@"res\bottom_new.stl").FullName,
+				MaterialKey = aValidMaterialKey,
+				Quantity	= 1,
+				Reference	= "42"
+			};
+		}
 
 		private String FindFirstProductKey() {
 			var uri = Map("/products");

@@ -11,7 +11,7 @@ namespace Ponoko.Api.Unit.Tests.Core {
 		[Test]
 		public void it_fails_to_save_unless_internet_responds_with_200() {
 			var internet = MockRepository.GenerateMock<TheInternet>();
-			
+			var expectedName = "Any product name";
 			var expectedStatus = HttpStatusCode.InternalServerError;
 			var expectedErrorMessage = "xxx_error_xxx";
 
@@ -21,11 +21,11 @@ namespace Ponoko.Api.Unit.Tests.Core {
 				Repeat.Once().
 				Return(response);
 
-			var aFakeNewProduct = AnyProduct();
+			var aFakeNewProduct = AnyDesign();
 
 			var products = new Products(internet, "http://xxx/");
 
-			var theError = Assert.Throws<Exception>(() => products.Save(aFakeNewProduct));
+			var theError = Assert.Throws<Exception>(() => products.Save(expectedName, AnyDesign()));
 			
 			var expectedError = String.Format(
 				"Failed to save product. " +
@@ -38,21 +38,17 @@ namespace Ponoko.Api.Unit.Tests.Core {
 			Assert.That(theError.Message, Is.EqualTo(expectedError));
 		}
 
-		private Product AnyProduct() {
-			var aFakeNewProduct = new Product { Name = "Fake" };
-			var design = new Design {
+		private Design AnyDesign() {
+			return new Design {
           		Filename = "xxx",
           		MaterialKey = "xxx",
           		Quantity = 1,
           		Reference = "xxx"
 			};
-			
-			aFakeNewProduct.Designs.Add(design);
-			
-			return aFakeNewProduct;
 		}
 
 		// TEST: it sends each design associated with the Product
 		// TEST: it rejects products without designs
+		// TEST: what does save return?
 	}
 }

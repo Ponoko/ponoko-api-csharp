@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.IO;
 using System.Net;
+using Newtonsoft.Json;
 using Ponoko.Api.Json;
 using Ponoko.Api.Rest;
 
@@ -10,35 +11,44 @@ namespace Ponoko.Api.Core {
 	public class Products : Domain {
 		public Products(TheInternet internet, String baseUrl) : base(internet, baseUrl) {}
 
-		public void Save(Product product) {
-			var theFirstDesign = product.Designs[0];
-
+		public Product Save(String name, Design design) {
 			var parameters = new NameValueCollection {
-				{"name"						, product.Name}, 
-				{"designs[][ref]"			, theFirstDesign.Reference},
-				{"designs[][filename]"		, theFirstDesign.Filename},
-				{"designs[][quantity]"		, theFirstDesign.Quantity.ToString()},
-				{"designs[][material_key]"	, theFirstDesign.MaterialKey},
+				{"name"						, name}, 
+				{"designs[][ref]"			, design.Reference},
+				{"designs[][filename]"		, design.Filename},
+				{"designs[][quantity]"		, design.Quantity.ToString()},
+				{"designs[][material_key]"	, design.MaterialKey},
 			};
 
 			var theFile = new List<DataItem> {
 				new DataItem(
 					"designs[][uploaded_data]", 
-					new FileInfo(theFirstDesign.Filename), "xxx"
+					new FileInfo(design.Filename), "xxx"
 				)
 			};
 
 			var uri = Map("{0}", "/products");
 
 			using (var response = Post(uri, new Payload(parameters, theFile))) {
-				if (response.StatusCode != HttpStatusCode.OK)
-					throw Error(response);
+				if (response.StatusCode == HttpStatusCode.OK)
+					return Deserialize(response);
+
+				throw Error(response);
 			}
 		}
 
-		private Response Post(Uri uri, Payload payload) {
-			return _internet.Post(uri, payload);
+		private Product Deserialize(Response response) {
+			var payload = new Deserializer().Deserialize(ReadAll(response));
+
+			var settings = new JsonSerializerSettings {
+          		MissingMemberHandling = MissingMemberHandling.Ignore,
+          		Converters = new List<JsonConverter> { new DateTimeReader() }
+			};
+
+			return JsonConvert.DeserializeObject<Product>(payload["product"].ToString(), settings);
 		}
+
+		private Response Post(Uri uri, Payload payload) { return _internet.Post(uri, payload); }
 
 		private Exception Error(Response response) {
 			var theError = new Deserializer().Deserialize(ReadAll(response))["error"].Value<String>("message");
