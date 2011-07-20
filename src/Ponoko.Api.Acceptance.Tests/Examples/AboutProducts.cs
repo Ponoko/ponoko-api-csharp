@@ -25,19 +25,44 @@ namespace Ponoko.Api.Acceptance.Tests.Examples {
 
     		var products = new Products(theInternet, Settings.BaseUrl);
 
-    		var design = NewDesign();
+    		var expectedDesign = NewDesign();
 
     		var expectedNewProductName = "Any new product name";
 
-    		var theNewProduct = products.Save(expectedNewProductName, design);
+    		var theNewProduct = products.Save(expectedNewProductName, expectedDesign);
+    		var actualDesign = theNewProduct.Designs[0];
 
 			Assert.AreEqual(expectedNewProductName	, theNewProduct.Name, "Expected the returned product to have the name supplied.");
 			Assert.IsFalse(theNewProduct.IsLocked	, "Expected the newly-created product to be unlocked.");
-			Assert.IsNotNull(theNewProduct.Key		, "Expected the product to be returned with a key.");
+			Assert.IsNotNull(theNewProduct.Designs	, "Expected the product to be returned with a key.");
     		Assert.IsNotNull(theNewProduct.NodeKey	, "Expected the product to be returned with a node key.");
-			
-    		// Assert that the product has the same design.
+
+    		AssertIsAboutUtcNow(theNewProduct.CreatedAt, TimeSpan.FromSeconds(5));
+    		AssertIsAboutUtcNow(theNewProduct.UpdatedAt, TimeSpan.FromSeconds(5));
+    		
+			Assert.AreEqual(1, theNewProduct.Designs.Count, "Expected the new product to have the design we supplied.");
+    		AssertEqual(expectedDesign, actualDesign);
+			Assert.That(actualDesign.MaterialKey, Is.Null, "Expectecd no material key because the product's materials are not available.");
     	}
+
+		private void AssertIsAboutUtcNow(DateTime dateTime, TimeSpan within) {
+			var now = DateTime.UtcNow;
+			var diff = now.Subtract(dateTime);
+			Assert.That(diff, Is.LessThan(within));
+		}
+
+		// TEST: if_a_design_does_not_have_material_available_then_it_does_not_have_material_key
+
+		private void AssertEqual(Design expected, Design actual) {
+			Assert.AreEqual(Path.GetFileName(expected.Filename), actual.Filename);
+			Assert.AreEqual(expected.Quantity, actual.Quantity);
+			Assert.AreEqual(expected.Reference, actual.Reference);
+			
+			Assert.AreEqual(actual.MakeCost.Total		, 0D);
+			Assert.AreEqual(actual.MakeCost.Making		, 0D);
+			Assert.AreEqual(actual.MakeCost.Materials	, 0D);
+			Assert.AreEqual(actual.MakeCost.Currency	, "USD");
+		}
 
 		[Test]
     	public void you_must_supply_a_design_when_adding_a_product() {

@@ -41,7 +41,7 @@ namespace Ponoko.Api.Core {
 			var payload = new Deserializer().Deserialize(ReadAll(response));
 
 			var settings = new JsonSerializerSettings {
-          		MissingMemberHandling = MissingMemberHandling.Ignore,
+          		MissingMemberHandling = MissingMemberHandling.Error,
           		Converters = new List<JsonConverter> { new DateTimeReader() }
 			};
 
