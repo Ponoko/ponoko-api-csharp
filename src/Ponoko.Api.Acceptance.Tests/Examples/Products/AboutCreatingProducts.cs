@@ -1,12 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Collections.Specialized;
 using System.IO;
-using System.Net;
 using NUnit.Framework;
 using Ponoko.Api.Core;
-using Ponoko.Api.Json;
-using Ponoko.Api.Rest;
 
 namespace Ponoko.Api.Acceptance.Tests.Examples.Products {
 	[TestFixture]
