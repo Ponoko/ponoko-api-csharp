@@ -44,6 +44,18 @@ namespace Ponoko.Api.Core {
 			}
 		}
 
+		public void Delete(string id) {
+			var uri = Map("/products/delete/{0}", id);
+
+			using (var response = Post(uri, Payload.Empty)) {
+				un.less(() => response.StatusCode == HttpStatusCode.OK, () => {
+					throw new Exception("Delete failed");
+				});
+
+				Verify(response);
+			}
+		}
+
 		private void Validate(Design design) {
 			if (null == design)
 				throw new ArgumentException("Cannot create a product without at least one Design.", "design");
@@ -61,8 +73,6 @@ namespace Ponoko.Api.Core {
 			});
 		}
 
-		private Boolean FileExists(Design design) { return _fileSystem.Exists(design.Filename); }
-
 		private Exception Error(Response response) {
 			var json = ReadAll(response);
 
@@ -76,23 +86,11 @@ namespace Ponoko.Api.Core {
 			));
 		}
 
+		private Boolean FileExists(Design design) { return _fileSystem.Exists(design.Filename); }
+
 		private Product Deserialize(Response response) {
 			var json = new Deserializer().Deserialize(ReadAll(response))["product"].ToString();
 			return ProductDeserializer.Deserialize(json);
-		}
-
-		private Response Post(Uri uri, Payload payload) { return _internet.Post(uri, payload); }
-
-		public void Delete(string id) {
-			var uri = Map("/products/delete/{0}", id);
-
-			using (var response = Post(uri, Payload.Empty)) {
-				un.less(() => response.StatusCode == HttpStatusCode.OK, () => {
-					throw new Exception("Delete failed");
-				});
-
-				Verify(response);
-			}
 		}
 
 		private void Verify(Response response) {
@@ -108,5 +106,7 @@ namespace Ponoko.Api.Core {
 			     ));
 			});
 		}
+
+		private Response Post(Uri uri, Payload payload) { return _internet.Post(uri, payload); }
 	}
 }
