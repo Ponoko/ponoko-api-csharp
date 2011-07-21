@@ -21,8 +21,12 @@ namespace Ponoko.Api.Acceptance.Tests.Examples.Products {
 		}
 
 		protected void given_at_least_one_product() {
+			given_at_least_one_product("example");
+		}
+
+		protected void given_at_least_one_product(String called) {
 			var parameters = new NameValueCollection {
-             	{"name"						, "example"}, 
+             	{"name"						, called}, 
              	{"designs[][ref]"			, "1337"},
              	{"designs[][filename]"		, "bottom_new.stl"},
              	{"designs[][quantity]"		, "1"},

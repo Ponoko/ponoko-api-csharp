@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.IO;
 using System.Net;
-using System.Text;
 using Ponoko.Api.Core.IO;
 using Ponoko.Api.Json;
 using Ponoko.Api.Rest;
@@ -52,15 +51,17 @@ namespace Ponoko.Api.Core {
 			if (null == design.Filename)
 				throw new ArgumentException("Cannot create a product unless the Design has a file.", "design");
 
-			var theDesignFileExistsOnDisk = _fileSystem.Exists(design.Filename);
+			var theDesignFileExistsOnDisk = FileExists(design);
 
-			un.less(() => theDesignFileExistsOnDisk, () => {
+			un.less(theDesignFileExistsOnDisk, () => {
 				throw new FileNotFoundException(
 					"Cannot create a product unless the Design has a file that exists on disk. " + 
 					"Unable to find file \"" + design.Filename + "\""
 				);
 			});
 		}
+
+		private Boolean FileExists(Design design) { return _fileSystem.Exists(design.Filename); }
 
 		private Exception Error(Response response) {
 			var json = ReadAll(response);
@@ -89,7 +90,23 @@ namespace Ponoko.Api.Core {
 				un.less(() => response.StatusCode == HttpStatusCode.OK, () => {
 					throw new Exception("Delete failed");
 				});
+
+				Verify(response);
 			}
+		}
+
+		private void Verify(Response response) {
+			var json = new Deserializer().Deserialize(ReadAll(response));
+
+			var deleted = json.Value<String>("deleted");
+			var wasDeletedOkay = (deleted == "true");
+
+			un.less(wasDeletedOkay, () => {
+				throw new Exception(String.Format(
+					"Delete failed. Expected the deleted flag to be true. but it was \"{0}\".", 
+					deleted
+			     ));
+			});
 		}
 	}
 }

@@ -4,10 +4,10 @@ using Ponoko.Api.Core;
 
 namespace Ponoko.Api.Acceptance.Tests.Examples.Products {
 	[TestFixture]
-	public class AboutDeletingroducts : ProductAcceptanceTest {
+	public class AboutDeletingProducts : ProductAcceptanceTest {
 		[Test]
 		public void can_delete_a_product() {
-			given_at_least_one_product();
+			given_at_least_one_product("Testing deletes");
 			
 			var id = FindFirstProductKey();
 
@@ -23,7 +23,8 @@ namespace Ponoko.Api.Acceptance.Tests.Examples.Products {
 			Assert.IsNull(result, "Expected that finding the product with key <{0}> would return null.", id);
 		}
 
-		// [Test] public void can_delete_all_products() { }
+		
 		// [Test] public void it_deletes_all_products_with_the_same_key() { }
+		// [Test] public void cannot_delete_a_product_that_has_been_made() { }
 	}
 }

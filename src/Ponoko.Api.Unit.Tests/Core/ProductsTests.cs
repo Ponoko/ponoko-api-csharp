@@ -12,21 +12,23 @@ namespace Ponoko.Api.Unit.Tests.Core {
 		[Test]
 		public void it_fails_to_save_unless_internet_responds_with_200() {
 			var internet = MockRepository.GenerateMock<TheInternet>();
-			var fileSystem = MockRepository.GenerateMock<ReadonlyFileSystem>();
+			
+			var fileSystem = NewFakeFileSystem();
 
 			var expectedName = "Any product name";
 			var expectedStatus = HttpStatusCode.InternalServerError;
 			var expectedErrorMessage = "xxx_error_xxx";
 
-			var response = NewFakeResponse(expectedStatus, String.Format("{{ error : {{ message : \"{0}\", \"errors\" : [] }}}}", expectedErrorMessage));
+			var response = NewFakeResponse(
+				expectedStatus, 
+				String.Format("{{ error : {{ message : \"{0}\", \"errors\" : [] }}}}", expectedErrorMessage)
+			);
 
 			internet.Stub(it => it.Post(Arg<Uri>.Is.Anything, Arg<Payload>.Is.Anything)).
 				Repeat.Once().
 				Return(response);
 
-			fileSystem.Stub(it => it.Exists(Arg<String>.Is.Anything)).Return(true);
-
-			var products = new Products(internet, "http://xxx/", fileSystem);
+			var products = new Products(internet, AnyUrl, fileSystem);
 
 			var theError = Assert.Throws<Exception>(() => products.Save(expectedName, AnyDesign()));
 			
@@ -41,6 +43,36 @@ namespace Ponoko.Api.Unit.Tests.Core {
 			Assert.That(theError.Message, Is.EqualTo(expectedError));
 		}
 
+		[Test]
+		public void it_returns_okay_when_delete_succeeds() {
+			var deleteSuccessfulBody = "{'product_key': '1234', 'deleted': 'true'}";
+			var okayResponse = NewFakeResponse(HttpStatusCode.OK, deleteSuccessfulBody);
+			
+			var internet = MockRepository.GenerateStub<TheInternet>();
+			internet.Stub(it => it.Post(Arg<Uri>.Is.Anything, Arg<Payload>.Is.Anything)).Return(okayResponse);
+
+			var products = new Products(internet, AnyUrl, NewFakeFileSystem());
+			
+			Assert.DoesNotThrow(() => products.Delete("any id"));
+		}
+
+		[Test]
+		public void it_fails_when_the_server_responds_with_delete_failed_message() {
+			var deleteSuccessfulBody = "{'product_key': '1234', 'deleted': 'false'}";
+			var okayResponse = NewFakeResponse(HttpStatusCode.OK, deleteSuccessfulBody);
+			
+			var internet = MockRepository.GenerateStub<TheInternet>();
+			internet.Stub(it => it.Post(Arg<Uri>.Is.Anything, Arg<Payload>.Is.Anything)).Return(okayResponse);
+
+			var products = new Products(internet, AnyUrl, NewFakeFileSystem());
+			
+			var theError = Assert.Throws<Exception>(() => products.Delete("any id"));
+
+			var expectedError = "Delete failed. Expected the deleted flag to be true. but it was \"false\"";
+
+			Assert.AreEqual(expectedError, theError.Message, "An error was raised as expected, but the message does not match.");
+		}
+
 		private Design AnyDesign() {
 			return new Design {
           		Filename = "xxx",
@@ -50,7 +82,14 @@ namespace Ponoko.Api.Unit.Tests.Core {
 			};
 		}
 
-		// TEST: it sends each design associated with the Product
+		public string AnyUrl { get { return "http://xxx/"; } }
+
+		private ReadonlyFileSystem NewFakeFileSystem() {
+			var fileSystem = MockRepository.GenerateMock<ReadonlyFileSystem>();
+			fileSystem.Stub(it => it.Exists(Arg<String>.Is.Anything)).Return(true);
+			return fileSystem;
+		}
+
 		// TEST: it rejects products without designs
 		// TEST: what does save return?
 		// TEST: when_save_fails_it_failes_with_message_that_includes_each_error_message
