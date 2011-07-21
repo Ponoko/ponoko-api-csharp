@@ -1,5 +1,4 @@
-﻿using System;
-using System.Net;
+﻿using System.Net;
 using NUnit.Framework;
 using Ponoko.Api.Core;
 
@@ -21,12 +20,13 @@ namespace Ponoko.Api.Acceptance.Tests.Examples.Products {
 			given_at_least_one_product();
 
 			var id = FindFirstProductKey();
-			var uri = Map("/products/{0}", id);
+			
+			var finder = new ProductFinder(Internet, Settings.BaseUrl);
+			var result = finder.Find(id);
 
-			using (var response = Get(uri)) {
-				Assert.AreEqual(HttpStatusCode.OK, response.StatusCode);
-				Console.WriteLine(Json(response));
-			}
+			Assert.IsNotNull(result, "Expected a non-null result");
+			Assert.AreEqual(result.Name, "example", "Unexpected name");
+			Assert.AreEqual(result.Designs[0].Reference, "1337", "Unexpected name");
 		}
 
 		[Test]
