@@ -16,14 +16,7 @@ namespace Ponoko.Api.Acceptance.Tests.Examples {
 	public class AboutProducts : AcceptanceTest {
     	[Test]
 		public void can_create_a_product_provided_you_have_a_design_file_with_matching_valid_material() {
-			var authorizationPolicy = new OAuthAuthorizationPolicy(
-				new MadgexOAuthHeader(new SystemClock(), new SystemNonceFactory()),
-				Settings.Credentials
-			);
-			
-			var theInternet = new SystemInternet(authorizationPolicy);
-
-    		var products = new Products(theInternet, Settings.BaseUrl);
+    		var products = new Products(NewInternet(), Settings.BaseUrl);
 
     		var expectedDesign = NewDesign();
 
@@ -42,48 +35,22 @@ namespace Ponoko.Api.Acceptance.Tests.Examples {
     		
 			Assert.AreEqual(1, theNewProduct.Designs.Count, "Expected the new product to have the design we supplied.");
     		AssertEqual(expectedDesign, actualDesign);
-			Assert.That(actualDesign.MaterialKey, Is.Null, "Expectecd no material key because the product's materials are not available.");
+			Assert.That(actualDesign.MaterialKey, Is.Null, "Expected no material key because the product's materials are not available.");
     	}
-
-		private void AssertIsAboutUtcNow(DateTime dateTime, TimeSpan within) {
-			var now = DateTime.UtcNow;
-			var diff = now.Subtract(dateTime);
-			Assert.That(diff, Is.LessThan(within));
-		}
-
-		// TEST: if_a_design_does_not_have_material_available_then_it_does_not_have_material_key
-
-		private void AssertEqual(Design expected, Design actual) {
-			Assert.AreEqual(Path.GetFileName(expected.Filename), actual.Filename);
-			Assert.AreEqual(expected.Quantity, actual.Quantity);
-			Assert.AreEqual(expected.Reference, actual.Reference);
-			
-			Assert.AreEqual(actual.MakeCost.Total		, 0D);
-			Assert.AreEqual(actual.MakeCost.Making		, 0D);
-			Assert.AreEqual(actual.MakeCost.Materials	, 0D);
-			Assert.AreEqual(actual.MakeCost.Currency	, "USD");
-		}
 
 		[Test]
     	public void you_must_supply_a_design_when_adding_a_product() {
-    		var parameters = new NameValueCollection {
-				{"name", "example"}, 
-				{"notes", "This one is supposed to fail because it has missing design"}
-			};
+			var products = new Products(NewInternet(), Settings.BaseUrl);
 
-			var uri = Map("{0}", "/products");
+    		Design missingDesign = null;
 
-			using (var response = Post(uri, new Payload(parameters))) {
-				var body = Json(response);
+    		var theError = Assert.Throws<ArgumentException>(() => products.Save("xxx", missingDesign));
 
-				Assert.AreEqual(HttpStatusCode.BadRequest, response.StatusCode, body);
-
-				Assert.That(body, Is.StringMatching("\"message\": \"Bad Request. Product must have a design.\""));
-			}
+			Assert.That(theError.Message, Is.StringMatching("^Cannot create a product without at least one Design\\..+"));
 		}
 
 		[Test]
-    	public void you_must_supply_a_file_and_filename() {
+    	public void you_must_supply_a_file_and_filename_with_the_design() {
     		var parameters = new NameValueCollection {
 				{"name"						, "example"}, 
 				{"designs[][ref]"			, "42"},
@@ -256,6 +223,23 @@ namespace Ponoko.Api.Acceptance.Tests.Examples {
 			}
     	}
 
+		private void AssertIsAboutUtcNow(DateTime dateTime, TimeSpan within) {
+			var now = DateTime.UtcNow;
+			var diff = now.Subtract(dateTime);
+			Assert.That(diff, Is.LessThan(within));
+		}
+
+		private void AssertEqual(Design expected, Design actual) {
+			Assert.AreEqual(Path.GetFileName(expected.Filename), actual.Filename);
+			Assert.AreEqual(expected.Quantity, actual.Quantity);
+			Assert.AreEqual(expected.Reference, actual.Reference);
+			
+			Assert.AreEqual(actual.MakeCost.Total		, 0D);
+			Assert.AreEqual(actual.MakeCost.Making		, 0D);
+			Assert.AreEqual(actual.MakeCost.Materials	, 0D);
+			Assert.AreEqual(actual.MakeCost.Currency	, "USD");
+		}
+
 		private Design NewDesign() {
 			var aValidMaterialKey = "6bb50fd03269012e3526404062cdb04a";
 
@@ -265,6 +249,15 @@ namespace Ponoko.Api.Acceptance.Tests.Examples {
 				Quantity	= 1,
 				Reference	= "42"
 			};
+		}
+
+		private SystemInternet NewInternet() {
+			var authorizationPolicy = new OAuthAuthorizationPolicy(
+				new MadgexOAuthHeader(new SystemClock(), new SystemNonceFactory()),
+				Settings.Credentials
+			);
+
+			return new SystemInternet(authorizationPolicy);
 		}
 
 		private String FindFirstProductKey() {

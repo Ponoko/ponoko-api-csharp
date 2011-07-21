@@ -12,6 +12,8 @@ namespace Ponoko.Api.Core {
 		public Products(TheInternet internet, String baseUrl) : base(internet, baseUrl) {}
 
 		public Product Save(String name, Design design) {
+			Require(design);
+
 			var parameters = new NameValueCollection {
 				{"name"						, name}, 
 				{"designs[][ref]"			, design.Reference},
@@ -35,6 +37,11 @@ namespace Ponoko.Api.Core {
 
 				throw Error(response);
 			}
+		}
+
+		private void Require(Design design) {
+			if (null == design)
+				throw new ArgumentException("Cannot create a product without at least one Design.", "design");
 		}
 
 		private Product Deserialize(Response response) {

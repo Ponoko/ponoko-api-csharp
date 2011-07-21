@@ -65,7 +65,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Core\Design.cs" />
     <Compile Include="Core\Domain.cs" />
+    <Compile Include="Core\MakeCost.cs" />
     <Compile Include="Core\Material.cs" />
     <Compile Include="Core\MaterialsCatalogue.cs" />
     <Compile Include="Core\Node.cs" />
