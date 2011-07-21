@@ -53,5 +53,6 @@ namespace Ponoko.Api.Unit.Tests.Core {
 		// TEST: it sends each design associated with the Product
 		// TEST: it rejects products without designs
 		// TEST: what does save return?
+		// TEST: when_save_fails_it_failes_with_message_that_includes_each_error_message
 	}
 }
