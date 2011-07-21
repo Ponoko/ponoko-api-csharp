@@ -1,14 +1,21 @@
 ﻿using System;
 using System.IO;
 using System.Net;
+using Ponoko.Api.Logging;
 using Ponoko.Api.Rest.Mime;
 
 namespace Ponoko.Api.Rest {
 	public class SystemInternet : TheInternet {
 		private readonly AuthorizationPolicy _authPolicy;
+		private readonly Log _log;
 
-		public SystemInternet(AuthorizationPolicy authPolicy) {
+		private Log Log { get { return _log; } }
+
+		public SystemInternet(AuthorizationPolicy authPolicy) : this(authPolicy, new DevNullLog()) {}
+
+		public SystemInternet(AuthorizationPolicy authPolicy, Log log) {
 			_authPolicy = authPolicy;
+			_log = log;
 		}
 
 		public override Response Head(Uri uri) {
@@ -91,12 +98,12 @@ namespace Ponoko.Api.Rest {
 		}
 
 		private void Print(SystemHttpRequest request) {
-			Console.WriteLine("{0} {1}", request.Method, request.RequestUri.AbsoluteUri);
-			Console.WriteLine("Content-type: {0}", request.ContentType ?? "empty");
+			Log.Info("{0} {1}", request.Method, request.RequestUri.AbsoluteUri);
+			Log.Info("Content-type: {0}", request.ContentType ?? "empty");
 		}
 
 		protected void Print(HttpWebResponse response) {
-			Console.WriteLine(Body(response));
+			Log.Info(Body(response));
 		}
 
 		private String Body(HttpWebResponse response) {

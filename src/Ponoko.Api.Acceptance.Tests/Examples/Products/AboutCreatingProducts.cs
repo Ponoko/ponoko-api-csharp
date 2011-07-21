@@ -11,6 +11,8 @@ using Ponoko.Api.Rest;
 namespace Ponoko.Api.Acceptance.Tests.Examples.Products {
 	[TestFixture]
 	public class AboutCreatingProducts : ProductAcceptanceTest {
+		// TEST: you_can_create_a_product_with_multiple_designs
+
 		[Test]
 		public void can_create_a_product_provided_you_have_a_design_file_with_matching_valid_material() {
     		var expectedDesign = NewDesign();
