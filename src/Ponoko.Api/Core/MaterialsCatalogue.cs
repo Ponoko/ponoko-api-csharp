@@ -5,7 +5,7 @@ using Ponoko.Api.Rest;
 
 namespace Ponoko.Api.Core {
 	public class MaterialsCatalogue : Domain {
-		public MaterialsCatalogue(TheInternet internet, string baseUrl) : base(internet, baseUrl) {}
+		public MaterialsCatalogue(TheInternet internet, String baseUrl) : base(internet, baseUrl) {}
 
 		public IList<Material> FindAll(String nodeKey) {
 			var uri = Map("{0}/{1}", "/nodes/material-catalog", nodeKey);
