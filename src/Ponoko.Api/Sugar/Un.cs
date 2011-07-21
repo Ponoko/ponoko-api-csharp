@@ -2,13 +2,13 @@
 
 namespace Ponoko.Api.Sugar {
 	public static class un {
-		public static void less(Boolean condition, Action thenWhat) {
-			un.less(() => condition, thenWhat);
+		public static void less(Boolean condition, Action thenDoThis) {
+			un.less(() => condition, thenDoThis);
 		}
 
-		public static void less(Func<bool> condition, Action thenWhat) {
+		public static void less(Func<bool> condition, Action thenDoThis) {
 			if (condition() == false) {
-				thenWhat();
+				thenDoThis();
 			}
 		}
 	}

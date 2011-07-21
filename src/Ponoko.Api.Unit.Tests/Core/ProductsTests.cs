@@ -30,7 +30,7 @@ namespace Ponoko.Api.Unit.Tests.Core {
 
 			var products = new Products(internet, AnyUrl, fileSystem);
 
-			var theError = Assert.Throws<Exception>(() => products.Save(expectedName, AnyDesign()));
+			var theError = Assert.Throws<Exception>(() => products.Create(expectedName, AnyDesign()));
 			
 			var expectedError = String.Format(
 				"Failed to save product. " +
@@ -68,7 +68,7 @@ namespace Ponoko.Api.Unit.Tests.Core {
 			
 			var theError = Assert.Throws<Exception>(() => products.Delete("any id"));
 
-			var expectedError = "Delete failed. Expected the deleted flag to be true. but it was \"false\"";
+			var expectedError = "Delete failed. Expected the deleted flag to be true. but it was \"false\".";
 
 			Assert.AreEqual(expectedError, theError.Message, "An error was raised as expected, but the message does not match.");
 		}

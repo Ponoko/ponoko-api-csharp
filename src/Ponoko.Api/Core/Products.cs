@@ -16,7 +16,7 @@ namespace Ponoko.Api.Core {
 			_fileSystem = fileSystem;
 		}
 
-		public Product Save(String name, Design design) {
+		public Product Create(String name, Design design) {
 			Validate(design);
 
 			var parameters = new NameValueCollection {
