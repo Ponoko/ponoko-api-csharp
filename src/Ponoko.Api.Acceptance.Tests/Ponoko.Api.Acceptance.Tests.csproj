@@ -72,7 +72,7 @@
     <Compile Include="Examples\AboutAuthorization.cs" />
     <Compile Include="Examples\AboutMaterials.cs" />
     <Compile Include="Examples\AboutNodes.cs" />
-    <Compile Include="Examples\AboutCreatingProducts.cs" />
+    <Compile Include="Examples\Products\AboutCreatingProducts.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Settings.cs" />
   </ItemGroup>

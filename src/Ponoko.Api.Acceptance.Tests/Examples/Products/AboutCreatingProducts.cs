@@ -12,14 +12,14 @@ using Ponoko.Api.Rest.Security.OAuth.Core;
 using Ponoko.Api.Rest.Security.OAuth.Http;
 using Ponoko.Api.Rest.Security.OAuth.Impl.OAuth.Net;
 
-namespace Ponoko.Api.Acceptance.Tests.Examples {
+namespace Ponoko.Api.Acceptance.Tests.Examples.Products {
 	[TestFixture]
 	public class AboutCreatingProducts : AcceptanceTest {
-		public Products Products { get; set; }
+		public Core.Products Products { get; set; }
 
 		[SetUp]
 		public void BeforeEach() {
-			Products = new Products(NewInternet(), Settings.BaseUrl, new DefaultReadonlyFileSystem());
+			Products = new Core.Products(NewInternet(), Settings.BaseUrl, new DefaultReadonlyFileSystem());
 		}
 
 		[Test]
