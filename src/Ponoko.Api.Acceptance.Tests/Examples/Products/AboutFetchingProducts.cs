@@ -47,6 +47,14 @@ namespace Ponoko.Api.Acceptance.Tests.Examples.Products {
 			}
 		}
 
-		// [Test] finding_a_product_that_does_not_exist_returns_null
+		[Test] 
+		public void finding_a_product_that_does_not_exist_returns_null() {
+			const string AN_ID_THAT_DOES_NOT_EXIST = "Phil Murphy's fanny pack";
+
+			var finder = new ProductFinder(Internet, Settings.BaseUrl);
+			var result = finder.Find(AN_ID_THAT_DOES_NOT_EXIST);
+
+			Assert.IsNull(result, "Expected finding a product that does not exist to return null.");	
+		}
 	}
 }
