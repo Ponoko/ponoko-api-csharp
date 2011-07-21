@@ -42,6 +42,8 @@ namespace Ponoko.Api.Core {
 		private void Require(Design design) {
 			if (null == design)
 				throw new ArgumentException("Cannot create a product without at least one Design.", "design");
+			if (null == design.Filename)
+				throw new ArgumentException("Cannot create a product unless the Design has a file.", "design");
 		}
 
 		private Product Deserialize(Response response) {

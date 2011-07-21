@@ -51,22 +51,13 @@ namespace Ponoko.Api.Acceptance.Tests.Examples {
 
 		[Test]
     	public void you_must_supply_a_file_and_filename_with_the_design() {
-    		var parameters = new NameValueCollection {
-				{"name"						, "example"}, 
-				{"designs[][ref]"			, "42"},
-				{"designs[][quantity]"		, "1"},
-				{"designs[][material_key]"	, "6bb50fd03269012e3526404062cdb04a"},
-			};
+			var products = new Products(NewInternet(), Settings.BaseUrl);
 
-			var missingFile = new List<DataItem> ();
+			var designWithoutAFile = new Design {Filename = null};
 
-			var uri = Map("{0}", "/products");
+    		var theError = Assert.Throws<ArgumentException>(() => products.Save("xxx", designWithoutAFile));
 
-			using (var response = Post(uri, new Payload(parameters, missingFile))) {
-				var body = Json(response);
-				Assert.AreEqual(HttpStatusCode.BadRequest, response.StatusCode, body);
-				Assert.That(body, Is.StringMatching("\"error_message\": \"Missing design file data.\""));
-			}
+			Assert.That(theError.Message, Is.StringMatching("^Cannot create a product unless the Design has a file\\..+"));
 		}
 
 		[Test]
