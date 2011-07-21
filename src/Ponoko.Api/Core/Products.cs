@@ -53,7 +53,9 @@ namespace Ponoko.Api.Core {
 			if (null == design.Filename)
 				throw new ArgumentException("Cannot create a product unless the Design has a file.", "design");
 
-			un.less(() => _fileSystem.Exists(design.Filename), () => {
+			var theDesignFileExistsOnDisk = _fileSystem.Exists(design.Filename);
+
+			un.less(() => theDesignFileExistsOnDisk, () => {
 				throw new FileNotFoundException(
 					"Cannot create a product unless the Design has a file that exists on disk. " + 
 					"Unable to find file \"" + design.Filename + "\""
@@ -70,19 +72,8 @@ namespace Ponoko.Api.Core {
 				"Failed to save product. The server returned status {0} ({1}), and error message: \"{2}\"", 
 				response.StatusCode, 
 				(Int32)response.StatusCode, 
-				FullErrorMessageFrom(theError)
+				theError
 			));
-		}
-
-		private StringBuilder FullErrorMessageFrom(Error theError) {
-			var theFullErrorMessage = new StringBuilder();
-
-			theFullErrorMessage.Append(theError.Message);
-
-			foreach (var error in theError.Errors) {
-				theFullErrorMessage.AppendLine(error.Value);
-			}
-			return theFullErrorMessage;
 		}
 
 		private Product Deserialize(Response response) {

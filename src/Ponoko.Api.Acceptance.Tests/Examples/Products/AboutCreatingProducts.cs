@@ -57,7 +57,9 @@ namespace Ponoko.Api.Acceptance.Tests.Examples.Products {
 
     		var theError = Assert.Throws<FileNotFoundException>(() => Products.Save("xxx", designWithoutAFile));
 
-			Assert.That(theError.Message, Is.StringMatching("^Cannot create a product unless the Design has a file that exists on disk\\..+"));
+			Assert.That(theError.Message, Is.StringMatching(
+				"^Cannot create a product unless the Design has a file that exists on disk\\..+"
+			));
 		}
 
 		[Test]
@@ -66,35 +68,22 @@ namespace Ponoko.Api.Acceptance.Tests.Examples.Products {
 
     		var theError = Assert.Throws<Exception>(() => Products.Save("xxx", designWithoutAMaterial));
 
-			Assert.That(theError.Message, Is.StringMatching("could not find requested material. is it available to this Node's materail catalog?"));
+			Assert.That(theError.Message, Is.StringMatching(
+				"could not find requested material. is it available to this Node's materail catalog?"
+			));
 		}
 
 		[Test]
-		public void and_the_material_must_be_compatible() {
-			const String FUCHSIA_FELT = "6812d5403269012e2f2f404062cdb04a";
+		public void you_must_supply_a_material_that_is_compatible_with_the_design() {
+			const String INVALID_MATERIAL = "6812d5403269012e2f2f404062cdb04a";
 
-			var parameters = new NameValueCollection {
-				{"name"						, "example"}, 
-				{"designs[][ref]"			, "42"},
-				{"designs[][filename]"		, "bottom_new.stl"},
-				{"designs[][quantity]"		, "1"},
-				{"designs[][material_key]"	, FUCHSIA_FELT},
-			};
+			var designWithInvalidMaterial = new Design { Filename = "res\\bottom_new.stl", MaterialKey = INVALID_MATERIAL};
 
-			var theFile = new List<DataItem> {
-				new DataItem(
-					"designs[][uploaded_data]", 
-					new FileInfo(@"res\bottom_new.stl"), "text/plain"
-				)
-			};
+    		var theError = Assert.Throws<Exception>(() => Products.Save("xxx", designWithInvalidMaterial));
 
-			var uri = Map("{0}", "/products");
-
-			using (var response = Post(uri, new Payload(parameters, theFile))) {
-				var body = Json(response);
-				Assert.AreEqual(HttpStatusCode.BadRequest, response.StatusCode, body);
-				Assert.That(body, Is.StringMatching("the material you have selected is not compatible with making methods available to the design file"));
-			}
+			Assert.That(theError.Message, Is.StringMatching(
+				"the material you have selected is not compatible with making methods available to the design file"
+			));
 		}
 
 		private void AssertIsAboutUtcNow(DateTime dateTime, TimeSpan within) {
