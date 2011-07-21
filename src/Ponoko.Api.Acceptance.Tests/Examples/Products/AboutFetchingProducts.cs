@@ -6,7 +6,7 @@ namespace Ponoko.Api.Acceptance.Tests.Examples.Products {
 	[TestFixture]
 	public class AboutFetchingProducts : ProductAcceptanceTest {
 		[Test]
-		public void can_get_a_list_of_products() {
+		public void you_can_get_a_list_of_products() {
 			given_at_least_one_product();
 
 			var finder = new ProductFinder(Internet, Settings.BaseUrl);
@@ -16,7 +16,7 @@ namespace Ponoko.Api.Acceptance.Tests.Examples.Products {
 		}
 
 		[Test]
-		public void can_get_a_single_product() {
+		public void you_can_get_a_single_product() {
 			given_at_least_one_product();
 
 			var id = FindFirstProductKey();
