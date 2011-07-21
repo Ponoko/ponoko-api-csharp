@@ -97,10 +97,16 @@ namespace Ponoko.Api.Acceptance.Tests.Examples.Products {
 			));
 		}
 
-		private void AssertIsAboutUtcNow(DateTime dateTime, TimeSpan within) {
+		private void AssertIsAboutUtcNow(DateTime expected, TimeSpan within) {
 			var now = DateTime.UtcNow;
-			var diff = now.Subtract(dateTime);
-			Assert.That(diff, Is.LessThan(within));
+			var diff = now.Subtract(expected);
+			Assert.That(diff, Is.LessThan(within), 
+				"Expected <{0}> to be with about <{1}> of <{2}>, but the difference is <{3}>", 
+				expected, 
+				within,
+				now, 
+				diff
+			);
 		}
 
 		private void AssertEqual(Design expected, Design actual) {
