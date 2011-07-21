@@ -62,28 +62,11 @@ namespace Ponoko.Api.Acceptance.Tests.Examples.Products {
 
 		[Test]
     	public void you_must_supply_a_material_with_the_design() {
-			var parameters = new NameValueCollection {
-			    {"name"						, "example"}, 
-			    {"designs[][ref]"			, "42"},
-			    {"designs[][filename]"		, "bottom_new.stl"},
-			    {"designs[][quantity]"		, "1"},
-			};
+			var designWithoutAMaterial = new Design {Filename = "res\\bottom_new.stl", MaterialKey = null};
 
-			var theFile = new List<DataItem> {
-			    new DataItem(
-			        "designs[][uploaded_data]", 
-			        new FileInfo(@"res\bottom_new.stl"), 
-			        "text/plain"
-			    )
-			};
+    		var theError = Assert.Throws<Exception>(() => Products.Save("xxx", designWithoutAMaterial));
 
-			var uri = Map("{0}", "/products");
-
-			using (var response = Post(uri, new Payload(parameters, theFile))) {
-			    var body = Json(response);
-			    Assert.AreEqual(HttpStatusCode.BadRequest, response.StatusCode, body);
-			    Assert.That(body, Is.StringMatching("could not find requested material. is it available to this Node's materail catalog?"));
-			}
+			Assert.That(theError.Message, Is.StringMatching("could not find requested material. is it available to this Node's materail catalog?"));
 		}
 
 		[Test]
@@ -109,7 +92,6 @@ namespace Ponoko.Api.Acceptance.Tests.Examples.Products {
 
 			using (var response = Post(uri, new Payload(parameters, theFile))) {
 				var body = Json(response);
-				Console.WriteLine(body);
 				Assert.AreEqual(HttpStatusCode.BadRequest, response.StatusCode, body);
 				Assert.That(body, Is.StringMatching("the material you have selected is not compatible with making methods available to the design file"));
 			}

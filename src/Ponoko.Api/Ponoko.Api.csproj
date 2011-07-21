@@ -67,6 +67,8 @@
   <ItemGroup>
     <Compile Include="Core\Design.cs" />
     <Compile Include="Core\Domain.cs" />
+    <Compile Include="Core\Error.cs" />
+    <Compile Include="Core\ErrorMessage.cs" />
     <Compile Include="Core\IO\DefaultReadonlyFileSystem.cs" />
     <Compile Include="Core\MakeCost.cs" />
     <Compile Include="Core\Material.cs" />
@@ -78,6 +80,7 @@
     <Compile Include="Core\IO\ReadonlyFileSystem.cs" />
     <Compile Include="Json\DateTimeReader.cs" />
     <Compile Include="Json\Deserializer.cs" />
+    <Compile Include="Json\ErrorDeserializer.cs" />
     <Compile Include="Json\Generic\SimpleDeserializer.cs" />
     <Compile Include="Json\MaterialDeserializer.cs" />
     <Compile Include="Json\MaterialListDeserializer.cs" />

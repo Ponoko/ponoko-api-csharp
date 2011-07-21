@@ -18,7 +18,7 @@ namespace Ponoko.Api.Unit.Tests.Core {
 			var expectedStatus = HttpStatusCode.InternalServerError;
 			var expectedErrorMessage = "xxx_error_xxx";
 
-			var response = NewFakeResponse(expectedStatus, String.Format("{{ error : {{ message : \"{0}\" }}}}", expectedErrorMessage));
+			var response = NewFakeResponse(expectedStatus, String.Format("{{ error : {{ message : \"{0}\", \"errors\" : [] }}}}", expectedErrorMessage));
 
 			internet.Stub(it => it.Post(Arg<Uri>.Is.Anything, Arg<Payload>.Is.Anything)).
 				Repeat.Once().

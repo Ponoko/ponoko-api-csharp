@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.IO;
 using System.Net;
+using System.Text;
 using Newtonsoft.Json;
 using Ponoko.Api.Core.IO;
 using Ponoko.Api.Json;
@@ -60,6 +61,30 @@ namespace Ponoko.Api.Core {
 			});
 		}
 
+		private Exception Error(Response response) {
+			var json = ReadAll(response);
+
+			var theError = ErrorDeserializer.Deserialize(json);
+
+			return new Exception(String.Format(
+				"Failed to save product. The server returned status {0} ({1}), and error message: \"{2}\"", 
+				response.StatusCode, 
+				(Int32)response.StatusCode, 
+				FullErrorMessageFrom(theError)
+			));
+		}
+
+		private StringBuilder FullErrorMessageFrom(Error theError) {
+			var theFullErrorMessage = new StringBuilder();
+
+			theFullErrorMessage.Append(theError.Message);
+
+			foreach (var error in theError.Errors) {
+				theFullErrorMessage.AppendLine(error.Value);
+			}
+			return theFullErrorMessage;
+		}
+
 		private Product Deserialize(Response response) {
 			var payload = new Deserializer().Deserialize(ReadAll(response));
 
@@ -72,16 +97,5 @@ namespace Ponoko.Api.Core {
 		}
 
 		private Response Post(Uri uri, Payload payload) { return _internet.Post(uri, payload); }
-
-		private Exception Error(Response response) {
-			var theError = new Deserializer().Deserialize(ReadAll(response))["error"].Value<String>("message");
-
-			return new Exception(String.Format(
-				"Failed to save product. The server returned status {0} ({1}), and error message: \"{2}\"", 
-				response.StatusCode, 
-				(Int32)response.StatusCode, 
-				theError
-			));
-		}
 	}
 }
