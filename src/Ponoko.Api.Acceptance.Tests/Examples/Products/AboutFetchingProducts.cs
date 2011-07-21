@@ -46,5 +46,7 @@ namespace Ponoko.Api.Acceptance.Tests.Examples.Products {
 				Assert.AreEqual(HttpStatusCode.NotFound, response.StatusCode);
 			}
 		}
+
+		// [Test] finding_a_product_that_does_not_exist_returns_null
 	}
 }
