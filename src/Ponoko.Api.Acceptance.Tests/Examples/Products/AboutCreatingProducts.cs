@@ -35,6 +35,20 @@ namespace Ponoko.Api.Acceptance.Tests.Examples.Products {
 			Assert.That(actualDesign.MaterialKey, Is.Null, "Expected no material key because the product's materials are not available.");
     	}
 
+		[Test] 
+		public void after_a_product_is_created_it_can_be_fetched_ie_it_has_been_persisted() {
+			var aNewProduct = Products.Save("A new product", NewDesign());
+
+			var theProductFetchedById = new ProductFinder(Internet, Settings.BaseUrl).Find(aNewProduct.Key);
+
+			Assert.AreEqual(theProductFetchedById.Key, aNewProduct.Key, 
+				"The product was fetched successfully, but it has an unexpected key."
+			);
+			Assert.AreEqual(theProductFetchedById.Name, aNewProduct.Name, 
+				"The product was fetched successfully, but it has an unexpected name."
+			);
+		}
+
 		[Test]
     	public void you_must_supply_a_design_when_adding_a_product() {
     		Design missingDesign = null;
@@ -106,11 +120,11 @@ namespace Ponoko.Api.Acceptance.Tests.Examples.Products {
 		}
 
 		private Design NewDesign() {
-			var aValidMaterialKey = "6bb50fd03269012e3526404062cdb04a";
+			const String VALID_MATERIAL_KEY = "6bb50fd03269012e3526404062cdb04a";
 
 			return new Design {
 				Filename	= new FileInfo(@"res\bottom_new.stl").FullName,
-				MaterialKey = aValidMaterialKey,
+				MaterialKey = VALID_MATERIAL_KEY,
 				Quantity	= 1,
 				Reference	= "42"
 			};
