@@ -4,15 +4,21 @@ using System.Collections.Specialized;
 using System.IO;
 using System.Net;
 using Newtonsoft.Json;
+using Ponoko.Api.Core.IO;
 using Ponoko.Api.Json;
 using Ponoko.Api.Rest;
+using Ponoko.Api.Sugar;
 
 namespace Ponoko.Api.Core {
 	public class Products : Domain {
-		public Products(TheInternet internet, String baseUrl) : base(internet, baseUrl) {}
+		private readonly ReadonlyFileSystem _fileSystem;
+
+		public Products(TheInternet internet, String baseUrl, ReadonlyFileSystem fileSystem) : base(internet, baseUrl) {
+			_fileSystem = fileSystem;
+		}
 
 		public Product Save(String name, Design design) {
-			Require(design);
+			Validate(design);
 
 			var parameters = new NameValueCollection {
 				{"name"						, name}, 
@@ -39,11 +45,19 @@ namespace Ponoko.Api.Core {
 			}
 		}
 
-		private void Require(Design design) {
+		private void Validate(Design design) {
 			if (null == design)
 				throw new ArgumentException("Cannot create a product without at least one Design.", "design");
+			
 			if (null == design.Filename)
 				throw new ArgumentException("Cannot create a product unless the Design has a file.", "design");
+
+			un.less(() => _fileSystem.Exists(design.Filename), () => {
+				throw new FileNotFoundException(
+					"Cannot create a product unless the Design has a file that exists on disk. " + 
+					"Unable to find file \"" + design.Filename + "\""
+				);
+			});
 		}
 
 		private Product Deserialize(Response response) {

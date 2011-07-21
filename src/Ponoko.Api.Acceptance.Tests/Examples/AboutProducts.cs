@@ -5,6 +5,7 @@ using System.IO;
 using System.Net;
 using NUnit.Framework;
 using Ponoko.Api.Core;
+using Ponoko.Api.Core.IO;
 using Ponoko.Api.Json;
 using Ponoko.Api.Rest;
 using Ponoko.Api.Rest.Security.OAuth.Core;
@@ -14,15 +15,20 @@ using Ponoko.Api.Rest.Security.OAuth.Impl.OAuth.Net;
 namespace Ponoko.Api.Acceptance.Tests.Examples {
 	[TestFixture]
 	public class AboutProducts : AcceptanceTest {
-    	[Test]
-		public void can_create_a_product_provided_you_have_a_design_file_with_matching_valid_material() {
-    		var products = new Products(NewInternet(), Settings.BaseUrl);
+		public Products Products { get; set; }
 
+		[SetUp]
+		public void BeforeEach() {
+			Products = new Products(NewInternet(), Settings.BaseUrl, new DefaultReadonlyFileSystem());
+		}
+
+		[Test]
+		public void can_create_a_product_provided_you_have_a_design_file_with_matching_valid_material() {
     		var expectedDesign = NewDesign();
 
     		var expectedNewProductName = "Any new product name";
 
-    		var theNewProduct = products.Save(expectedNewProductName, expectedDesign);
+    		var theNewProduct = Products.Save(expectedNewProductName, expectedDesign);
     		var actualDesign = theNewProduct.Designs[0];
 
 			Assert.AreEqual(expectedNewProductName	, theNewProduct.Name, "Expected the returned product to have the name supplied.");
@@ -40,49 +46,54 @@ namespace Ponoko.Api.Acceptance.Tests.Examples {
 
 		[Test]
     	public void you_must_supply_a_design_when_adding_a_product() {
-			var products = new Products(NewInternet(), Settings.BaseUrl);
-
     		Design missingDesign = null;
 
-    		var theError = Assert.Throws<ArgumentException>(() => products.Save("xxx", missingDesign));
+    		var theError = Assert.Throws<ArgumentException>(() => Products.Save("xxx", missingDesign));
 
 			Assert.That(theError.Message, Is.StringMatching("^Cannot create a product without at least one Design\\..+"));
 		}
 
 		[Test]
     	public void you_must_supply_a_file_and_filename_with_the_design() {
-			var products = new Products(NewInternet(), Settings.BaseUrl);
-
 			var designWithoutAFile = new Design {Filename = null};
 
-    		var theError = Assert.Throws<ArgumentException>(() => products.Save("xxx", designWithoutAFile));
+    		var theError = Assert.Throws<ArgumentException>(() => Products.Save("xxx", designWithoutAFile));
 
 			Assert.That(theError.Message, Is.StringMatching("^Cannot create a product unless the Design has a file\\..+"));
 		}
 
 		[Test]
-    	public void you_must_supply_a_material() {
-    		var parameters = new NameValueCollection {
-				{"name"						, "example"}, 
-				{"designs[][ref]"			, "42"},
-				{"designs[][filename]"		, "bottom_new.stl"},
-				{"designs[][quantity]"		, "1"},
+    	public void you_must_supply_a_file_that_exists_on_disk_with_the_design() {
+			var designWithoutAFile = new Design {Filename = "xxx_file_must_not_exist_on_disk_xxx"};
+
+    		var theError = Assert.Throws<FileNotFoundException>(() => Products.Save("xxx", designWithoutAFile));
+
+			Assert.That(theError.Message, Is.StringMatching("^Cannot create a product unless the Design has a file that exists on disk\\..+"));
+		}
+
+		[Test]
+    	public void you_must_supply_a_material_with_the_design() {
+			var parameters = new NameValueCollection {
+			    {"name"						, "example"}, 
+			    {"designs[][ref]"			, "42"},
+			    {"designs[][filename]"		, "bottom_new.stl"},
+			    {"designs[][quantity]"		, "1"},
 			};
 
 			var theFile = new List<DataItem> {
-				new DataItem(
-					"designs[][uploaded_data]", 
-					new FileInfo(@"res\bottom_new.stl"), 
-					"text/plain"
-				)
+			    new DataItem(
+			        "designs[][uploaded_data]", 
+			        new FileInfo(@"res\bottom_new.stl"), 
+			        "text/plain"
+			    )
 			};
 
 			var uri = Map("{0}", "/products");
 
 			using (var response = Post(uri, new Payload(parameters, theFile))) {
-				var body = Json(response);
-				Assert.AreEqual(HttpStatusCode.BadRequest, response.StatusCode, body);
-				Assert.That(body, Is.StringMatching("could not find requested material. is it available to this Node's materail catalog?"));
+			    var body = Json(response);
+			    Assert.AreEqual(HttpStatusCode.BadRequest, response.StatusCode, body);
+			    Assert.That(body, Is.StringMatching("could not find requested material. is it available to this Node's materail catalog?"));
 			}
 		}
 

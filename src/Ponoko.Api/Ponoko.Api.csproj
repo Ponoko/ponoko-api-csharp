@@ -67,6 +67,7 @@
   <ItemGroup>
     <Compile Include="Core\Design.cs" />
     <Compile Include="Core\Domain.cs" />
+    <Compile Include="Core\IO\DefaultReadonlyFileSystem.cs" />
     <Compile Include="Core\MakeCost.cs" />
     <Compile Include="Core\Material.cs" />
     <Compile Include="Core\MaterialsCatalogue.cs" />
@@ -74,6 +75,7 @@
     <Compile Include="Core\Nodes.cs" />
     <Compile Include="Core\Product.cs" />
     <Compile Include="Core\Products.cs" />
+    <Compile Include="Core\IO\ReadonlyFileSystem.cs" />
     <Compile Include="Json\DateTimeReader.cs" />
     <Compile Include="Json\Deserializer.cs" />
     <Compile Include="Json\Generic\SimpleDeserializer.cs" />

@@ -2,6 +2,7 @@
 using System.Net;
 using NUnit.Framework;
 using Ponoko.Api.Core;
+using Ponoko.Api.Core.IO;
 using Ponoko.Api.Rest;
 using Rhino.Mocks;
 
@@ -11,6 +12,8 @@ namespace Ponoko.Api.Unit.Tests.Core {
 		[Test]
 		public void it_fails_to_save_unless_internet_responds_with_200() {
 			var internet = MockRepository.GenerateMock<TheInternet>();
+			var fileSystem = MockRepository.GenerateMock<ReadonlyFileSystem>();
+
 			var expectedName = "Any product name";
 			var expectedStatus = HttpStatusCode.InternalServerError;
 			var expectedErrorMessage = "xxx_error_xxx";
@@ -21,9 +24,9 @@ namespace Ponoko.Api.Unit.Tests.Core {
 				Repeat.Once().
 				Return(response);
 
-			var aFakeNewProduct = AnyDesign();
+			fileSystem.Stub(it => it.Exists(Arg<String>.Is.Anything)).Return(true);
 
-			var products = new Products(internet, "http://xxx/");
+			var products = new Products(internet, "http://xxx/", fileSystem);
 
 			var theError = Assert.Throws<Exception>(() => products.Save(expectedName, AnyDesign()));
 			
