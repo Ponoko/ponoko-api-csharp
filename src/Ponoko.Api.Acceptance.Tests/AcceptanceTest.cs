@@ -5,6 +5,7 @@ using System.Net;
 using Newtonsoft.Json;
 using NUnit.Framework;
 using Ponoko.Api.Json;
+using Ponoko.Api.Logging;
 using Ponoko.Api.Rest;
 using Ponoko.Api.Rest.Security.OAuth.Core;
 using Ponoko.Api.Rest.Security.OAuth.Http;
@@ -14,15 +15,17 @@ namespace Ponoko.Api.Acceptance.Tests {
 	public class AcceptanceTest {
 		protected TheInternet Internet {
 			get {
-				return new SystemInternet(
-					new OAuthAuthorizationPolicy(
-						new MadgexOAuthHeader(
-							new SystemClock(), 
-							new SystemNonceFactory()
-						), 
-						Settings.Credentials
-					)
+				var authPolicy = new OAuthAuthorizationPolicy(
+					new MadgexOAuthHeader(
+						new SystemClock(),
+						new SystemNonceFactory()
+					),
+					Settings.Credentials
 				);
+				
+				var log = new ConsoleLog();
+
+				return new SystemInternet(authPolicy, log);
 			}
 		}
 
