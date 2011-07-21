@@ -5,23 +5,12 @@ using System.IO;
 using System.Net;
 using NUnit.Framework;
 using Ponoko.Api.Core;
-using Ponoko.Api.Core.IO;
 using Ponoko.Api.Json;
 using Ponoko.Api.Rest;
-using Ponoko.Api.Rest.Security.OAuth.Core;
-using Ponoko.Api.Rest.Security.OAuth.Http;
-using Ponoko.Api.Rest.Security.OAuth.Impl.OAuth.Net;
 
 namespace Ponoko.Api.Acceptance.Tests.Examples.Products {
 	[TestFixture]
-	public class AboutCreatingProducts : AcceptanceTest {
-		public Core.Products Products { get; set; }
-
-		[SetUp]
-		public void BeforeEach() {
-			Products = new Core.Products(NewInternet(), Settings.BaseUrl, new DefaultReadonlyFileSystem());
-		}
-
+	public class AboutCreatingProducts : ProductAcceptanceTest {
 		[Test]
 		public void can_create_a_product_provided_you_have_a_design_file_with_matching_valid_material() {
     		var expectedDesign = NewDesign();
@@ -126,105 +115,6 @@ namespace Ponoko.Api.Acceptance.Tests.Examples.Products {
 			}
 		}
 
-		[Test]
-		public void can_get_a_list_of_products() {
-			given_at_least_one_product();
-
-			var uri = Map("/products");
-
-			using (var response = Get(uri)) {
-				var result = new Deserializer().Deserialize(Body(response));
-				
-				Assert.AreEqual(HttpStatusCode.OK, response.StatusCode, "Expected okay");
-
-				var products = result["products"].First.Value<String>("key");
-
-				Console.WriteLine(products);
-			}
-		}
-
-		[Test]
-		public void can_get_a_single_product() {
-			given_at_least_one_product();
-
-			var id = FindFirstProductKey();
-			var uri = Map("/products/{0}", id);
-
-			using (var response = Get(uri)) {
-				Assert.AreEqual(HttpStatusCode.OK, response.StatusCode);
-				Console.WriteLine(Json(response));
-			}
-		}
-
-		[Test]
-		public void you_can_check_existence_of_a_product() {
-			given_at_least_one_product();
-
-			var id = FindFirstProductKey();
-			var uri = Map("/products/{0}", id);
-
-			using (var response = Get(uri)) {
-				Assert.AreEqual(HttpStatusCode.OK, response.StatusCode);
-			}
-
-			uri = Map("/products/{0}", "MUST_NOT_EXIST");
-
-			using (var response = Get(uri)) {
-				Assert.AreEqual(HttpStatusCode.NotFound, response.StatusCode);
-			}
-		}
-
-		[Test]
-		public void can_delete_a_product() {
-			given_at_least_one_product();
-			
-			var id = FindFirstProductKey();
-			var uri = Map("/products/delete/{0}", id);
-
-			using (var response = Get(Map("/products/{0}", id))) {
-				Assert.AreEqual(HttpStatusCode.OK, response.StatusCode, 
-					"Expected the product to exist before we delete it."
-				);
-			}
-
-			var theStatusReturnedByDelete = -1;
-
-			using (var response = Post(uri, Payload.Empty)) {
-				theStatusReturnedByDelete = (Int32)response.StatusCode;
-			}
-
-			using (var response = Get(Map("/products/{0}", id))) {
-				Assert.AreEqual(HttpStatusCode.NotFound, response.StatusCode, 
-					"Expected the product to have been deleted, but it's still there."
-				);
-			}
-
-			Assert.AreEqual(200, theStatusReturnedByDelete, "Expected delete to return status 200.");
-		}
-
-		private void given_at_least_one_product() {
-    		var parameters = new NameValueCollection {
-				{"name"						, "example"}, 
-				{"designs[][ref]"			, "1337"},
-				{"designs[][filename]"		, "bottom_new.stl"},
-				{"designs[][quantity]"		, "1"},
-				{"designs[][material_key]"	, "6bb50fd03269012e3526404062cdb04a"},
-			};
-
-			var theFile = new List<DataItem> {
-				new DataItem(
-					"designs[][uploaded_data]", 
-					new FileInfo(@"res\bottom_new.stl"), "text/plain"
-				)
-			};
-
-			var uri = Map("{0}", "/products");
-
-			using (var response = Post(uri, new Payload(parameters, theFile))) {
-				Assert.AreEqual(HttpStatusCode.OK, response.StatusCode, Body(response));
-			}
-    	}
-
 		private void AssertIsAboutUtcNow(DateTime dateTime, TimeSpan within) {
 			var now = DateTime.UtcNow;
 			var diff = now.Subtract(dateTime);
@@ -251,29 +141,6 @@ namespace Ponoko.Api.Acceptance.Tests.Examples.Products {
 				Quantity	= 1,
 				Reference	= "42"
 			};
-		}
-
-		private SystemInternet NewInternet() {
-			var authorizationPolicy = new OAuthAuthorizationPolicy(
-				new MadgexOAuthHeader(new SystemClock(), new SystemNonceFactory()),
-				Settings.Credentials
-			);
-
-			return new SystemInternet(authorizationPolicy);
-		}
-
-		private String FindFirstProductKey() {
-			var uri = Map("/products");
-
-			using (var response = Get(uri)) {
-				var temp = new Deserializer().Deserialize(Body(response));
-				
-				var products = temp["products"];
-
-				Assert.That(products.HasValues, "Ther are zero products, so unable to return the first one.");
-				
-				return products.First.Value<String>("key");
-			}
 		}
 	}
 }
