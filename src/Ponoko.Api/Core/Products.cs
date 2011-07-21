@@ -4,7 +4,6 @@ using System.Collections.Specialized;
 using System.IO;
 using System.Net;
 using System.Text;
-using Newtonsoft.Json;
 using Ponoko.Api.Core.IO;
 using Ponoko.Api.Json;
 using Ponoko.Api.Rest;
@@ -77,14 +76,8 @@ namespace Ponoko.Api.Core {
 		}
 
 		private Product Deserialize(Response response) {
-			var payload = new Deserializer().Deserialize(ReadAll(response));
-
-			var settings = new JsonSerializerSettings {
-          		MissingMemberHandling = MissingMemberHandling.Error,
-          		Converters = new List<JsonConverter> { new DateTimeReader() }
-			};
-
-			return JsonConvert.DeserializeObject<Product>(payload["product"].ToString(), settings);
+			var json = new Deserializer().Deserialize(ReadAll(response))["product"].ToString();
+			return ProductDeserializer.Deserialize(json);
 		}
 
 		private Response Post(Uri uri, Payload payload) { return _internet.Post(uri, payload); }

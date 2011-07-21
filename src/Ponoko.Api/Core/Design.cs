@@ -19,6 +19,7 @@ namespace Ponoko.Api.Core {
 		[JsonProperty(PropertyName = "material_key")]
 		public String MaterialKey { get; set; }
 
+		[JsonProperty(PropertyName = "file_name")]
 		public String Filename { get; set; }
 
 		[JsonProperty(PropertyName = "ref")]

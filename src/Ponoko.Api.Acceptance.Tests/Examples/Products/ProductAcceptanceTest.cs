@@ -17,7 +17,7 @@ namespace Ponoko.Api.Acceptance.Tests.Examples.Products {
 
 		[SetUp]
 		public void BeforeEach() {
-			Products = new Core.Products(NewInternet(), Settings.BaseUrl, new DefaultReadonlyFileSystem());
+			Products = new Core.Products(Internet, Settings.BaseUrl, new DefaultReadonlyFileSystem());
 		}
 
 		protected void given_at_least_one_product() {
@@ -55,15 +55,6 @@ namespace Ponoko.Api.Acceptance.Tests.Examples.Products {
 				
 				return products.First.Value<String>("key");
 			}
-		}
-
-		private SystemInternet NewInternet() {
-			var authorizationPolicy = new OAuthAuthorizationPolicy(
-				new MadgexOAuthHeader(new SystemClock(), new SystemNonceFactory()),
-				Settings.Credentials
-			);
-
-			return new SystemInternet(authorizationPolicy);
 		}
 	}
 }

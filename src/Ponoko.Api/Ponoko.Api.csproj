@@ -76,6 +76,8 @@
     <Compile Include="Core\Node.cs" />
     <Compile Include="Core\Nodes.cs" />
     <Compile Include="Core\Product.cs" />
+    <Compile Include="Json\ProductDeserializer.cs" />
+    <Compile Include="Core\ProductFinder.cs" />
     <Compile Include="Core\Products.cs" />
     <Compile Include="Core\IO\ReadonlyFileSystem.cs" />
     <Compile Include="Json\DateTimeReader.cs" />

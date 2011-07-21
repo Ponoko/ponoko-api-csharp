@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Net;
 using NUnit.Framework;
-using Ponoko.Api.Json;
+using Ponoko.Api.Core;
 
 namespace Ponoko.Api.Acceptance.Tests.Examples.Products {
 	[TestFixture]
@@ -10,17 +10,10 @@ namespace Ponoko.Api.Acceptance.Tests.Examples.Products {
 		public void can_get_a_list_of_products() {
 			given_at_least_one_product();
 
-			var uri = Map("/products");
+			var finder = new ProductFinder(Internet, Settings.BaseUrl);
+			var result = finder.FindAll();
 
-			using (var response = Get(uri)) {
-				var result = new Deserializer().Deserialize(Body(response));
-				
-				Assert.AreEqual(HttpStatusCode.OK, response.StatusCode, "Expected okay");
-
-				var products = result["products"].First.Value<String>("key");
-
-				Console.WriteLine(products);
-			}
+			Assert.That(result.Length, Is.GreaterThan(0), "Expected at least one product returned");
 		}
 
 		[Test]
