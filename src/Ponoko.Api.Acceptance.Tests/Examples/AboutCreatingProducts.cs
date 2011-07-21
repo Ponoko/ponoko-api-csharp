@@ -14,7 +14,7 @@ using Ponoko.Api.Rest.Security.OAuth.Impl.OAuth.Net;
 
 namespace Ponoko.Api.Acceptance.Tests.Examples {
 	[TestFixture]
-	public class AboutProducts : AcceptanceTest {
+	public class AboutCreatingProducts : AcceptanceTest {
 		public Products Products { get; set; }
 
 		[SetUp]
