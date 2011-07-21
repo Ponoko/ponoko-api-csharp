@@ -33,5 +33,7 @@ namespace Ponoko.Api.Acceptance.Tests.Examples.Products {
 
 			Assert.AreEqual(200, theStatusReturnedByDelete, "Expected delete to return status 200.");
 		}
+
+		// [Test] public void can_delete_all_products() { }
 	}
 }
