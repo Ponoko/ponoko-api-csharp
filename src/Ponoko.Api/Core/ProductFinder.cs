@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Net;
 using Newtonsoft.Json.Linq;
 using Ponoko.Api.Json;
 using Ponoko.Api.Rest;
@@ -23,7 +24,12 @@ namespace Ponoko.Api.Core {
 		}
 
 		public Product Find(String id) {
-			var json = Get(Map("/products/{0}", id));
+			var response = _internet.Get(Map("/products/{0}", id));
+
+			if (response.StatusCode == HttpStatusCode.NotFound)
+				return null;
+
+			var json = ReadAll(response);
 
 			var productJson = new Deserializer().Deserialize(json)["product"];
 

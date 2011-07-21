@@ -81,5 +81,15 @@ namespace Ponoko.Api.Core {
 		}
 
 		private Response Post(Uri uri, Payload payload) { return _internet.Post(uri, payload); }
+
+		public void Delete(string id) {
+			var uri = Map("/products/delete/{0}", id);
+
+			using (var response = Post(uri, Payload.Empty)) {
+				un.less(() => response.StatusCode == HttpStatusCode.OK, () => {
+					throw new Exception("Delete failed");
+				});
+			}
+		}
 	}
 }

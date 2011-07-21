@@ -1,7 +1,6 @@
 ﻿using System;
-using System.Net;
 using NUnit.Framework;
-using Ponoko.Api.Rest;
+using Ponoko.Api.Core;
 
 namespace Ponoko.Api.Acceptance.Tests.Examples.Products {
 	[TestFixture]
@@ -11,29 +10,20 @@ namespace Ponoko.Api.Acceptance.Tests.Examples.Products {
 			given_at_least_one_product();
 			
 			var id = FindFirstProductKey();
-			var uri = Map("/products/delete/{0}", id);
 
-			using (var response = Get(Map("/products/{0}", id))) {
-				Assert.AreEqual(HttpStatusCode.OK, response.StatusCode, 
-					"Expected the product to exist before we delete it."
-				);
-			}
+			Products.Delete(id);
 
-			var theStatusReturnedByDelete = -1;
+			then_the_product_does_not_exist_with_key(id);
+		}
 
-			using (var response = Post(uri, Payload.Empty)) {
-				theStatusReturnedByDelete = (Int32)response.StatusCode;
-			}
+		private void then_the_product_does_not_exist_with_key(String id) {
+			var finder = new ProductFinder(Internet, Settings.BaseUrl);
+			var result = finder.Find(id);
 
-			using (var response = Get(Map("/products/{0}", id))) {
-				Assert.AreEqual(HttpStatusCode.NotFound, response.StatusCode, 
-					"Expected the product to have been deleted, but it's still there."
-				);
-			}
-
-			Assert.AreEqual(200, theStatusReturnedByDelete, "Expected delete to return status 200.");
+			Assert.IsNull(result, "Expected that finding the product with key <{0}> would return null.", id);
 		}
 
 		// [Test] public void can_delete_all_products() { }
+		// [Test] public void it_deletes_all_products_with_the_same_key() { }
 	}
 }
