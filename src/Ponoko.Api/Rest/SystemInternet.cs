@@ -19,14 +19,17 @@ namespace Ponoko.Api.Rest {
 		}
 
 		public override Response Head(Uri uri) {
-			var request = AuthorizeAndConvert(new Request(RequestLine.Head(uri)));
+			var unauthorized = new Request(RequestLine.Head(uri)) { ContentType = new FormUrlEncoded().ContentType };
 
-			return TryExecute(request);
+			var authorized = AuthorizeAndConvert(unauthorized);
+			
+			return TryExecute(authorized);
 		}
 
 		public override Response Get(Uri uri) {
 			var unauthorized = Request.Get(uri);
 			unauthorized.ContentType = new FormUrlEncoded().ContentType;
+			
 			var request = AuthorizeAndConvert(unauthorized);
 
 			return TryExecute(request);
@@ -55,7 +58,10 @@ namespace Ponoko.Api.Rest {
 		private SystemHttpRequest AuthorizeAndConvert(Request request) {
 			var authorized = _authPolicy.Authorize(request);
 			
-			return Convert(authorized);
+			var result = Convert(authorized);
+			result.Method = request.RequestLine.Verb;
+			
+			return result;
 		}
 
 		private HttpContentType SelectContentType(Payload payload) {
