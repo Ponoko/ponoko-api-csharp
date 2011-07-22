@@ -3,6 +3,7 @@ using System.IO;
 using System.Net;
 using Ponoko.Api.Logging;
 using Ponoko.Api.Rest.Mime;
+using Ponoko.Api.Rest.Security;
 
 namespace Ponoko.Api.Rest {
 	public class SystemInternet : TheInternet {

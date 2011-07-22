@@ -1,5 +1,3 @@
-﻿using Ponoko.Api.Rest.Security.OAuth.Core;
-
-namespace Ponoko.Api.Rest {
+﻿namespace Ponoko.Api.Rest.Security {
 	public interface AuthorizationPolicy { Request Authorize(Request request); }
 }

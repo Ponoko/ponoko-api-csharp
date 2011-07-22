@@ -106,7 +106,7 @@
     <Compile Include="Rest\Mime\MultipartFormData.cs" />
     <Compile Include="Rest\Response.cs" />
     <Compile Include="Rest\Security\OAuth\Http\OAuthAuthorizationPolicy.cs" />
-    <Compile Include="Rest\AuthorizationPolicy.cs" />
+    <Compile Include="Rest\Security\AuthorizationPolicy.cs" />
     <Compile Include="Rest\DataItem.cs" />
     <Compile Include="Rest\Parameter.cs" />
     <Compile Include="Rest\Security\OAuth\Impl\OAuth.Net\MadgexOAuthHeader.cs" />
