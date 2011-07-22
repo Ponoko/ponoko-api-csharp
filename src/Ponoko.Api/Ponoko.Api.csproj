@@ -108,7 +108,6 @@
     <Compile Include="Rest\Security\OAuth\Http\OAuthAuthorizationPolicy.cs" />
     <Compile Include="Rest\Security\AuthorizationPolicy.cs" />
     <Compile Include="Rest\DataItem.cs" />
-    <Compile Include="Rest\Parameter.cs" />
     <Compile Include="Rest\Security\OAuth\Impl\OAuth.Net\MadgexOAuthHeader.cs" />
     <Compile Include="Rest\Security\OAuth\Impl\OAuth.Net\MadgexSignature.cs" />
     <Compile Include="Rest\Security\OAuth\Core\NonceFactory.cs" />
