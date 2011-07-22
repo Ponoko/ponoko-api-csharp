@@ -7,11 +7,15 @@ using Rhino.Mocks;
 
 namespace Ponoko.Api.Unit.Tests.Core {
 	public class DomainUnitTest {
+		protected Response NewFakeResponse(HttpStatusCode status) {
+			return NewFakeResponse(status, String.Empty);
+		}
+
 		protected Response NewFakeResponse(HttpStatusCode status, String body) {
 			var result = MockRepository.GenerateMock<Response>();
 			
-			result.Stub(it => it.Open()).Return(SomeReadableJson(body));
-			result.Stub(it => it.StatusCode).Return(status);
+			result.Stub(it => it.Open()).Return(SomeReadableJson(body)).Repeat.Once();
+			result.Stub(it => it.StatusCode).Return(status).Repeat.Any();
 
 			return result;
 		}

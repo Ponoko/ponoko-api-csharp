@@ -1,4 +1,4 @@
-﻿using System.Net;
+﻿using System;
 using NUnit.Framework;
 using Ponoko.Api.Core;
 
@@ -33,23 +33,21 @@ namespace Ponoko.Api.Acceptance.Tests.Examples.Products {
 		public void you_can_check_existence_of_a_product() {
 			given_at_least_one_product();
 
+			var finder = new ProductFinder(Internet, Settings.BaseUrl);
+			
 			var id = FindFirstProductKey();
-			var uri = Map("/products/{0}", id);
+			var result = finder.Exists(id);
+			Assert.IsTrue(result, "Expected the result to be true because the Product does exist.");
+			
+			const String AN_ID_THAT_DOES_NOT_EXIST = "Phil Murphy's fanny pack";
+			result = finder.Exists(AN_ID_THAT_DOES_NOT_EXIST);
 
-			using (var response = Get(uri)) {
-				Assert.AreEqual(HttpStatusCode.OK, response.StatusCode);
-			}
-
-			uri = Map("/products/{0}", "MUST_NOT_EXIST");
-
-			using (var response = Get(uri)) {
-				Assert.AreEqual(HttpStatusCode.NotFound, response.StatusCode);
-			}
+			Assert.IsFalse(result, "Expected the result to be false because the Product does not exist.");
 		}
 
 		[Test] 
 		public void finding_a_product_that_does_not_exist_returns_null() {
-			const string AN_ID_THAT_DOES_NOT_EXIST = "Phil Murphy's fanny pack";
+			const String AN_ID_THAT_DOES_NOT_EXIST = "Phil Murphy's fanny pack";
 
 			var finder = new ProductFinder(Internet, Settings.BaseUrl);
 			var result = finder.Find(AN_ID_THAT_DOES_NOT_EXIST);

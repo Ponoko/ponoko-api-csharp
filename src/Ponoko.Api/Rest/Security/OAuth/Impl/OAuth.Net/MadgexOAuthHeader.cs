@@ -48,7 +48,7 @@ namespace Ponoko.Api.Rest.Security.OAuth.Impl.OAuth.Net {
 
 			parameters.AdditionalParameters.Add(CollectAllParameters(request));
 
-			un.less(() => String.IsNullOrEmpty(credentials.Token.Key), () => 
+			un.less(String.IsNullOrEmpty(credentials.Token.Key), () => 
 				parameters.Token = credentials.Token.Key
 			);
 
