@@ -31,25 +31,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Newtonsoft.Json.Net20, Version=3.5.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\lib\Newtonsoft.Json.Net20.dll</HintPath>
-    </Reference>
     <Reference Include="nunit.framework, Version=2.5.10.11092, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\lib\nunit.framework.dll</HintPath>
-    </Reference>
-    <Reference Include="OAuth.Net.Common, Version=0.7.1.0, Culture=neutral, PublicKeyToken=32209861c86e8a0d, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\lib\OAuth.Net.Common.dll</HintPath>
-    </Reference>
-    <Reference Include="OAuth.Net.Components, Version=0.7.1.0, Culture=neutral, PublicKeyToken=32209861c86e8a0d, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\lib\OAuth.Net.Components.dll</HintPath>
-    </Reference>
-    <Reference Include="OAuth.Net.Consumer, Version=0.7.1.0, Culture=neutral, PublicKeyToken=32209861c86e8a0d, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\lib\OAuth.Net.Consumer.dll</HintPath>
     </Reference>
     <Reference Include="Rhino.Mocks, Version=3.6.0.0, Culture=neutral, PublicKeyToken=0b3305902db7183f, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -76,11 +60,6 @@
     <Compile Include="Core\MaterialsCatalogueTests.cs" />
     <Compile Include="Core\ProductFinderTests.cs" />
     <Compile Include="Core\ProductsTests.cs" />
-    <Compile Include="Json\ProductDeserializerTests.cs" />
-    <Compile Include="Json\DeserializerTests.cs" />
-    <Compile Include="Json\ErrorDeserializerTests.cs" />
-    <Compile Include="Json\MaterialDeserializerTests.cs" />
-    <Compile Include="Json\NodeDeserializerTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Rest\MultipartFormDataTests.cs" />
     <Compile Include="Rest\DataItemTests.cs" />

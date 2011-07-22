@@ -1,7 +1,7 @@
 ﻿using NUnit.Framework;
 using Ponoko.Api.Json;
 
-namespace Ponoko.Api.Unit.Tests.Json {
+namespace Ponoko.Api.Integration.Tests.Json {
 	[TestFixture]
 	public class ErrorDeserializerTests {
 		[Test]
