@@ -86,7 +86,6 @@
     <Compile Include="Rest\DataItemTests.cs" />
     <Compile Include="Security\OAuth\Core\RequestTests.cs" />
     <Compile Include="Security\OAuth\Http\OAuthRequestAuthorizerTests.cs" />
-    <Compile Include="Security\OAuth\Impl\OAuth.Net\MadgexOAuthHeaderTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Ponoko.Api\Ponoko.Api.csproj">

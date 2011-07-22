@@ -6,7 +6,7 @@ using Ponoko.Api.Rest.Security.OAuth.Core;
 using Ponoko.Api.Rest.Security.OAuth.Impl.OAuth.Net;
 using Rhino.Mocks;
 
-namespace Ponoko.Api.Unit.Tests.Security.OAuth.Impl.OAuth.Net {
+namespace Ponoko.Api.Integration.Tests.Security.OAuth.Impl {
     [TestFixture]
     public class MadgexOAuthHeaderTests {
     	private Clock _clock;

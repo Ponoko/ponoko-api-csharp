@@ -58,7 +58,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Security\OAuth\Impl\MadgexSignatureTests.cs" />
+    <Compile Include="Security\OAuth\Impl\OAuth.Net\MadgexOAuthHeaderTests.cs" />
+    <Compile Include="Security\OAuth\Impl\OAuth.Net\MadgexSignatureTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
