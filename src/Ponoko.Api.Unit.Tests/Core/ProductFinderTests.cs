@@ -105,5 +105,7 @@ namespace Ponoko.Api.Unit.Tests.Core {
 
 			Assert.AreEqual(expectedError, theError.Message, "The error was raised, but the message does not match.");
 		}
+
+		// TEST: exists_invokes_head_instead_of_get_since_we_do_not_need_the_body
 	}
 }
