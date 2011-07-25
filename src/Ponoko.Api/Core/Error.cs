@@ -7,8 +7,8 @@ namespace Ponoko.Api.Core {
 		public override String ToString() {
 			var buffer = new StringBuilder(Message);
 
-			foreach (var error in Errors) {
-				buffer.AppendLine(error.Value);
+			if (Errors != null) {
+				foreach (var error in Errors) { buffer.AppendLine(error.Value); }
 			}
 
 			return buffer.ToString().Trim();

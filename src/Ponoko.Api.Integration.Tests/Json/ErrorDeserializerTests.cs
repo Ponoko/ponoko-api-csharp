@@ -1,4 +1,5 @@
 ﻿using NUnit.Framework;
+using Ponoko.Api.Core;
 using Ponoko.Api.Json;
 
 namespace Ponoko.Api.Integration.Tests.Json {
@@ -33,6 +34,27 @@ namespace Ponoko.Api.Integration.Tests.Json {
 			Assert.AreEqual("any error message"	, theError.Value, "Unexpected error message");
 			Assert.AreEqual("bottom_new.stl"	, theError.Name, "Unexpected name");
 			Assert.AreEqual("any_material_key"	, theError.MaterialKey, "Unexpected material key");
+		}
+
+		[Test] 
+		public void can_deserialize_an_error_with_no_errors_array() {
+			var json = "{\"" + 
+				"error\":{" + 
+				"\"message\":\"Bad Request. Error processing design file(s).\"," + 
+				"\"errors\": null," + 
+				"\"request\":{\"name\":\"xxx\",\"key\":null,\"designs\":[{\"quantity\":\"0\",\"uploaded_data\":\"/tmp/RackMultipart25372-1\",\"filename\":\"res\\bottom_new.stl\",\"material_key\":\"\",\"ref\":\"\"}]}}" + 
+			"}";
+
+			var result = ErrorDeserializer.Deserialize(json);
+
+			Assert.IsNull(result.Errors, "Expected the errors list to be set to null when the json has null as its errors array.");
+		}
+
+		[Test]
+		public void can_convert_to_string_with_no_errors_list() {
+			var error = new Error { Message = "This has no errors list"};
+			var result = error.ToString();
+			Assert.That(result, Is.StringMatching("This has no errors list"));
 		}
 	}
 }
