@@ -118,7 +118,25 @@ namespace Ponoko.Api.Acceptance.Tests.Examples.Products {
 			);
 		}
 
-		// TEST: reference_must_be_unique
+		[Test]
+		public void you_must_supply_a_unique_reference() {
+			var anyName = "Any new product name";
+    		String anyNotes = null;
+			var anyDesign = NewDesign();
+
+    		var duplicateRef = Guid.NewGuid().ToString();
+
+    		Products.Create(
+				anyName, 
+				anyNotes , 
+				duplicateRef, 
+				anyDesign
+			);	
+
+			var theError = Assert.Throws<Exception>(() => Products.Create(anyName, anyNotes, duplicateRef, anyDesign));	
+			Assert.That(theError.Message, Is.StringContaining("'Ref' must be unique"));
+		}
+
 		// TEST: you_can_create_a_product_with_multiple_designs
                 
 		private void AssertIsAboutUtcNow(DateTime expected, TimeSpan within) {
