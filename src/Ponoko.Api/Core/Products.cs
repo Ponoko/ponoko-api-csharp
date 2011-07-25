@@ -16,11 +16,14 @@ namespace Ponoko.Api.Core {
 			_fileSystem = fileSystem;
 		}
 
-		public Product Create(String name, Design design) {
+		public Product Create(String name, String notes, String reference, Design design) {
+			Validate(name);
 			Validate(design);
 
 			var parameters = new NameValueCollection {
 				{"name"						, name}, 
+				{"notes"					, notes}, 
+				{"ref"						, reference}, 
 				{"designs[][ref]"			, design.Reference},
 				{"designs[][filename]"		, design.Filename},
 				{"designs[][quantity]"		, design.Quantity.ToString()},
@@ -42,6 +45,11 @@ namespace Ponoko.Api.Core {
 
 				throw Error(response);
 			}
+		}
+
+		private void Validate(string name) {
+			if (String.IsNullOrEmpty(name) || name.Trim().Equals(String.Empty))
+				throw new ArgumentException("Must be supplied", "name");
 		}
 
 		public void Delete(string id) {
@@ -75,7 +83,6 @@ namespace Ponoko.Api.Core {
 
 		private Exception Error(Response response) {
 			var json = ReadAll(response);
-
 			var theError = ErrorDeserializer.Deserialize(json);
 
 			return new Exception(String.Format(

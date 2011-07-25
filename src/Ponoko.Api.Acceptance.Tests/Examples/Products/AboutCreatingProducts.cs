@@ -6,18 +6,26 @@ using Ponoko.Api.Core;
 namespace Ponoko.Api.Acceptance.Tests.Examples.Products {
 	[TestFixture]
 	public class AboutCreatingProducts : ProductAcceptanceTest {
-		// TEST: you_can_create_a_product_with_multiple_designs
-
 		[Test]
 		public void can_create_a_product_provided_you_have_a_design_file_with_matching_valid_material() {
     		var expectedDesign = NewDesign();
 
     		var expectedNewProductName = "Any new product name";
+    		var expectedNewProductNotes = "Any new product notes";
+    		var expectedNewProductRef = Guid.NewGuid().ToString();
 
-    		var theNewProduct = Products.Create(expectedNewProductName, expectedDesign);
-    		var actualDesign = theNewProduct.Designs[0];
+    		var theNewProduct = Products.Create(
+				expectedNewProductName, 
+				expectedNewProductNotes , 
+				expectedNewProductRef, 
+				expectedDesign
+			);
+    		
+			var actualDesign = theNewProduct.Designs[0];
 
 			Assert.AreEqual(expectedNewProductName	, theNewProduct.Name, "Expected the returned product to have the name supplied.");
+			Assert.AreEqual(expectedNewProductNotes , theNewProduct.Description, "Expected the returned product to have its description set to whatever was supplied as notes.");
+			Assert.AreEqual(expectedNewProductRef	, theNewProduct.Reference, "Expected the returned product to have the reference supplied.");
 			Assert.IsFalse(theNewProduct.IsLocked	, "Expected the newly-created product to be unlocked.");
 			Assert.IsNotNull(theNewProduct.Designs	, "Expected the product to be returned with a key.");
     		Assert.IsNotNull(theNewProduct.NodeKey	, "Expected the product to be returned with a node key.");
@@ -32,7 +40,7 @@ namespace Ponoko.Api.Acceptance.Tests.Examples.Products {
 
 		[Test] 
 		public void after_a_product_is_created_it_can_be_fetched_ie_it_has_been_persisted() {
-			var aNewProduct = Products.Create("A new product", NewDesign());
+			var aNewProduct = Products.Create("A new product", null, null, NewDesign());
 
 			var theProductFetchedById = new ProductFinder(Internet, Settings.BaseUrl).Find(aNewProduct.Key);
 
@@ -48,7 +56,7 @@ namespace Ponoko.Api.Acceptance.Tests.Examples.Products {
     	public void you_must_supply_a_design_when_adding_a_product() {
     		Design missingDesign = null;
 
-    		var theError = Assert.Throws<ArgumentException>(() => Products.Create("xxx", missingDesign));
+    		var theError = Assert.Throws<ArgumentException>(() => Products.Create("xxx", null, null, missingDesign));
 
 			Assert.That(theError.Message, Is.StringMatching("^Cannot create a product without at least one Design\\..+"));
 		}
@@ -57,7 +65,7 @@ namespace Ponoko.Api.Acceptance.Tests.Examples.Products {
     	public void you_must_supply_a_file_and_filename_with_the_design() {
 			var designWithoutAFile = new Design {Filename = null};
 
-    		var theError = Assert.Throws<ArgumentException>(() => Products.Create("xxx", designWithoutAFile));
+    		var theError = Assert.Throws<ArgumentException>(() => Products.Create("xxx", null, null, designWithoutAFile));
 
 			Assert.That(theError.Message, Is.StringMatching("^Cannot create a product unless the Design has a file\\..+"));
 		}
@@ -66,7 +74,7 @@ namespace Ponoko.Api.Acceptance.Tests.Examples.Products {
     	public void you_must_supply_a_file_that_exists_on_disk_with_the_design() {
 			var designWithoutAFile = new Design {Filename = "xxx_file_must_not_exist_on_disk_xxx"};
 
-    		var theError = Assert.Throws<FileNotFoundException>(() => Products.Create("xxx", designWithoutAFile));
+    		var theError = Assert.Throws<FileNotFoundException>(() => Products.Create("xxx", null, null, designWithoutAFile));
 
 			Assert.That(theError.Message, Is.StringMatching(
 				"^Cannot create a product unless the Design has a file that exists on disk\\..+"
@@ -77,7 +85,7 @@ namespace Ponoko.Api.Acceptance.Tests.Examples.Products {
     	public void you_must_supply_a_material_with_the_design() {
 			var designWithoutAMaterial = new Design {Filename = "res\\bottom_new.stl", MaterialKey = null};
 
-    		var theError = Assert.Throws<Exception>(() => Products.Create("xxx", designWithoutAMaterial));
+    		var theError = Assert.Throws<Exception>(() => Products.Create("xxx", null, null, designWithoutAMaterial));
 
 			Assert.That(theError.Message, Is.StringMatching(
 				"could not find requested material. is it available to this Node's materail catalog?"
@@ -90,13 +98,29 @@ namespace Ponoko.Api.Acceptance.Tests.Examples.Products {
 
 			var designWithInvalidMaterial = new Design { Filename = "res\\bottom_new.stl", MaterialKey = INVALID_MATERIAL};
 
-    		var theError = Assert.Throws<Exception>(() => Products.Create("xxx", designWithInvalidMaterial));
+    		var theError = Assert.Throws<Exception>(() => Products.Create("xxx", null, null, designWithInvalidMaterial));
 
 			Assert.That(theError.Message, Is.StringMatching(
 				"the material you have selected is not compatible with making methods available to the design file"
 			));
 		}
 
+		[Test]
+		public void you_must_supply_a_name_but_notes_and_ref_are_optional() {
+			Assert.Throws<ArgumentException>(() => Products.Create(null, null, null, NewDesign()), 
+				"Expected an error when trying to create a product with null name."
+			);
+			Assert.Throws<ArgumentException>(() => Products.Create(" ", null, null, NewDesign()), 
+				"Expected an error when trying to create a product with empty name."
+			);
+			Assert.DoesNotThrow(() => Products.Create("Any non-empty name", null, null, NewDesign()), 
+				"Both notes and reference are optional, so did not expect a validation error."
+			);
+		}
+
+		// TEST: reference_must_be_unique
+		// TEST: you_can_create_a_product_with_multiple_designs
+                
 		private void AssertIsAboutUtcNow(DateTime expected, TimeSpan within) {
 			var now = DateTime.UtcNow;
 			var diff = now.Subtract(expected);

@@ -30,7 +30,7 @@ namespace Ponoko.Api.Unit.Tests.Core {
 
 			var products = new Products(internet, AnyUrl, fileSystem);
 
-			var theError = Assert.Throws<Exception>(() => products.Create(expectedName, AnyDesign()));
+			var theError = Assert.Throws<Exception>(() => products.Create(expectedName, null, null, AnyDesign()));
 			
 			var expectedError = String.Format(
 				"Failed to save product. " +
