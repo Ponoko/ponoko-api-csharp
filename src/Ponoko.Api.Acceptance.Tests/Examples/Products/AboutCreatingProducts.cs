@@ -10,37 +10,54 @@ namespace Ponoko.Api.Acceptance.Tests.Examples.Products {
 		public void can_create_a_product_provided_you_have_a_design_file_with_matching_valid_material() {
     		var expectedDesign = NewDesign();
 
-    		var expectedNewProductName = "Any new product name";
+    		var expectedNewProductName	= "Any new product name";
     		var expectedNewProductNotes = "Any new product notes";
-    		var expectedNewProductRef = Guid.NewGuid().ToString();
+    		var expectedNewProductRef	= Guid.NewGuid().ToString();
 
-    		var theNewProduct = Products.Create(
-				expectedNewProductName, 
-				expectedNewProductNotes , 
-				expectedNewProductRef, 
-				expectedDesign
-			);
+			var seed = new ProductSeed {
+           		Name		= expectedNewProductName,
+           		Notes		= expectedNewProductNotes,
+           		Reference	= expectedNewProductRef
+			};
+
+    		var theNewProduct = Products.Create(seed, expectedDesign);
     		
 			var actualDesign = theNewProduct.Designs[0];
 
-			Assert.AreEqual(expectedNewProductName	, theNewProduct.Name, "Expected the returned product to have the name supplied.");
-			Assert.AreEqual(expectedNewProductNotes , theNewProduct.Description, "Expected the returned product to have its description set to whatever was supplied as notes.");
-			Assert.AreEqual(expectedNewProductRef	, theNewProduct.Reference, "Expected the returned product to have the reference supplied.");
-			Assert.IsFalse(theNewProduct.IsLocked	, "Expected the newly-created product to be unlocked.");
-			Assert.IsNotNull(theNewProduct.Designs	, "Expected the product to be returned with a key.");
-    		Assert.IsNotNull(theNewProduct.NodeKey	, "Expected the product to be returned with a node key.");
+			Assert.AreEqual(expectedNewProductName, theNewProduct.Name, 
+				"Expected the returned product to have the name supplied."
+			);
+			Assert.AreEqual(expectedNewProductNotes, theNewProduct.Description, 
+				"Expected the returned product to have its description set to whatever was supplied as notes."
+			);
+			Assert.AreEqual(expectedNewProductRef, theNewProduct.Reference, 
+				"Expected the returned product to have the reference supplied."
+			);
+			Assert.IsFalse(theNewProduct.IsLocked, 
+				"Expected the newly-created product to be unlocked."
+			);
+			Assert.IsNotNull(theNewProduct.Designs, 
+				"Expected the product to be returned with a key."
+			);
+    		Assert.IsNotNull(theNewProduct.NodeKey, 
+				"Expected the product to be returned with a node key."
+			);
 
     		AssertIsAboutUtcNow(theNewProduct.CreatedAt, TimeSpan.FromSeconds(5));
     		AssertIsAboutUtcNow(theNewProduct.UpdatedAt, TimeSpan.FromSeconds(5));
     		
-			Assert.AreEqual(1, theNewProduct.Designs.Count, "Expected the new product to have the design we supplied.");
+			Assert.AreEqual(1, theNewProduct.Designs.Count, 
+				"Expected the new product to have the design we supplied."
+			);
     		AssertEqual(expectedDesign, actualDesign);
-			Assert.That(actualDesign.MaterialKey, Is.Null, "Expected no material key because the product's materials are not available.");
+			Assert.IsNull(actualDesign.MaterialKey, 
+				"Expected no material key because the product's materials are not available."
+			);
     	}
 
 		[Test] 
 		public void after_a_product_is_created_it_can_be_fetched_ie_it_has_been_persisted() {
-			var aNewProduct = Products.Create("A new product", null, null, NewDesign());
+			var aNewProduct = Products.Create(ProductSeed.WithName("A new product"), NewDesign());
 
 			var theProductFetchedById = new ProductFinder(Internet, Settings.BaseUrl).Find(aNewProduct.Key);
 
@@ -56,7 +73,7 @@ namespace Ponoko.Api.Acceptance.Tests.Examples.Products {
     	public void you_must_supply_a_design_when_adding_a_product() {
     		Design missingDesign = null;
 
-    		var theError = Assert.Throws<ArgumentException>(() => Products.Create("xxx", null, null, missingDesign));
+    		var theError = Assert.Throws<ArgumentException>(() => Products.Create(ProductSeed.WithName("xxx"), missingDesign));
 
 			Assert.That(theError.Message, Is.StringMatching("^Cannot create a product without at least one Design\\..+"));
 		}
@@ -65,7 +82,7 @@ namespace Ponoko.Api.Acceptance.Tests.Examples.Products {
     	public void you_must_supply_a_file_and_filename_with_the_design() {
 			var designWithoutAFile = new Design {Filename = null};
 
-    		var theError = Assert.Throws<ArgumentException>(() => Products.Create("xxx", null, null, designWithoutAFile));
+    		var theError = Assert.Throws<ArgumentException>(() => Products.Create(ProductSeed.WithName("xxx"), designWithoutAFile));
 
 			Assert.That(theError.Message, Is.StringMatching("^Cannot create a product unless the Design has a file\\..+"));
 		}
@@ -74,7 +91,7 @@ namespace Ponoko.Api.Acceptance.Tests.Examples.Products {
     	public void you_must_supply_a_file_that_exists_on_disk_with_the_design() {
 			var designWithoutAFile = new Design {Filename = "xxx_file_must_not_exist_on_disk_xxx"};
 
-    		var theError = Assert.Throws<FileNotFoundException>(() => Products.Create("xxx", null, null, designWithoutAFile));
+    		var theError = Assert.Throws<FileNotFoundException>(() => Products.Create(ProductSeed.WithName("xxx"), designWithoutAFile));
 
 			Assert.That(theError.Message, Is.StringMatching(
 				"^Cannot create a product unless the Design has a file that exists on disk\\..+"
@@ -85,7 +102,7 @@ namespace Ponoko.Api.Acceptance.Tests.Examples.Products {
     	public void you_must_supply_a_material_with_the_design() {
 			var designWithoutAMaterial = new Design {Filename = "res\\bottom_new.stl", MaterialKey = null};
 
-    		var theError = Assert.Throws<Exception>(() => Products.Create("xxx", null, null, designWithoutAMaterial));
+    		var theError = Assert.Throws<Exception>(() => Products.Create(ProductSeed.WithName("xxx"), designWithoutAMaterial));
 
 			Assert.That(theError.Message, Is.StringMatching(
 				"could not find requested material. is it available to this Node's materail catalog?"
@@ -98,7 +115,7 @@ namespace Ponoko.Api.Acceptance.Tests.Examples.Products {
 
 			var designWithInvalidMaterial = new Design { Filename = "res\\bottom_new.stl", MaterialKey = INVALID_MATERIAL};
 
-    		var theError = Assert.Throws<Exception>(() => Products.Create("xxx", null, null, designWithInvalidMaterial));
+    		var theError = Assert.Throws<Exception>(() => Products.Create(ProductSeed.WithName("xxx"), designWithInvalidMaterial));
 
 			Assert.That(theError.Message, Is.StringMatching(
 				"the material you have selected is not compatible with making methods available to the design file"
@@ -107,33 +124,50 @@ namespace Ponoko.Api.Acceptance.Tests.Examples.Products {
 
 		[Test]
 		public void you_must_supply_a_name_but_notes_and_ref_are_optional() {
-			Assert.Throws<ArgumentException>(() => Products.Create(null, null, null, NewDesign()), 
+			var theError = Assert.Throws<ArgumentException>(() => Products.Create(ProductSeed.WithName(null), NewDesign()), 
 				"Expected an error when trying to create a product with null name."
 			);
-			Assert.Throws<ArgumentException>(() => Products.Create(" ", null, null, NewDesign()), 
+
+			Assert.That(theError.Message, Is.StringMatching(
+				"Cannot create a product without a name."
+			));
+			
+			theError = Assert.Throws<ArgumentException>(() => Products.Create(ProductSeed.WithName("\r\n\t "), NewDesign()), 
 				"Expected an error when trying to create a product with empty name."
 			);
-			Assert.DoesNotThrow(() => Products.Create("Any non-empty name", null, null, NewDesign()), 
+
+			Assert.That(theError.Message, Is.StringMatching(
+				"Cannot create a product without a name."
+			));
+
+			Product productWithoutNotesOrReference = null;
+
+			Assert.DoesNotThrow(() => productWithoutNotesOrReference = Products.Create(ProductSeed.WithName("Any non-empty name"), NewDesign()), 
 				"Both notes and reference are optional, so did not expect a validation error."
+			);
+
+			Assert.IsEmpty(productWithoutNotesOrReference.Description, 
+				"Expected that creating a product with null notes should result in a product with empty string as a description"
+			);
+
+			Assert.IsEmpty(productWithoutNotesOrReference.Reference, 
+				"Expected that creating a product with null notes should result in a product with empty string as a reference"
 			);
 		}
 
 		[Test]
 		public void you_must_supply_a_unique_reference() {
-			var anyName = "Any new product name";
-    		String anyNotes = null;
-			var anyDesign = NewDesign();
+			var anyDesign	= NewDesign();
 
-    		var duplicateRef = Guid.NewGuid().ToString();
+			var seed = new ProductSeed {
+				Name		= "Any new product name", 
+				Notes		= "Any notes", 
+				Reference	= Guid.NewGuid().ToString()
+			};
 
-    		Products.Create(
-				anyName, 
-				anyNotes , 
-				duplicateRef, 
-				anyDesign
-			);	
+			Products.Create(seed, anyDesign);	
 
-			var theError = Assert.Throws<Exception>(() => Products.Create(anyName, anyNotes, duplicateRef, anyDesign));	
+			var theError = Assert.Throws<Exception>(() => Products.Create(seed, anyDesign));	
 			Assert.That(theError.Message, Is.StringContaining("'Ref' must be unique"));
 		}
 

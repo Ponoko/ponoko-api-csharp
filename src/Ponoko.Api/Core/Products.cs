@@ -16,14 +16,14 @@ namespace Ponoko.Api.Core {
 			_fileSystem = fileSystem;
 		}
 
-		public Product Create(String name, String notes, String reference, Design design) {
-			Validate(name);
+		public Product Create(ProductSeed seed, Design design) {
+			Validate(seed);
 			Validate(design);
 
 			var parameters = new NameValueCollection {
-				{"name"						, name}, 
-				{"notes"					, notes}, 
-				{"ref"						, reference}, 
+				{"name"						, seed.Name}, 
+				{"notes"					, seed.Notes}, 
+				{"ref"						, seed.Reference}, 
 				{"designs[][ref]"			, design.Reference},
 				{"designs[][filename]"		, design.Filename},
 				{"designs[][quantity]"		, design.Quantity.ToString()},
@@ -47,11 +47,6 @@ namespace Ponoko.Api.Core {
 			}
 		}
 
-		private void Validate(string name) {
-			if (String.IsNullOrEmpty(name) || name.Trim().Equals(String.Empty))
-				throw new ArgumentException("Must be supplied", "name");
-		}
-
 		public void Delete(string id) {
 			var uri = Map("/products/delete/{0}", id);
 
@@ -62,6 +57,11 @@ namespace Ponoko.Api.Core {
 
 				Verify(response);
 			}
+		}
+
+		private void Validate(ProductSeed seed) {
+			if (String.IsNullOrEmpty(seed.Name) || seed.Name.Trim().Equals(String.Empty))
+				throw new ArgumentException("Cannot create a product without a name.", "seed");
 		}
 
 		private void Validate(Design design) {

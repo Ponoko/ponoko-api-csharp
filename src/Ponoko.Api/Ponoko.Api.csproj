@@ -76,6 +76,7 @@
     <Compile Include="Core\Node.cs" />
     <Compile Include="Core\Nodes.cs" />
     <Compile Include="Core\Product.cs" />
+    <Compile Include="Core\ProductSeed.cs" />
     <Compile Include="Json\ProductDeserializer.cs" />
     <Compile Include="Core\ProductFinder.cs" />
     <Compile Include="Core\Products.cs" />
