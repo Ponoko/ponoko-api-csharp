@@ -55,6 +55,24 @@ namespace Ponoko.Api.Acceptance.Tests.Examples.Products {
 			);
     	}
 
+		[Test]
+		public void you_can_create_a_product_with_multiple_designs() {
+			var firstDesign = NewDesign();
+			var secondDesign = NewDesign();
+
+			var seed = new ProductSeed {
+           		Name		= "Any new product name",
+           		Notes		= "Any new product notes",
+           		Reference	= Guid.NewGuid().ToString()
+			};
+
+    		var theNewProduct = Products.Create(seed, firstDesign, secondDesign);
+
+			Assert.AreEqual(2, theNewProduct.Designs.Count, 
+				"Expected that because two designs were supplied, the resultant product should also contain two designs."
+			);
+		}
+
 		[Test] 
 		public void after_a_product_is_created_it_can_be_fetched_ie_it_has_been_persisted() {
 			var aNewProduct = Products.Create(ProductSeed.WithName("A new product"), NewDesign());
@@ -182,24 +200,6 @@ namespace Ponoko.Api.Acceptance.Tests.Examples.Products {
 
 			var theError = Assert.Throws<Exception>(() => Products.Create(seed, anyDesign));	
 			Assert.That(theError.Message, Is.StringContaining("'Ref' must be unique"));
-		}
-
-		[Test]
-		public void you_can_create_a_product_with_multiple_designs() {
-			var firstDesign = NewDesign();
-			var secondDesign = NewDesign();
-
-			var seed = new ProductSeed {
-           		Name		= "Any new product name",
-           		Notes		= "Any new product notes",
-           		Reference	= Guid.NewGuid().ToString()
-			};
-
-    		var theNewProduct = Products.Create(seed, firstDesign, secondDesign);
-
-			Assert.AreEqual(2, theNewProduct.Designs.Count, 
-				"Expected that because two designs were supplied, the resultant product should also contain two designs."
-			);
 		}
 
 		private void AssertIsAboutUtcNow(DateTime expected, TimeSpan within) {
