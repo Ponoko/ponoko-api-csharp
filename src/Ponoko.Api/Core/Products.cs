@@ -43,18 +43,24 @@ namespace Ponoko.Api.Core {
 			var theFiles = new List<DataItem>();
 
 			foreach (var design in designs) {
-				parameters.Add(new Parameter {Name = "designs[][ref]", Value = design.Reference});
-				parameters.Add(new Parameter {Name = "designs[][filename]", Value = Path.GetFileName(design.Filename)});
-				parameters.Add(new Parameter {Name = "designs[][quantity]", Value = design.Quantity.ToString()});
-				parameters.Add(new Parameter {Name = "designs[][material_key]", Value = design.MaterialKey});
-
+				parameters.AddRange(ToParameters(design));
+				
 				theFiles.Add(new DataItem(
-             		"designs[][uploaded_data]", 
-             		new FileInfo(design.Filename), "xxx"
-             	));
+				    "designs[][uploaded_data]", 
+				    new FileInfo(design.Filename), "xxx"
+				));
 			}
 
 			return new Payload(parameters, theFiles);
+		}
+
+		private IEnumerable<Parameter> ToParameters(Design design) {
+			return new List<Parameter> {
+             	new Parameter {Name = "designs[][ref]",				Value = design.Reference},
+             	new Parameter {Name = "designs[][filename]",		Value = Path.GetFileName(design.Filename)},
+             	new Parameter {Name = "designs[][quantity]",		Value = design.Quantity.ToString()},
+             	new Parameter {Name = "designs[][material_key]",	Value = design.MaterialKey}
+			};
 		}
 
 		public void Delete(string id) {
