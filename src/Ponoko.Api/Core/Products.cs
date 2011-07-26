@@ -44,7 +44,7 @@ namespace Ponoko.Api.Core {
 
 			foreach (var design in designs) {
 				parameters.Add(new Parameter {Name = "designs[][ref]", Value = design.Reference});
-				parameters.Add(new Parameter {Name = "designs[][filename]", Value = design.Filename});
+				parameters.Add(new Parameter {Name = "designs[][filename]", Value = Path.GetFileName(design.Filename)});
 				parameters.Add(new Parameter {Name = "designs[][quantity]", Value = design.Quantity.ToString()});
 				parameters.Add(new Parameter {Name = "designs[][material_key]", Value = design.MaterialKey});
 
