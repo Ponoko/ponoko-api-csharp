@@ -2,7 +2,6 @@
 using System.Net;
 using NUnit.Framework;
 using Ponoko.Api.Core;
-using Ponoko.Api.Core.IO;
 using Ponoko.Api.Rest;
 using Rhino.Mocks;
 
@@ -71,6 +70,30 @@ namespace Ponoko.Api.Unit.Tests.Core {
 			var expectedError = "Delete failed. Expected the deleted flag to be true. but it was \"false\".";
 
 			Assert.AreEqual(expectedError, theError.Message, "An error was raised as expected, but the message does not match.");
+		}
+
+		[Test]
+		public void it_fails_with_an_error_that_contains_raw_response_text_if_error_cannot_be_parsed() {
+			var clearlyNotJson = "Rex Boppington went to Kilbirnie";
+			var failedFailedResponse = NewFakeResponse(HttpStatusCode.InternalServerError, clearlyNotJson);
+			
+			var internet = MockRepository.GenerateStub<TheInternet>();
+			internet.Stub(it => it.Post(Arg<Uri>.Is.Anything, Arg<Payload>.Is.Anything)).Return(failedFailedResponse);
+
+			var products = new Products(internet, AnyUrl, NewFakeValidator());
+
+			var theError =  Assert.Throws<Exception>(() => products.Create(ProductSeed.WithName("xxx"), AnyDesign()));
+
+			var expectedError = String.Format(
+				"There was a problem deserializing the error message. " + 
+				"The body of the response is: {0}", clearlyNotJson
+			);
+
+			Assert.That(theError.Message, Is.StringMatching(expectedError), 
+				"Expected the exception message to contain the body of the response"
+			);
+
+			Assert.That(theError.InnerException, Is.Not.Null, "Expected the exception to have an inner exception");
 		}
 
 		private Design AnyDesign() {

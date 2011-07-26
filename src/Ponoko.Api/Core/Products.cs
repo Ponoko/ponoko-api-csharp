@@ -15,7 +15,7 @@ namespace Ponoko.Api.Core {
 		}
 
 		public Product Create(ProductSeed seed, params Design[] designs) {
-			Validate(seed);
+			Validate(seed);	
 			Validate(designs);
 
 			var payload = ToPayload(seed, designs);
@@ -77,7 +77,7 @@ namespace Ponoko.Api.Core {
 
 		private Exception Error(Response response) {
 			var json = ReadAll(response);
-			var theError = ErrorDeserializer.Deserialize(json);
+			var theError = TryDeserialize(json);
 
 			return new Exception(String.Format(
 				"Failed to save product. The server returned status {0} ({1}), and error message: \"{2}\"", 
@@ -85,6 +85,17 @@ namespace Ponoko.Api.Core {
 				(Int32)response.StatusCode, 
 				theError
 			));
+		}
+
+		private Error TryDeserialize(String json) {
+			try {
+				return ErrorDeserializer.Deserialize(json);
+			} catch (Exception e) {
+				throw new Exception(String.Format(
+					"There was a problem deserializing the error message. The body of the response is: {0}", json), 
+					e
+				);
+			}
 		}
 
 		private Product Deserialize(Response response) {
