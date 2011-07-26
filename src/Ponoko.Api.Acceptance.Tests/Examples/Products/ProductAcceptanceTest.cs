@@ -6,6 +6,8 @@ using System.Net;
 using NUnit.Framework;
 using Ponoko.Api.Core;
 using Ponoko.Api.Core.IO;
+using Ponoko.Api.Core.Product;
+using Ponoko.Api.Core.Product.Commands;
 using Ponoko.Api.Json;
 using Ponoko.Api.Rest;
 using Ponoko.Api.Rest.Security.OAuth.Core;
@@ -14,11 +16,11 @@ using Ponoko.Api.Rest.Security.OAuth.Impl.OAuth.Net;
 
 namespace Ponoko.Api.Acceptance.Tests.Examples.Products {
 	public class ProductAcceptanceTest : AcceptanceTest {
-		public Core.ProductCreator ProductCreator { get; set; }
+		public ProductCreator ProductCreator { get; set; }
 
 		[SetUp]
 		public void BeforeEach() {
-			ProductCreator = new Core.ProductCreator(Internet, Settings.BaseUrl, new DefaultProductValidator(new DefaultReadonlyFileSystem()));
+			ProductCreator = new ProductCreator(Internet, Settings.BaseUrl, new DefaultProductValidator(new DefaultReadonlyFileSystem()));
 		}
 
 		protected void given_at_least_one_product() {

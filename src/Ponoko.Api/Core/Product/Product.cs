@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using Newtonsoft.Json;
 
-namespace Ponoko.Api.Core {
+namespace Ponoko.Api.Core.Product {
 	public class Product {
 		[JsonProperty(PropertyName = "key")]
 		public String Key { get; set; }

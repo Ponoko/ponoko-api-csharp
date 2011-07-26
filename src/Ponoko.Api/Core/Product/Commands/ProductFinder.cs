@@ -5,7 +5,7 @@ using Newtonsoft.Json.Linq;
 using Ponoko.Api.Json;
 using Ponoko.Api.Rest;
 
-namespace Ponoko.Api.Core {
+namespace Ponoko.Api.Core.Product.Commands {
 	public class ProductFinder : Domain {
 		public ProductFinder(TheInternet internet, string baseUrl) : base(internet, baseUrl) {}
 

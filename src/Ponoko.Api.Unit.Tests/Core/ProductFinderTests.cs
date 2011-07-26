@@ -2,6 +2,8 @@
 using System.Net;
 using NUnit.Framework;
 using Ponoko.Api.Core;
+using Ponoko.Api.Core.Product;
+using Ponoko.Api.Core.Product.Commands;
 using Ponoko.Api.Rest;
 using Rhino.Mocks;
 

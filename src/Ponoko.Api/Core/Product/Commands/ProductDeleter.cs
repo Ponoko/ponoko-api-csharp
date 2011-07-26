@@ -4,7 +4,7 @@ using Ponoko.Api.Json;
 using Ponoko.Api.Rest;
 using Ponoko.Api.Sugar;
 
-namespace Ponoko.Api.Core {
+namespace Ponoko.Api.Core.Product.Commands {
 	public class ProductDeleter : Domain {
 		public ProductDeleter(TheInternet internet, string baseUrl) : base(internet, baseUrl) {}
 

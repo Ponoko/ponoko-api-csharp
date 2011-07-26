@@ -5,7 +5,7 @@ using System.Net;
 using Ponoko.Api.Json;
 using Ponoko.Api.Rest;
 
-namespace Ponoko.Api.Core {
+namespace Ponoko.Api.Core.Product.Commands {
 	public class ProductCreator : Domain {
 		private readonly ProductValidator _validator;
 

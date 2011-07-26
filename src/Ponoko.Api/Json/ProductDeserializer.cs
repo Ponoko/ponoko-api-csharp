@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Newtonsoft.Json;
 using Ponoko.Api.Core;
+using Ponoko.Api.Core.Product;
 
 namespace Ponoko.Api.Json {
 	public static class ProductDeserializer {
