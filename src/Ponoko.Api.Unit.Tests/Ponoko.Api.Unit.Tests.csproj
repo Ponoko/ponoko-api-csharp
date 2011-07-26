@@ -43,12 +43,15 @@
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Core\DomainUnitTest.cs" />
     <Compile Include="Core\MaterialsCatalogueTests.cs" />
-    <Compile Include="Core\ProductFinderTests.cs" />
-    <Compile Include="Core\ProductsTests.cs" />
+    <Compile Include="Core\Product\Commands\DeleteCommandTests.cs" />
+    <Compile Include="Core\Product\Commands\FindCommandTests.cs" />
+    <Compile Include="Core\Product\Commands\CreateCommandTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Rest\MultipartFormDataTests.cs" />
     <Compile Include="Rest\DataItemTests.cs" />

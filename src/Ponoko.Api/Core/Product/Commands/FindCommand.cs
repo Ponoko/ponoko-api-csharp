@@ -6,8 +6,8 @@ using Ponoko.Api.Json;
 using Ponoko.Api.Rest;
 
 namespace Ponoko.Api.Core.Product.Commands {
-	public class ProductFinder : Domain {
-		public ProductFinder(TheInternet internet, string baseUrl) : base(internet, baseUrl) {}
+	public class FindCommand : Domain {
+		public FindCommand(TheInternet internet, string baseUrl) : base(internet, baseUrl) {}
 
 		public Product[] FindAll() {
 			var response = GetAndEnsure(Map("/products"));

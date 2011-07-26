@@ -5,8 +5,8 @@ using Ponoko.Api.Rest;
 using Ponoko.Api.Sugar;
 
 namespace Ponoko.Api.Core.Product.Commands {
-	public class ProductDeleter : Domain {
-		public ProductDeleter(TheInternet internet, string baseUrl) : base(internet, baseUrl) {}
+	public class DeleteCommand : Domain {
+		public DeleteCommand(TheInternet internet, string baseUrl) : base(internet, baseUrl) {}
 
 		public void Delete(string id) {
 			var uri = Map("/products/delete/{0}", id);

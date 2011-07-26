@@ -1,7 +1,5 @@
 ﻿using System;
 using NUnit.Framework;
-using Ponoko.Api.Core;
-using Ponoko.Api.Core.Product;
 using Ponoko.Api.Core.Product.Commands;
 
 namespace Ponoko.Api.Acceptance.Tests.Examples.Products {
@@ -13,13 +11,13 @@ namespace Ponoko.Api.Acceptance.Tests.Examples.Products {
 			
 			var id = FindFirstProductKey();
 
-			new ProductDeleter(Internet, Settings.BaseUrl);
+			new DeleteCommand(Internet, Settings.BaseUrl);
 
 			then_the_product_does_not_exist_with_key(id);
 		}
 
 		private void then_the_product_does_not_exist_with_key(String id) {
-			var finder = new ProductFinder(Internet, Settings.BaseUrl);
+			var finder = new FindCommand(Internet, Settings.BaseUrl);
 			var result = finder.Find(id);
 
 			Assert.IsNull(result, "Expected that finding the product with key <{0}> would return null.", id);

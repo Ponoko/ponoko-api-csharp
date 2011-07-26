@@ -1,7 +1,5 @@
 ﻿using System;
 using NUnit.Framework;
-using Ponoko.Api.Core;
-using Ponoko.Api.Core.Product;
 using Ponoko.Api.Core.Product.Commands;
 
 namespace Ponoko.Api.Acceptance.Tests.Examples.Products {
@@ -11,7 +9,7 @@ namespace Ponoko.Api.Acceptance.Tests.Examples.Products {
 		public void you_can_get_a_list_of_products() {
 			given_at_least_one_product();
 
-			var finder = new ProductFinder(Internet, Settings.BaseUrl);
+			var finder = new FindCommand(Internet, Settings.BaseUrl);
 			var result = finder.FindAll();
 
 			Assert.That(result.Length, Is.GreaterThan(0), "Expected at least one product returned");
@@ -23,7 +21,7 @@ namespace Ponoko.Api.Acceptance.Tests.Examples.Products {
 
 			var id = FindFirstProductKey();
 			
-			var finder = new ProductFinder(Internet, Settings.BaseUrl);
+			var finder = new FindCommand(Internet, Settings.BaseUrl);
 			var result = finder.Find(id);
 
 			Assert.IsNotNull(result, "Expected a non-null result");
@@ -35,7 +33,7 @@ namespace Ponoko.Api.Acceptance.Tests.Examples.Products {
 		public void you_can_check_existence_of_a_product() {
 			given_at_least_one_product();
 
-			var finder = new ProductFinder(Internet, Settings.BaseUrl);
+			var finder = new FindCommand(Internet, Settings.BaseUrl);
 			
 			var id = FindFirstProductKey();
 			var result = finder.Exists(id);
@@ -51,7 +49,7 @@ namespace Ponoko.Api.Acceptance.Tests.Examples.Products {
 		public void finding_a_product_that_does_not_exist_returns_null() {
 			const String AN_ID_THAT_DOES_NOT_EXIST = "Phil Murphy's fanny pack";
 
-			var finder = new ProductFinder(Internet, Settings.BaseUrl);
+			var finder = new FindCommand(Internet, Settings.BaseUrl);
 			var result = finder.Find(AN_ID_THAT_DOES_NOT_EXIST);
 
 			Assert.IsNull(result, "Expected finding a product that does not exist to return null.");	

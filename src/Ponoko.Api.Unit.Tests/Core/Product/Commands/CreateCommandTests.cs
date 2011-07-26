@@ -2,16 +2,15 @@
 using System.Net;
 using NUnit.Framework;
 using Ponoko.Api.Core;
-using Ponoko.Api.Core.Product;
 using Ponoko.Api.Core.Product.Commands;
 using Ponoko.Api.Rest;
 using Rhino.Mocks;
 
-namespace Ponoko.Api.Unit.Tests.Core {
+namespace Ponoko.Api.Unit.Tests.Core.Product.Commands {
 	[TestFixture]
-	public class ProductsTests : DomainUnitTest {
+	public class CreateCommandTests : DomainUnitTest {
 		[Test]
-		public void it_fails_to_save_unless_internet_responds_with_200() {
+		public void it_fails_to_create_unless_internet_responds_with_200() {
 			var internet = MockRepository.GenerateMock<TheInternet>();
 			
 			var fileSystem = NewFakeValidator();
@@ -29,7 +28,7 @@ namespace Ponoko.Api.Unit.Tests.Core {
 				Repeat.Once().
 				Return(response);
 
-			var products = new ProductCreator(internet, AnyUrl, fileSystem);
+			var products = new CreateCommand(internet, AnyUrl, fileSystem);
 
 			var theError = Assert.Throws<Exception>(() => products.Create(ProductSeed.WithName(expectedName), AnyDesign()));
 			
@@ -45,36 +44,6 @@ namespace Ponoko.Api.Unit.Tests.Core {
 		}
 
 		[Test]
-		public void it_returns_okay_when_delete_succeeds() {
-			var deleteSuccessfulBody = "{'product_key': '1234', 'deleted': 'true'}";
-			var okayResponse = NewFakeResponse(HttpStatusCode.OK, deleteSuccessfulBody);
-			
-			var internet = MockRepository.GenerateStub<TheInternet>();
-			internet.Stub(it => it.Post(Arg<Uri>.Is.Anything, Arg<Payload>.Is.Anything)).Return(okayResponse);
-
-			var deleter = new ProductDeleter(internet, AnyUrl);
-			
-			Assert.DoesNotThrow(() => deleter.Delete("any id"));
-		}
-
-		[Test]
-		public void it_fails_when_the_server_responds_with_delete_failed_message() {
-			var deleteSuccessfulBody = "{'product_key': '1234', 'deleted': 'false'}";
-			var okayResponse = NewFakeResponse(HttpStatusCode.OK, deleteSuccessfulBody);
-			
-			var internet = MockRepository.GenerateStub<TheInternet>();
-			internet.Stub(it => it.Post(Arg<Uri>.Is.Anything, Arg<Payload>.Is.Anything)).Return(okayResponse);
-
-			var deleter = new ProductDeleter(internet, AnyUrl);
-			
-			var theError = Assert.Throws<Exception>(() => deleter.Delete("any id"));
-
-			var expectedError = "Delete failed. Expected the deleted flag to be true. but it was \"false\".";
-
-			Assert.AreEqual(expectedError, theError.Message, "An error was raised as expected, but the message does not match.");
-		}
-
-		[Test]
 		public void it_fails_with_an_error_that_contains_raw_response_text_if_error_cannot_be_parsed() {
 			var clearlyNotJson = "Rex Boppington went to Kilbirnie";
 			var failedFailedResponse = NewFakeResponse(HttpStatusCode.InternalServerError, clearlyNotJson);
@@ -82,7 +51,7 @@ namespace Ponoko.Api.Unit.Tests.Core {
 			var internet = MockRepository.GenerateStub<TheInternet>();
 			internet.Stub(it => it.Post(Arg<Uri>.Is.Anything, Arg<Payload>.Is.Anything)).Return(failedFailedResponse);
 
-			var products = new ProductCreator(internet, AnyUrl, NewFakeValidator());
+			var products = new CreateCommand(internet, AnyUrl, NewFakeValidator());
 
 			var theError =  Assert.Throws<Exception>(() => products.Create(ProductSeed.WithName("xxx"), AnyDesign()));
 
@@ -107,7 +76,7 @@ namespace Ponoko.Api.Unit.Tests.Core {
 			};
 		}
 
-		public string AnyUrl { get { return "http://xxx/"; } }
+		private string AnyUrl { get { return "http://xxx/"; } }
 
 		private ProductValidator NewFakeValidator() {
 			var validator = MockRepository.GenerateMock<ProductValidator>();

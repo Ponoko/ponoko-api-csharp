@@ -1,15 +1,13 @@
 ﻿using System;
 using System.Net;
 using NUnit.Framework;
-using Ponoko.Api.Core;
-using Ponoko.Api.Core.Product;
 using Ponoko.Api.Core.Product.Commands;
 using Ponoko.Api.Rest;
 using Rhino.Mocks;
 
-namespace Ponoko.Api.Unit.Tests.Core {
+namespace Ponoko.Api.Unit.Tests.Core.Product.Commands {
 	[TestFixture]
-	public class ProductFinderTests : DomainUnitTest {
+	public class FindCommandTests : DomainUnitTest {
 		[Test]
 		public void find_returns_null_when_internet_returns_404_not_found() {
 			var notFoundResponse = MockRepository.GenerateStub<Response>();
@@ -18,7 +16,7 @@ namespace Ponoko.Api.Unit.Tests.Core {
 			var internet = MockRepository.GenerateStub<TheInternet>();
 			internet.Stub(it => it.Get(Arg<Uri>.Is.Anything)).Return(notFoundResponse);
 
-			var finder = new ProductFinder(internet, "http://xxx");
+			var finder = new FindCommand(internet, "http://xxx");
 
 			var result = finder.Find("xxx");
 
@@ -34,7 +32,7 @@ namespace Ponoko.Api.Unit.Tests.Core {
 			var internet = MockRepository.GenerateStub<TheInternet>();
 			internet.Stub(it => it.Get(Arg<Uri>.Is.Anything)).Return(unauthorizedResponse);
 
-			var finder = new ProductFinder(internet, "http://xxx");
+			var finder = new FindCommand(internet, "http://xxx");
 
 			var expectedError = String.Format(
 				"Authorization failed. The server returned status {0} ({1}).", 
@@ -51,7 +49,7 @@ namespace Ponoko.Api.Unit.Tests.Core {
 		public void exists_returns_a_value_that_depends_on_response_status() {
 			var okResponse = NewFakeResponse(HttpStatusCode.OK);
 			var internet = MockRepository.GenerateStub<TheInternet>();
-			var finder = new ProductFinder(internet, "http://xxx");
+			var finder = new FindCommand(internet, "http://xxx");
 			
 			internet.Stub(it => it.Get(Arg<Uri>.Is.Anything)).Return(okResponse);
 			Assert.IsTrue(finder.Exists("xxx"), "Expected true because the internet returned OK.");
@@ -60,7 +58,7 @@ namespace Ponoko.Api.Unit.Tests.Core {
 			internet = MockRepository.GenerateStub<TheInternet>();
 			internet.Stub(it => it.Get(Arg<Uri>.Is.Anything)).Return(notFoundResponse).Repeat.AtLeastOnce();
 			
-			finder = new ProductFinder(internet, "http://xxx");
+			finder = new FindCommand(internet, "http://xxx");
 			Assert.IsFalse(finder.Exists("xxx"), "Expected false because the internet returned NotFound.");
 		}
 
@@ -73,7 +71,7 @@ namespace Ponoko.Api.Unit.Tests.Core {
 			var internet = MockRepository.GenerateStub<TheInternet>();
 			internet.Stub(it => it.Get(Arg<Uri>.Is.Anything)).Return(unauthorizedResponse);
 
-			var finder = new ProductFinder(internet, "http://xxx");
+			var finder = new FindCommand(internet, "http://xxx");
 
 			var expectedError = String.Format(
 				"Authorization failed. The server returned status {0} ({1}).", 
@@ -95,7 +93,7 @@ namespace Ponoko.Api.Unit.Tests.Core {
 			var internet = MockRepository.GenerateStub<TheInternet>();
 			internet.Stub(it => it.Get(Arg<Uri>.Is.Anything)).Return(unauthorizedResponse);
 
-			var finder = new ProductFinder(internet, "http://xxx");
+			var finder = new FindCommand(internet, "http://xxx");
 
 			var expectedError = String.Format(
 				"Authorization failed. The server returned status {0} ({1}).", 
