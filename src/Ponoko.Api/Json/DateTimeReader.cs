@@ -11,8 +11,9 @@ namespace Ponoko.Api.Json {
 		public override object ReadJson(JsonReader reader, Type objectType, Object existingValue, JsonSerializer serializer) {
 			return DateTime.ParseExact(
 				reader.Value.ToString(), 
-				"yyyy/MM/dd HH:mm:ss +0000",
-				CultureInfo.InvariantCulture
+				"yyyy/MM/dd HH:mm:ss K",
+				CultureInfo.InvariantCulture, 
+				DateTimeStyles.AdjustToUniversal
 			);
 		}
 
