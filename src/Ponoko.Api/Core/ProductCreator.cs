@@ -6,10 +6,10 @@ using Ponoko.Api.Json;
 using Ponoko.Api.Rest;
 
 namespace Ponoko.Api.Core {
-	public class Products : Domain {
+	public class ProductCreator : Domain {
 		private readonly ProductValidator _validator;
 
-		public Products(TheInternet internet, String baseUrl, ProductValidator validator) : base(internet, baseUrl) {
+		public ProductCreator(TheInternet internet, String baseUrl, ProductValidator validator) : base(internet, baseUrl) {
 			_validator = validator;
 		}
 

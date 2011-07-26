@@ -27,7 +27,7 @@ namespace Ponoko.Api.Unit.Tests.Core {
 				Repeat.Once().
 				Return(response);
 
-			var products = new Products(internet, AnyUrl, fileSystem);
+			var products = new ProductCreator(internet, AnyUrl, fileSystem);
 
 			var theError = Assert.Throws<Exception>(() => products.Create(ProductSeed.WithName(expectedName), AnyDesign()));
 			
@@ -80,7 +80,7 @@ namespace Ponoko.Api.Unit.Tests.Core {
 			var internet = MockRepository.GenerateStub<TheInternet>();
 			internet.Stub(it => it.Post(Arg<Uri>.Is.Anything, Arg<Payload>.Is.Anything)).Return(failedFailedResponse);
 
-			var products = new Products(internet, AnyUrl, NewFakeValidator());
+			var products = new ProductCreator(internet, AnyUrl, NewFakeValidator());
 
 			var theError =  Assert.Throws<Exception>(() => products.Create(ProductSeed.WithName("xxx"), AnyDesign()));
 

@@ -14,11 +14,11 @@ using Ponoko.Api.Rest.Security.OAuth.Impl.OAuth.Net;
 
 namespace Ponoko.Api.Acceptance.Tests.Examples.Products {
 	public class ProductAcceptanceTest : AcceptanceTest {
-		public Core.Products Products { get; set; }
+		public Core.ProductCreator ProductCreator { get; set; }
 
 		[SetUp]
 		public void BeforeEach() {
-			Products = new Core.Products(Internet, Settings.BaseUrl, new DefaultProductValidator(new DefaultReadonlyFileSystem()));
+			ProductCreator = new Core.ProductCreator(Internet, Settings.BaseUrl, new DefaultProductValidator(new DefaultReadonlyFileSystem()));
 		}
 
 		protected void given_at_least_one_product() {
