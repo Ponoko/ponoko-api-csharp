@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.Specialized;
 using System.Text;
 using System.IO;
-using Ponoko.Api.Core;
 
 namespace Ponoko.Api.Rest.Mime {
 	public class MultipartFormData : HttpContentType {
@@ -52,9 +50,6 @@ namespace Ponoko.Api.Rest.Mime {
 			}
 		}
 
-		private String Format(String name, String value) { return _formatter.NameValuePair(name, value); }
-		private String Format(DataItem dataItem) { return _formatter.Header(dataItem); }
-
 		private void Append(ICollection<DataItem> dataItems) {
 			if (dataItems.Count == 0) return; 
 				
@@ -71,10 +66,13 @@ namespace Ponoko.Api.Rest.Mime {
 			AppendNewline();
 		}
 
-		private void AppendFooter() {Append("--" + Boundary + "--\r\n"); }
-		private void AppendNewline() { Append("\r\n");}
-		private void Append(String text) { Append(CharacterEncoding.GetBytes(text));}
-		private void Append(Byte[] what) { Stream.Write(what, 0, what.Length); }
+		private void AppendFooter()			{ Append("--" + Boundary + "--\r\n"); }
+		private void AppendNewline()		{ Append("\r\n");}
+		private void Append(String text)	{ Append(CharacterEncoding.GetBytes(text));}
+		private void Append(Byte[] what)	{ Stream.Write(what, 0, what.Length); }
+
+		private String Format(String name, String value) { return _formatter.NameValuePair(name, value); }
+		private String Format(DataItem dataItem) { return _formatter.Header(dataItem); }
 
 		private void EmitTo(IHttpRequest request) {
 			using (var outWriter = new BinaryWriter(request.Open())) {
