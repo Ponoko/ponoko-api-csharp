@@ -11,7 +11,7 @@ namespace Ponoko.Api.Acceptance.Tests.Examples.Products {
 			
 			var id = FindFirstProductKey();
 
-			Products.Delete(id);
+			new ProductDeleter(Internet, Settings.BaseUrl);
 
 			then_the_product_does_not_exist_with_key(id);
 		}

@@ -76,6 +76,7 @@
     <Compile Include="Core\Node.cs" />
     <Compile Include="Core\Nodes.cs" />
     <Compile Include="Core\DefaultProductValidator.cs" />
+    <Compile Include="Core\ProductDeleter.cs" />
     <Compile Include="Core\ProductValidator.cs" />
     <Compile Include="Rest\Parameter.cs" />
     <Compile Include="Core\Product.cs" />

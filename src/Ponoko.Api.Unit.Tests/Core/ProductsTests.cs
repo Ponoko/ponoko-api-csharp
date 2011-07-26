@@ -50,9 +50,9 @@ namespace Ponoko.Api.Unit.Tests.Core {
 			var internet = MockRepository.GenerateStub<TheInternet>();
 			internet.Stub(it => it.Post(Arg<Uri>.Is.Anything, Arg<Payload>.Is.Anything)).Return(okayResponse);
 
-			var products = new Products(internet, AnyUrl, NewFakeValidator());
+			var deleter = new ProductDeleter(internet, AnyUrl);
 			
-			Assert.DoesNotThrow(() => products.Delete("any id"));
+			Assert.DoesNotThrow(() => deleter.Delete("any id"));
 		}
 
 		[Test]
@@ -63,9 +63,9 @@ namespace Ponoko.Api.Unit.Tests.Core {
 			var internet = MockRepository.GenerateStub<TheInternet>();
 			internet.Stub(it => it.Post(Arg<Uri>.Is.Anything, Arg<Payload>.Is.Anything)).Return(okayResponse);
 
-			var products = new Products(internet, AnyUrl, NewFakeValidator());
+			var deleter = new ProductDeleter(internet, AnyUrl);
 			
-			var theError = Assert.Throws<Exception>(() => products.Delete("any id"));
+			var theError = Assert.Throws<Exception>(() => deleter.Delete("any id"));
 
 			var expectedError = "Delete failed. Expected the deleted flag to be true. but it was \"false\".";
 
