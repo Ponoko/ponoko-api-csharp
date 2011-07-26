@@ -8,15 +8,29 @@ namespace Ponoko.Api.Integration.Tests.Json {
 		[Test]
 		public void can_deserialize_a_product() {
 			var json = "{" + 
-				"'key': '1234', 'ref': '4321', 'node_key': '1234', 'name': 'tea pot', 'notes': 'has a special non-drip spout', " + 
-				"'created_at': '2011/01/01 12:00:00 +0000', 'updated_at': '2011/01/01 12:00:00 +0000', 'locked?' :'false', " +
-				"'materials_available?': 'true', " + 
-				"'designs': [" +
-				"	{" + 
-				"		'key': '1234', 'ref': '4321', 'created_at': '2011/01/01 12:00:00 +0000', 'updated_at': '2011/01/01 12:00:00 +0000', " + 
-				"		'size': 9999, 'filename': 'teapot.eps', quantity: 1, 'content_type': 'application/postscript', 'material_key': '1234'," + 
-				"		'make_cost': {'currency': 'USD', 'making': '56.78', 'materials': '56.78', 'total': '56.78'}" + 
-				"	}], " +
+				"	'key': '1234', "  +
+				"	'ref': '4321', " + 
+				"	'node_key': '1234', " + 
+				"	'name': 'tea pot', " + 
+				"	'notes': 'has a special non-drip spout', " + 
+				"	'created_at': '2011/01/01 12:00:00 +0000', " + 
+				"	'updated_at': '2011/01/01 12:00:00 +0000', " + 
+				"	'locked?' :'false', " +
+				"	'materials_available?': 'true', " + 
+				"	'designs': [" +
+				"		{" + 
+				"			'key': '1234', " + 
+				"			'ref': '4321', " + 
+				"			'created_at': '2011/01/01 12:00:00 +0000', " + 
+				"			'updated_at': '2011/01/01 12:00:00 +0000', " + 
+				"			'size': 9999, " + 
+				"			'filename': 'teapot.eps', " + 
+				"			'quantity': 1, " + 
+				"			'content_type': 'application/postscript', " + 
+				"			'material_key': '1234'," + 
+				"			'make_cost': {'currency': 'USD', 'making': '56.78', 'materials': '56.78', 'total': '56.78'}" + 
+				"		}" + 
+				"	], " +
 				"'total_make_cost': {'currency': 'USD', 'making': '56.78', 'materials': '56.78', 'total': '56.78'}" + 
 			"}";
 

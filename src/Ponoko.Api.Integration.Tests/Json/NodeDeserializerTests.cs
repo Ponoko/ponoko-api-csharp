@@ -11,9 +11,9 @@ namespace Ponoko.Api.Integration.Tests.Json {
 		public void you_can_deserialize_a_single_node() {
 			var json = 
 				"{" +
-				"	\"materials_updated_at\": \"0064/06/19 07:00:00 +0000\"," +
-				"	\"name\": \"Ponoko - United States\"," +
-				"	\"key\": \"2e9d8c90326e012e359f133762cdb04a\"" +
+				"	'materials_updated_at': '0064/06/19 07:00:00 +0000'," +
+				"	'name': 'Ponoko - United States'," +
+				"	'key': '2e9d8c90326e012e359f133762cdb04a'" +
 				"}";
 
 			var result = SimpleDeserializer<Node>.Deserialize(json);
@@ -27,18 +27,20 @@ namespace Ponoko.Api.Integration.Tests.Json {
 
 		[Test]
 		public void or_an_array_of_nodes() {
-			var json = "{ \"nodes\" : [" + 
-				"{" +
-				"	\"materials_updated_at\": \"0064/06/19 07:00:00 +0000\"," +
-				"	\"name\": \"Ponoko - United States\"," +
-				"	\"key\": \"key_0\"" +
-				"}," + 
-				"{" +
-				"	\"materials_updated_at\": \"0064/06/19 07:00:00 +0000\"," +
-				"	\"name\": \"Ponoko - United States\"," +
-				"	\"key\": \"key_1\"" +
-				"}" +
-			"]}";
+			var json = "{" + 
+				"	'nodes' : [" + 
+				"		{" +
+				"			'materials_updated_at': '0064/06/19 07:00:00 +0000'," +
+				"			'name': 'Ponoko - United States'," +
+				"			'key': 'key_0'" +
+				"		}," + 
+				"		{" +
+				"			'materials_updated_at': '0064/06/19 07:00:00 +0000'," +
+				"			'name': 'Ponoko - United States'," +
+				"			'key': 'key_1'" +
+				"		}" +
+				"	]" +
+				"}";
 
 			var result = NodeListDeserializer.Deserialize(json);
 

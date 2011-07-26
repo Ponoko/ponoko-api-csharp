@@ -7,18 +7,21 @@ namespace Ponoko.Api.Integration.Tests.Json {
 	public class ErrorDeserializerTests {
 		[Test]
 		public void can_deserialize_an_error_ignoring_request() {
-			var json = "{\"" + 
-				"error\":{" + 
-				"\"message\":\"Bad Request. Error processing design file(s).\"," + 
-				"\"errors\":[{" + 
-				"	\"type\":\"design_processing\"," + 
-				"	\"node_key\":\"any_node_key\"," +
-				"	\"error_code\":\"unknown_material\"," + 
-				"	\"error_message\":\"any error message\"," + 
-				"	\"name\":\"bottom_new.stl\"," + 
-				"\"material_key\":\"any_material_key\"" +
-				"}]," + 
-				"\"request\":{\"name\":\"xxx\",\"key\":null,\"designs\":[{\"quantity\":\"0\",\"uploaded_data\":\"/tmp/RackMultipart25372-1\",\"filename\":\"res\\bottom_new.stl\",\"material_key\":\"\",\"ref\":\"\"}]}}" + 
+			var json = "{" + 
+				"'error': {" + 
+				"	'message':'Bad Request. Error processing design file(s).'," + 
+				"	'errors':[" +
+				"		{" + 
+				"			'type':'design_processing'," + 
+				"			'node_key':'any_node_key'," +
+				"			'error_code':'unknown_material'," + 
+				"			'error_message':'any error message'," + 
+				"			'name':'bottom_new.stl'," + 
+				"			'material_key':'any_material_key'" +
+				"		}" + 
+				"	]," + 
+				"	'request':{'name':'xxx','key':null,'designs':[{'quantity':'0','uploaded_data':'/tmp/RackMultipart25372-1','filename':'res\\bottom_new.stl','material_key':'','ref':''}]}" + 
+				"}" + 
 			"}";
 
 			var result = ErrorDeserializer.Deserialize(json);
@@ -38,12 +41,12 @@ namespace Ponoko.Api.Integration.Tests.Json {
 
 		[Test] 
 		public void can_deserialize_an_error_with_no_errors_array() {
-			var json = "{\"" + 
-				"error\":{" + 
-				"\"message\":\"Bad Request. Error processing design file(s).\"," + 
-				"\"errors\": null," + 
-				"\"request\":{\"name\":\"xxx\",\"key\":null,\"designs\":[{\"quantity\":\"0\",\"uploaded_data\":\"/tmp/RackMultipart25372-1\",\"filename\":\"res\\bottom_new.stl\",\"material_key\":\"\",\"ref\":\"\"}]}}" + 
-			"}";
+			var json = "{" + 
+				"'error': {" + 
+				"	'message':'Bad Request. Error processing design file(s).'," + 
+				"	'errors': null," + 
+				"	'request':{'name':'xxx','key':null,'designs':[{'quantity':'0','uploaded_data':'/tmp/RackMultipart25372-1','filename':'res\\bottom_new.stl','material_key':'','ref':''}]}}" + 
+				"}";
 
 			var result = ErrorDeserializer.Deserialize(json);
 
