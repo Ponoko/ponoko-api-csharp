@@ -13,7 +13,7 @@ namespace Ponoko.Api.Unit.Tests.Core {
 		public void it_fails_to_save_unless_internet_responds_with_200() {
 			var internet = MockRepository.GenerateMock<TheInternet>();
 			
-			var fileSystem = NewFakeFileSystem();
+			var fileSystem = NewFakeValidator();
 
 			var expectedName = "Any product name";
 			var expectedStatus = HttpStatusCode.InternalServerError;
@@ -51,7 +51,7 @@ namespace Ponoko.Api.Unit.Tests.Core {
 			var internet = MockRepository.GenerateStub<TheInternet>();
 			internet.Stub(it => it.Post(Arg<Uri>.Is.Anything, Arg<Payload>.Is.Anything)).Return(okayResponse);
 
-			var products = new Products(internet, AnyUrl, NewFakeFileSystem());
+			var products = new Products(internet, AnyUrl, NewFakeValidator());
 			
 			Assert.DoesNotThrow(() => products.Delete("any id"));
 		}
@@ -64,7 +64,7 @@ namespace Ponoko.Api.Unit.Tests.Core {
 			var internet = MockRepository.GenerateStub<TheInternet>();
 			internet.Stub(it => it.Post(Arg<Uri>.Is.Anything, Arg<Payload>.Is.Anything)).Return(okayResponse);
 
-			var products = new Products(internet, AnyUrl, NewFakeFileSystem());
+			var products = new Products(internet, AnyUrl, NewFakeValidator());
 			
 			var theError = Assert.Throws<Exception>(() => products.Delete("any id"));
 
@@ -84,10 +84,11 @@ namespace Ponoko.Api.Unit.Tests.Core {
 
 		public string AnyUrl { get { return "http://xxx/"; } }
 
-		private ReadonlyFileSystem NewFakeFileSystem() {
-			var fileSystem = MockRepository.GenerateMock<ReadonlyFileSystem>();
-			fileSystem.Stub(it => it.Exists(Arg<String>.Is.Anything)).Return(true);
-			return fileSystem;
+		private ProductValidator NewFakeValidator() {
+			var validator = MockRepository.GenerateMock<ProductValidator>();
+			validator.Stub(it => it.Validate(Arg<ProductSeed>.Is.Anything));
+			validator.Stub(it => it.Validate(Arg<Design[]>.Is.Anything));
+			return validator;
 		}
 
 		// TEST: it rejects products without designs

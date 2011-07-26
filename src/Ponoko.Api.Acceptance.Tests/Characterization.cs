@@ -5,6 +5,7 @@ using System.Configuration;
 using System.IO;
 using System.Net;
 using NUnit.Framework;
+using Ponoko.Api.Core;
 using Ponoko.Api.Rest;
 using Ponoko.Api.Rest.Security.OAuth.Core;
 
@@ -38,9 +39,9 @@ namespace Ponoko.Api.Acceptance.Tests {
 
 		[Test]
 		public void can_post_a_file_and_it_emerges_with_correct_size() {
-			var parameters = new NameValueCollection {
-			    {"SUBMIT", "Upload!"}, 
-			    {"xxx", "xxx"}, 
+			var parameters = new List<Parameter> {
+			    new Parameter { Name = "SUBMIT", Value = "Upload!"}, 
+			    new Parameter { Name = "xxx", Value = "xxx"}, 
 			};
 
 			var uri = new Uri("http://www.toledorocket.com/perftest/uploadtest/uploadstatus.asp");

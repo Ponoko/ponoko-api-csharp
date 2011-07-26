@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Text;
 using System.IO;
+using Ponoko.Api.Core;
 
 namespace Ponoko.Api.Rest.Mime {
 	public class MultipartFormData : HttpContentType {
@@ -22,9 +23,7 @@ namespace Ponoko.Api.Rest.Mime {
 		}
 
 		public void WriteBody(IHttpRequest request, Payload payload) {
-			Append(payload.Parameters);
-
-			Append(payload.DataItems);
+			Append(payload);
 
 			AppendFooter();
 
@@ -36,12 +35,17 @@ namespace Ponoko.Api.Rest.Mime {
 			EmitTo(request);
 		}
 
-		private void Append(NameValueCollection parameters) {
+		private void Append(Payload payload) {
+			Append(payload.Parameters);
+			Append(payload.DataItems);
+		}
+
+		private void Append(List<Parameter> parameters) {
 			var bodyBuilder = new StringBuilder();
 
 			if (parameters.Count > 0) {
-				foreach (String name in parameters.Keys) {
-					bodyBuilder.Append(Format(name, parameters[name]));
+				foreach (var parameter in parameters) {
+					bodyBuilder.Append(Format(parameter.Name, parameter.Value));
 				}
 
 				Append(bodyBuilder.ToString());

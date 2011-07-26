@@ -1,11 +1,13 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Collections.Specialized;
+using Ponoko.Api.Core;
 
 namespace Ponoko.Api.Rest {
     public class Request {
-    	public static Request Get(Uri uri) { return Get(uri, Empty); }
-    	public static Request Get(Uri uri, NameValueCollection parameters) { return Get(uri, Empty, parameters); }
-        public static Request Get(Uri uri, NameValueCollection headers, NameValueCollection parameters) {
+    	public static Request Get(Uri uri) { return Get(uri, EmptyParameters); }
+    	public static Request Get(Uri uri, List<Parameter> parameters) { return Get(uri, Empty, parameters); }
+        public static Request Get(Uri uri, NameValueCollection headers, List<Parameter> parameters) {
             return new Request(RequestLine.Get(uri), headers, new Payload(parameters));
         }
 
@@ -23,7 +25,11 @@ namespace Ponoko.Api.Rest {
         	ContentType = String.Empty; // TODO: perhaps this belongs with payload
         }
 
-        private static NameValueCollection Empty {
+        private static List<Parameter> EmptyParameters {
+            get { return new List<Parameter>(0); }
+        }
+
+		private static NameValueCollection Empty {
             get { return new NameValueCollection(0); }
         }
     }

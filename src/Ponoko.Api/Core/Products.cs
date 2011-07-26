@@ -1,50 +1,60 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.Specialized;
 using System.IO;
 using System.Net;
-using Ponoko.Api.Core.IO;
 using Ponoko.Api.Json;
 using Ponoko.Api.Rest;
 using Ponoko.Api.Sugar;
 
 namespace Ponoko.Api.Core {
 	public class Products : Domain {
-		private readonly ReadonlyFileSystem _fileSystem;
+		private readonly ProductValidator _validator;
 
-		public Products(TheInternet internet, String baseUrl, ReadonlyFileSystem fileSystem) : base(internet, baseUrl) {
-			_fileSystem = fileSystem;
+		public Products(TheInternet internet, String baseUrl, ProductValidator validator) : base(internet, baseUrl) {
+			_validator = validator;
 		}
 
-		public Product Create(ProductSeed seed, Design design) {
+		public Product Create(ProductSeed seed, params Design[] designs) {
 			Validate(seed);
-			Validate(design);
+			Validate(designs);
 
-			var parameters = new NameValueCollection {
-				{"name"						, seed.Name}, 
-				{"notes"					, seed.Notes}, 
-				{"ref"						, seed.Reference}, 
-				{"designs[][ref]"			, design.Reference},
-				{"designs[][filename]"		, design.Filename},
-				{"designs[][quantity]"		, design.Quantity.ToString()},
-				{"designs[][material_key]"	, design.MaterialKey},
-			};
-
-			var theFile = new List<DataItem> {
-				new DataItem(
-					"designs[][uploaded_data]", 
-					new FileInfo(design.Filename), "xxx"
-				)
-			};
+			var payload = ToPayload(seed, designs);
 
 			var uri = Map("{0}", "/products");
 
-			using (var response = Post(uri, new Payload(parameters, theFile))) {
+			using (var response = Post(uri, payload)) {
 				if (response.StatusCode == HttpStatusCode.OK)
 					return Deserialize(response);
 
 				throw Error(response);
 			}
+		}
+
+		private void Validate(Design[] designs) { _validator.Validate(designs); }
+		private void Validate(ProductSeed seed) { _validator.Validate(seed); }
+
+		private Payload ToPayload(ProductSeed seed, params Design[] designs) {
+			var parameters = new List<Parameter> {
+				new Parameter{Name = "name"	, Value = seed.Name}, 
+				new Parameter{Name = "notes", Value = seed.Notes}, 
+				new Parameter{Name = "ref"	, Value = seed.Reference}
+			};
+			
+			var theFiles = new List<DataItem>();
+
+			foreach (var design in designs) {
+				parameters.Add(new Parameter {Name = "designs[][ref]", Value = design.Reference});
+				parameters.Add(new Parameter {Name = "designs[][filename]", Value = design.Filename});
+				parameters.Add(new Parameter {Name = "designs[][quantity]", Value = design.Quantity.ToString()});
+				parameters.Add(new Parameter {Name = "designs[][material_key]", Value = design.MaterialKey});
+
+				theFiles.Add(new DataItem(
+             		"designs[][uploaded_data]", 
+             		new FileInfo(design.Filename), "xxx"
+             	));
+			}
+
+			return new Payload(parameters, theFiles);
 		}
 
 		public void Delete(string id) {
@@ -59,28 +69,6 @@ namespace Ponoko.Api.Core {
 			}
 		}
 
-		private void Validate(ProductSeed seed) {
-			if (String.IsNullOrEmpty(seed.Name) || seed.Name.Trim().Equals(String.Empty))
-				throw new ArgumentException("Cannot create a product without a name.", "seed");
-		}
-
-		private void Validate(Design design) {
-			if (null == design)
-				throw new ArgumentException("Cannot create a product without at least one Design.", "design");
-			
-			if (null == design.Filename)
-				throw new ArgumentException("Cannot create a product unless the Design has a file.", "design");
-
-			var theDesignFileExistsOnDisk = FileExists(design);
-
-			un.less(theDesignFileExistsOnDisk, () => {
-				throw new FileNotFoundException(
-					"Cannot create a product unless the Design has a file that exists on disk. " + 
-					"Unable to find file \"" + design.Filename + "\""
-				);
-			});
-		}
-
 		private Exception Error(Response response) {
 			var json = ReadAll(response);
 			var theError = ErrorDeserializer.Deserialize(json);
@@ -92,8 +80,6 @@ namespace Ponoko.Api.Core {
 				theError
 			));
 		}
-
-		private Boolean FileExists(Design design) { return _fileSystem.Exists(design.Filename); }
 
 		private Product Deserialize(Response response) {
 			var json = new Deserializer().Deserialize(ReadAll(response))["product"].ToString();

@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Collections.Specialized;
 using NUnit.Framework;
+using Ponoko.Api.Core;
 using Ponoko.Api.Rest;
 using Ponoko.Api.Rest.Mime;
 using Rhino.Mocks;
@@ -12,7 +13,7 @@ namespace Ponoko.Api.Unit.Tests.Rest {
 		the_content_type_includes_a_boundary() {
 			var fakeRequest = MockRepository.GenerateMock<IHttpRequest>();
 			var instance = new MultipartFormData();
-			var parameters = new NameValueCollection();
+			var parameters = new List<Parameter>();
 			var noDataItems = new List<DataItem>(0);
 
 			instance.WriteBody(fakeRequest, new Payload(parameters));

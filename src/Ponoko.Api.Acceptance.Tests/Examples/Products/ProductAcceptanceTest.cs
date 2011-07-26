@@ -4,6 +4,7 @@ using System.Collections.Specialized;
 using System.IO;
 using System.Net;
 using NUnit.Framework;
+using Ponoko.Api.Core;
 using Ponoko.Api.Core.IO;
 using Ponoko.Api.Json;
 using Ponoko.Api.Rest;
@@ -17,7 +18,7 @@ namespace Ponoko.Api.Acceptance.Tests.Examples.Products {
 
 		[SetUp]
 		public void BeforeEach() {
-			Products = new Core.Products(Internet, Settings.BaseUrl, new DefaultReadonlyFileSystem());
+			Products = new Core.Products(Internet, Settings.BaseUrl, new DefaultProductValidator(new DefaultReadonlyFileSystem()));
 		}
 
 		protected void given_at_least_one_product() {
@@ -25,12 +26,12 @@ namespace Ponoko.Api.Acceptance.Tests.Examples.Products {
 		}
 
 		protected void given_at_least_one_product(String called) {
-			var parameters = new NameValueCollection {
-             	{"name"						, called}, 
-             	{"designs[][ref]"			, "1337"},
-             	{"designs[][filename]"		, "bottom_new.stl"},
-             	{"designs[][quantity]"		, "1"},
-             	{"designs[][material_key]"	, "6bb50fd03269012e3526404062cdb04a"},
+			var parameters = new List<Parameter> {
+             	new Parameter { Name = "name" , Value = called}, 
+             	new Parameter { Name = "designs[][ref]"			, Value = "1337"},
+             	new Parameter { Name = "designs[][filename]"		, Value = "bottom_new.stl"},
+             	new Parameter { Name = "designs[][quantity]"		, Value = "1"},
+             	new Parameter { Name = "designs[][material_key]"	, Value = "6bb50fd03269012e3526404062cdb04a"},
              };
 
 			var theFile = new List<DataItem> {

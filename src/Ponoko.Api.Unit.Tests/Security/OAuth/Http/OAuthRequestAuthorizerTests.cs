@@ -1,6 +1,7 @@
 ﻿using System;
-using System.Collections.Specialized;
+using System.Collections.Generic;
 using NUnit.Framework;
+using Ponoko.Api.Core;
 using Ponoko.Api.Rest;
 using Ponoko.Api.Rest.Security.OAuth.Core;
 using Ponoko.Api.Rest.Security.OAuth.Http;
@@ -64,7 +65,7 @@ namespace Ponoko.Api.Unit.Tests.Security.OAuth.Http {
 
 			var result = new OAuthAuthorizationPolicy(_oAuthHeaderProvider, AnyCredentials).Authorize(request);
 
-			Assert.IsNull(result.Payload.Parameters["jazz"], 
+			Assert.IsFalse(result.Payload.Parameters.Exists(it => it.Name == "jazz"), 
 				"Expected that the returned parameters NOT include the one we put in the query string."
 			);
 		}
@@ -74,17 +75,17 @@ namespace Ponoko.Api.Unit.Tests.Security.OAuth.Http {
 			var anyTwat = "Phil Murphy";
 			var anyOtherTwat = "Jazz Kang";
 
-			var parameters = new NameValueCollection {
-				{anyTwat, "Gluten-free anything"},
-				{anyOtherTwat, "DIY kebab"} 
+			var parameters = new List<Parameter> {
+				new Parameter{ Name = anyTwat,		Value = "Gluten-free anything"},
+				new Parameter{ Name = anyOtherTwat, Value = "DIY kebab"} 
 			};
 
 			var request = Request.Get(new Uri("http://xxx"), parameters);
 
 			var result = new OAuthAuthorizationPolicy(_oAuthHeaderProvider, AnyCredentials).Authorize(request);
 
-			Assert.That(result.Payload.Parameters, Contains.Item(anyTwat));	
-			Assert.That(result.Payload.Parameters, Contains.Item(anyOtherTwat));	
+			Assert.IsTrue(result.Payload.Parameters.Exists(it => it.Name == anyTwat));	
+			Assert.IsTrue(result.Payload.Parameters.Exists(it => it.Name == anyTwat));	
 		}
 
 		[Test]

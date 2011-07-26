@@ -7,7 +7,7 @@ namespace Ponoko.Api.Acceptance.Tests.Examples.Products {
 	[TestFixture]
 	public class AboutCreatingProducts : ProductAcceptanceTest {
 		[Test]
-		public void can_create_a_product_provided_you_have_a_design_file_with_matching_valid_material() {
+		public void you_can_create_a_product_provided_you_have_a_design_file_with_matching_valid_material() {
     		var expectedDesign = NewDesign();
 
     		var expectedNewProductName	= "Any new product name";
@@ -121,6 +121,19 @@ namespace Ponoko.Api.Acceptance.Tests.Examples.Products {
 				"the material you have selected is not compatible with making methods available to the design file"
 			));
 		}
+		
+		[Test]
+		public void you_must_supply_a_material_that_is_available() {
+			const String MATERIAL_THAT_DOES_NOT_EXIST = "1337";
+
+			var designWithInvalidMaterial = new Design { Filename = "res\\bottom_new.stl", MaterialKey = MATERIAL_THAT_DOES_NOT_EXIST};
+
+    		var theError = Assert.Throws<Exception>(() => Products.Create(ProductSeed.WithName("xxx"), designWithInvalidMaterial));
+
+			Assert.That(theError.Message, Is.StringMatching(
+				"could not find requested material. is it available to this Node's materail catalog?"
+			));
+		}
 
 		[Test]
 		public void you_must_supply_a_name_but_notes_and_ref_are_optional() {
@@ -171,8 +184,33 @@ namespace Ponoko.Api.Acceptance.Tests.Examples.Products {
 			Assert.That(theError.Message, Is.StringContaining("'Ref' must be unique"));
 		}
 
-		// TEST: you_can_create_a_product_with_multiple_designs
-                
+		[Test]
+		public void you_can_create_a_product_with_multiple_designs() {
+			var firstDesign = NewDesign();
+			var secondDesign = new Design {
+				Filename	= new FileInfo(@"res\top_new.stl").FullName,
+				MaterialKey = "6bb50fd03269012e3526404062cdb04a",
+				Quantity	= 1,
+				Reference	= "42"
+			};
+
+    		var expectedNewProductName	= "Any new product name";
+    		var expectedNewProductNotes = "Any new product notes";
+    		var expectedNewProductRef	= Guid.NewGuid().ToString();
+
+			var seed = new ProductSeed {
+           		Name		= expectedNewProductName,
+           		Notes		= expectedNewProductNotes,
+           		Reference	= expectedNewProductRef
+			};
+
+    		var theNewProduct = Products.Create(seed, firstDesign, secondDesign);
+
+			Assert.AreEqual(2, theNewProduct.Designs.Count, 
+				"Expected that because two designs were supplied, the resultant product should also contain two designs."
+			);
+		}
+
 		private void AssertIsAboutUtcNow(DateTime expected, TimeSpan within) {
 			var now = DateTime.UtcNow;
 			var diff = now.Subtract(expected);
