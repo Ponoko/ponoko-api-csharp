@@ -187,21 +187,12 @@ namespace Ponoko.Api.Acceptance.Tests.Examples.Products {
 		[Test]
 		public void you_can_create_a_product_with_multiple_designs() {
 			var firstDesign = NewDesign();
-			var secondDesign = new Design {
-				Filename	= new FileInfo(@"res\top_new.stl").FullName,
-				MaterialKey = "6bb50fd03269012e3526404062cdb04a",
-				Quantity	= 1,
-				Reference	= "42"
-			};
-
-    		var expectedNewProductName	= "Any new product name";
-    		var expectedNewProductNotes = "Any new product notes";
-    		var expectedNewProductRef	= Guid.NewGuid().ToString();
+			var secondDesign = NewDesign();
 
 			var seed = new ProductSeed {
-           		Name		= expectedNewProductName,
-           		Notes		= expectedNewProductNotes,
-           		Reference	= expectedNewProductRef
+           		Name		= "Any new product name",
+           		Notes		= "Any new product notes",
+           		Reference	= Guid.NewGuid().ToString()
 			};
 
     		var theNewProduct = Products.Create(seed, firstDesign, secondDesign);
