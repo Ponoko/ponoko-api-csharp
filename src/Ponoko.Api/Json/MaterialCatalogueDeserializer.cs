@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Ponoko.Api.Core;
 
 namespace Ponoko.Api.Json {
-	public static class MaterialListDeserializer {
+	public static class MaterialCatalogueDeserializer {
 		public static Material[] Deserialize(String json) {
 			var theList = new Deserializer().Deserialize(json);
 			var result = new List<Material>();

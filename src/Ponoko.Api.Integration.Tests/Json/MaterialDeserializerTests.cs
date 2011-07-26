@@ -32,7 +32,7 @@ namespace Ponoko.Api.Integration.Tests.Json {
 		}
 
 		[Test] 
-		public void or_an_array_of_materials() {
+		public void or_an_entire_catalogue_of_materials() {
 			var json = "{" +
 				"'materials': [" + 
 				"	{" + 
@@ -63,7 +63,7 @@ namespace Ponoko.Api.Integration.Tests.Json {
 				"	}" + 
 				"]}";
 
-			var result = MaterialListDeserializer.Deserialize(json);
+			var result = MaterialCatalogueDeserializer.Deserialize(json);
 			Assert.AreEqual(2, result.Length);
 			Assert.AreEqual("key_0", result[0].Key);
 			Assert.AreEqual("key_1", result[1].Key);

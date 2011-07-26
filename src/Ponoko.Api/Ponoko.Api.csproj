@@ -90,7 +90,7 @@
     <Compile Include="Json\ErrorDeserializer.cs" />
     <Compile Include="Json\Generic\SimpleDeserializer.cs" />
     <Compile Include="Json\MaterialDeserializer.cs" />
-    <Compile Include="Json\MaterialListDeserializer.cs" />
+    <Compile Include="Json\MaterialCatalogueDeserializer.cs" />
     <Compile Include="Json\NodeListDeserializer.cs" />
     <Compile Include="Logging\DevNullLog.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

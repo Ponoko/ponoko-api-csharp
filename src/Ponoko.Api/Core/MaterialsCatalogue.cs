@@ -12,7 +12,7 @@ namespace Ponoko.Api.Core {
 
 			var json = Get(uri);
 
-			return MaterialListDeserializer.Deserialize(json);
+			return MaterialCatalogueDeserializer.Deserialize(json);
 		}
 	}
 }
