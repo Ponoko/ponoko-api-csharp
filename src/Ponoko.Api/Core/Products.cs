@@ -63,18 +63,6 @@ namespace Ponoko.Api.Core {
 			};
 		}
 
-		public void Delete(string id) {
-			var uri = Map("/products/delete/{0}", id);
-
-			using (var response = Post(uri, Payload.Empty)) {
-				un.less(() => response.StatusCode == HttpStatusCode.OK, () => {
-					throw new Exception("Delete failed");
-				});
-
-				Verify(response);
-			}
-		}
-
 		private Exception Error(Response response) {
 			var json = ReadAll(response);
 			var theError = TryDeserialize(json);
@@ -101,6 +89,18 @@ namespace Ponoko.Api.Core {
 		private Product Deserialize(Response response) {
 			var json = new Deserializer().Deserialize(ReadAll(response))["product"].ToString();
 			return ProductDeserializer.Deserialize(json);
+		}
+
+		public void Delete(string id) {
+			var uri = Map("/products/delete/{0}", id);
+
+			using (var response = Post(uri, Payload.Empty)) {
+				un.less(() => response.StatusCode == HttpStatusCode.OK, () => {
+					throw new Exception("Delete failed");
+				});
+
+				Verify(response);
+			}
 		}
 
 		private void Verify(Response response) {
