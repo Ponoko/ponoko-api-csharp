@@ -113,9 +113,5 @@ namespace Ponoko.Api.Unit.Tests.Core {
 			validator.Stub(it => it.Validate(Arg<Design[]>.Is.Anything));
 			return validator;
 		}
-
-		// TEST: it rejects products without designs
-		// TEST: what does save return?
-		// TEST: when_save_fails_it_failes_with_message_that_includes_each_error_message
 	}
 }
