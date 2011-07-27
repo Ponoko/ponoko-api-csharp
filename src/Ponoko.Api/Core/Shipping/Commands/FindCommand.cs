@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Text;
 using Ponoko.Api.Json;
 using Ponoko.Api.Rest;
@@ -8,15 +9,37 @@ namespace Ponoko.Api.Core.Shipping.Commands {
 		public FindCommand(TheInternet internet, String baseUrl) : base(internet, baseUrl) {}
 
 		public ShippingOptions For(Address to, params ProductShippingInfo[] products) {
-			var productsString = new StringBuilder();
+			var uri = Map(
+				"/orders/shipping-options?{0}{1}", 
+				Format(products),
+				Format(to)
+			);
+
+			return Deserialize(_internet.Get(uri));
+		}
+
+		private ShippingOptions Deserialize(Response response) {
+			return ShippingOptionsDeserializer.Deserialize(ReadAll(response));
+		}
+
+		private String Format(IEnumerable<ProductShippingInfo> products) {
+			var buffer = new StringBuilder();
 
 			foreach (var info in products) {
-				productsString.AppendFormat(
-					"products[][key]={0}&products[][quantity]={1}&", 
-					UrlEncode(info.Key), UrlEncode(info.Quantity)
-				);
+				buffer.Append(Format(info));
 			}
 
+			return buffer.ToString();
+		}
+
+		private String Format(ProductShippingInfo info) {
+			return String.Format(
+				"products[][key]={0}&products[][quantity]={1}&", 
+				UrlEncode(info.Key), UrlEncode(info.Quantity)
+			);
+		}
+
+		private String Format(Address to) {
 			var address = new StringBuilder();
 
 			address.AppendFormat(
@@ -34,16 +57,8 @@ namespace Ponoko.Api.Core.Shipping.Commands {
 				UrlEncode(to.Country)
 			);
 
-			Uri uri = Map(
-				"/orders/shipping-options?" + 
-				"{0}{1}", 
-				productsString,
-				address
-			);
-
-			var response = _internet.Get(uri);
-			return ShippingOptionsDeserializer.Deserialize(ReadAll(response));
-		}	
+			return address.ToString();
+		}
 
 		private String UrlEncode(Object what) {
 			if (what == null) return null;
