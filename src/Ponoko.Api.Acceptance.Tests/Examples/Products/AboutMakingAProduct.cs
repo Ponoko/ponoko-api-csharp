@@ -21,7 +21,7 @@ namespace Ponoko.Api.Acceptance.Tests.Examples.Products {
 
 		[Test]
 		public void you_can_get_the_shipping_options_for_a_single_product() {
-			var result = new FindCommand(Internet, Settings.BaseUrl).For(ExampleShippingInfo);
+			var result = new FindCommand(Internet, Settings.BaseUrl).For(ExampleAddress, ExampleShippingInfo);
 
 			Assert.AreEqual("USD", result.Currency, "Unexpected currency code returned.");
 			Assert.AreEqual(ExampleProduct.Key, result.Products[0].Key, "Unexpected key returned.");
@@ -33,13 +33,50 @@ namespace Ponoko.Api.Acceptance.Tests.Examples.Products {
 		[Test]
 		public void you_can_get_the_shipping_options_for_multiple_products() {
 			var multipleProducts = new [] {ExampleShippingInfo, ExampleShippingInfo};
-			var result = new FindCommand(Internet, Settings.BaseUrl).For(multipleProducts);
+			var result = new FindCommand(Internet, Settings.BaseUrl).For(ExampleAddress, multipleProducts);
 
 			Assert.AreEqual(2, result.Products.Count, "Expected number of products returned");
 		}
 
+		[Test]
+		public void you_can_for_example_ship_to_the_united_kingdom() {
+			var result = new FindCommand(Internet, Settings.BaseUrl).For(TenDowningStreet, ExampleShippingInfo);
+
+			Assert.AreEqual("USD", result.Currency, "Unexpected currency code returned.");
+			Assert.AreEqual(ExampleProduct.Key, result.Products[0].Key, "Unexpected key returned.");
+			
+			Assert.AreEqual(4, result.Options.Count, "Unexpected number of options.");
+			Assert.That(result.Options[0].Price, Is.GreaterThan(0.00d), "Unexpected price for the first option, expected non-zero value.");
+		}
+
 		private Product ExampleProduct {
 			get { return _exampleProduct ?? (_exampleProduct = GetFirstProduct()); }
+		}
+
+		private Address ExampleAddress {
+			get { 
+				return new Address {
+					LineOne			= "27 Dixon Street",
+					LineTwo			= "Te Aro",
+					City			= "Wellington",
+					ZipOrPostalCode = "6021",
+					State			= "NA",
+					Country			= "New Zealand"
+			    };
+			}
+		}
+
+		private Address TenDowningStreet {
+			get { 
+				return new Address {
+					LineOne			= "10 Downing Street",
+					LineTwo			= "Westminster",
+					City			= "London",
+					ZipOrPostalCode = "SW1A 2AA",
+					State			= "NA",
+					Country			= "United Kingdom"
+			    };
+			}
 		}
 
 		public ProductShippingInfo ExampleShippingInfo { 
@@ -61,5 +98,6 @@ namespace Ponoko.Api.Acceptance.Tests.Examples.Products {
 
 		// TEST: you_have_to_supply_a_product
 		// TEST: you_can_order_more_that_one
+		// TEST: you_get_invalid_oauth_request_unless_you_supply_state
 	}
 }

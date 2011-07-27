@@ -78,6 +78,7 @@
     <Compile Include="Core\Product\Commands\DefaultProductValidator.cs" />
     <Compile Include="Core\Product\Commands\DeleteCommand.cs" />
     <Compile Include="Core\Product\Commands\ProductValidator.cs" />
+    <Compile Include="Core\Shipping\Address.cs" />
     <Compile Include="Core\Shipping\Option.cs" />
     <Compile Include="Core\Shipping\ProductShippingInfo.cs" />
     <Compile Include="Core\Shipping\ShippingOptions.cs" />
