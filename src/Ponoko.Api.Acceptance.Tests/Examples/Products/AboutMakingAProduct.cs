@@ -26,7 +26,7 @@ namespace Ponoko.Api.Acceptance.Tests.Examples.Products {
 			Assert.AreEqual("USD", result.Currency, "Unexpected currency code returned.");
 			Assert.AreEqual(ExampleProduct.Key, result.Products[0].Key, "Unexpected key returned.");
 			
-			Assert.AreEqual(2, result.Options.Count, "Unexpected number of options.");
+			Assert.That(result.Options.Count, Is.GreaterThan(0), "Unexpected at least one option.");
 			Assert.That(result.Options[0].Price, Is.GreaterThan(0.00d), "Unexpected price for the first option, expected non-zero value.");
 		}
 
@@ -45,7 +45,7 @@ namespace Ponoko.Api.Acceptance.Tests.Examples.Products {
 			Assert.AreEqual("USD", result.Currency, "Unexpected currency code returned.");
 			Assert.AreEqual(ExampleProduct.Key, result.Products[0].Key, "Unexpected key returned.");
 			
-			Assert.AreEqual(4, result.Options.Count, "Unexpected number of options.");
+			Assert.That(result.Options.Count, Is.GreaterThan(0), "Unexpected at least one option.");
 			Assert.That(result.Options[0].Price, Is.GreaterThan(0.00d), "Unexpected price for the first option, expected non-zero value.");
 		}
 
