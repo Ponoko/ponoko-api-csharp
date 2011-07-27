@@ -23,8 +23,8 @@ namespace Ponoko.Api.Acceptance.Tests.Examples.Products {
 
 		protected void given_at_least_one_product(String called) {
 			var parameters = new List<Parameter> {
-             	new Parameter { Name = "name" , Value = called}, 
-             	new Parameter { Name = "designs[][ref]"			, Value = "1337"},
+             	new Parameter { Name = "name"						, Value = called}, 
+             	new Parameter { Name = "designs[][ref]"				, Value = "1337"},
              	new Parameter { Name = "designs[][filename]"		, Value = "bottom_new.stl"},
              	new Parameter { Name = "designs[][quantity]"		, Value = "1"},
              	new Parameter { Name = "designs[][material_key]"	, Value = "6bb50fd03269012e3526404062cdb04a"},
@@ -52,7 +52,7 @@ namespace Ponoko.Api.Acceptance.Tests.Examples.Products {
 				
 				var products = temp["products"];
 
-				Assert.That(products.HasValues, "Ther are zero products, so unable to return the first one.");
+				Assert.That(products.HasValues, "There are zero products, so unable to return the first one.");
 				
 				return products.First.Value<String>("key");
 			}
