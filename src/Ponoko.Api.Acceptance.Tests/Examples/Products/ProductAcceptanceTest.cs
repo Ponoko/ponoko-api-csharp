@@ -1,18 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.Specialized;
 using System.IO;
 using System.Net;
 using NUnit.Framework;
-using Ponoko.Api.Core;
 using Ponoko.Api.Core.IO;
-using Ponoko.Api.Core.Product;
 using Ponoko.Api.Core.Product.Commands;
 using Ponoko.Api.Json;
 using Ponoko.Api.Rest;
-using Ponoko.Api.Rest.Security.OAuth.Core;
-using Ponoko.Api.Rest.Security.OAuth.Http;
-using Ponoko.Api.Rest.Security.OAuth.Impl.OAuth.Net;
 
 namespace Ponoko.Api.Acceptance.Tests.Examples.Products {
 	public class ProductAcceptanceTest : AcceptanceTest {

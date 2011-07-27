@@ -68,6 +68,7 @@
     <Compile Include="Json\MaterialDeserializerTests.cs" />
     <Compile Include="Json\NodeDeserializerTests.cs" />
     <Compile Include="Json\ProductDeserializerTests.cs" />
+    <Compile Include="Json\ShippingOptionsDeserializerTests.cs" />
     <Compile Include="Security\OAuth\Impl\OAuth.Net\MadgexOAuthHeaderTests.cs" />
     <Compile Include="Security\OAuth\Impl\OAuth.Net\MadgexSignatureTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -78,6 +78,11 @@
     <Compile Include="Core\Product\Commands\DefaultProductValidator.cs" />
     <Compile Include="Core\Product\Commands\DeleteCommand.cs" />
     <Compile Include="Core\Product\Commands\ProductValidator.cs" />
+    <Compile Include="Core\Shipping\Option.cs" />
+    <Compile Include="Core\Shipping\ProductShippingInfo.cs" />
+    <Compile Include="Core\Shipping\ShippingOptions.cs" />
+    <Compile Include="Core\Shipping\Commands\FindCommand.cs" />
+    <Compile Include="Json\ShippingOptionsDeserializer.cs" />
     <Compile Include="Rest\Parameter.cs" />
     <Compile Include="Core\Product\Product.cs" />
     <Compile Include="Core\Product\Commands\ProductSeed.cs" />
