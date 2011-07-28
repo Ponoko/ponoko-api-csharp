@@ -13,13 +13,17 @@ namespace Ponoko.Api.Rest.Mime {
 		public Body Format(Payload payload) {
 			var serializedParams = ToQuery(payload.Fields);
 
+			var theBytes = Encoding.UTF8.GetBytes(serializedParams);
+
 			var result = new Body {
-				ContentLength = Encoding.UTF8.GetByteCount(serializedParams),
+				ContentLength = theBytes.Length,
 				ContentType = this.ContentType
 			};
 
-			var writer = new StreamWriter(result.Open());
-			writer.Write(serializedParams);
+			var writer = new BinaryWriter(result.Open());
+			writer.Write(theBytes);
+			writer.Flush();
+
 			return result;
 		}
 
@@ -27,10 +31,13 @@ namespace Ponoko.Api.Rest.Mime {
 			var buffer = new StringBuilder();
 			
 			foreach (var field in fields) {
+				var theParameterHasAName = field.Name != null;
 				var theParameterHasAValue = field.Value != null;
+				var shouldAddTheField = theParameterHasAName && theParameterHasAValue;
+
 				// TODO: I think the server end handles empty parameters differently. If you supply an empty parameter value you may get
 				// "Invalid OAuth Request" error. Consider expressing this elsewhere.
-				if (theParameterHasAValue) {
+				if (shouldAddTheField) {
 					buffer.AppendFormat("{0}={1}&", UrlEncode(field.Name), UrlEncode(field.Value));
 				}
 			}
