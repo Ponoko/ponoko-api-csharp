@@ -11,8 +11,6 @@ namespace Ponoko.Api.Json {
 
 			var payload = new Deserializer().Deserialize(json);
 			
-			Console.WriteLine(json);
-			
 			return JsonConvert.DeserializeObject<ShippingOptions>(payload["shipping_options"].ToString(), settings);
 		}
 	}
