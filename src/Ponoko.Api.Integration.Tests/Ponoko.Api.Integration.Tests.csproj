@@ -66,6 +66,7 @@
     <Compile Include="Json\DeserializerTests.cs" />
     <Compile Include="Json\ErrorDeserializerTests.cs" />
     <Compile Include="Json\MaterialDeserializerTests.cs" />
+    <Compile Include="Json\NewOrderDeserializer.cs" />
     <Compile Include="Json\NodeDeserializerTests.cs" />
     <Compile Include="Json\ProductDeserializerTests.cs" />
     <Compile Include="Json\ShippingOptionsDeserializerTests.cs" />

@@ -3,6 +3,7 @@ using NUnit.Framework;
 using Ponoko.Api.Core.Product;
 using Ponoko.Api.Core.Product.Commands;
 using Ponoko.Api.Core.Shipping;
+using Ponoko.Api.Core.Shipping.Commands;
 using FindCommand = Ponoko.Api.Core.Shipping.Commands.FindCommand;
 
 namespace Ponoko.Api.Acceptance.Tests.Examples.Products {
@@ -49,8 +50,36 @@ namespace Ponoko.Api.Acceptance.Tests.Examples.Products {
 			Assert.That(result.Options[0].Price, Is.GreaterThan(0.00d), "Unexpected price for the first option, expected non-zero value.");
 		}
 
+		[Test, Ignore("PENDING: waiting for server end fix. Endpoint is returning 404 errors for some reason.")]
+		public void you_can_get_a_product_made() {
+			var shippingOptions = new FindCommand(Internet, Settings.BaseUrl).For(ExampleAddress, ExampleShippingInfo);
+			var command = new OrderCreateCommand(Internet, Settings.BaseUrl);
+			
+			var theFirstShippingOption = shippingOptions.Options[0];
+			var reference = "any reference";
+
+			var order = command.Create(reference, theFirstShippingOption, ExampleShippingAddress, ExampleShippingInfo);
+
+			Assert.AreEqual(ExampleProduct.Key, order.Key, "Unexpected key returned");
+		}
+
 		private Product ExampleProduct {
 			get { return _exampleProduct ?? (_exampleProduct = GetFirstProduct()); }
+		}
+
+		private NameAndAddress ExampleShippingAddress {
+			get { 
+				return new NameAndAddress {
+					FirstName		= "Jazz",
+					LastName		= "Kang",
+					LineOne			= "27 Dixon Street",
+					LineTwo			= "Te Aro",
+					City			= "Wellington",
+					ZipOrPostalCode = "6021",
+					State			= "NA",
+					Country			= "NZ"
+			    };
+			}
 		}
 
 		private Address ExampleAddress {
