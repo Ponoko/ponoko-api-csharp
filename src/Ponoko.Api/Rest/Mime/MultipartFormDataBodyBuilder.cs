@@ -27,9 +27,9 @@ namespace Ponoko.Api.Rest.Mime {
 		}
 
 		private void Append(List<Parameter> parameters) {
-			var bodyBuilder = new StringBuilder();
-
 			if (parameters.Count > 0) {
+				var bodyBuilder = new StringBuilder();
+				
 				foreach (var parameter in parameters) {
 					bodyBuilder.Append(Format(parameter.Name, parameter.Value));
 				}
