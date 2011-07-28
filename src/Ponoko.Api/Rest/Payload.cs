@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using Ponoko.Api.Core;
 
 namespace Ponoko.Api.Rest {
 	public class Payload {

@@ -7,6 +7,7 @@ using Ponoko.Api.Core.IO;
 using Ponoko.Api.Core.Product.Commands;
 using Ponoko.Api.Json;
 using Ponoko.Api.Rest;
+using Ponoko.Api.Rest.Mime;
 
 namespace Ponoko.Api.Acceptance.Tests.Examples.Products {
 	public class ProductAcceptanceTest : AcceptanceTest {
@@ -39,7 +40,7 @@ namespace Ponoko.Api.Acceptance.Tests.Examples.Products {
 
 			var uri = Map("{0}", "/products");
 
-			using (var response = Post(uri, new Payload(parameters, theFile))) {
+			using (var response = Post(uri, new MultipartFormData(), new Payload(parameters, theFile))) {
 				Assert.AreEqual(HttpStatusCode.OK, response.StatusCode, Body(response));
 			}
 		}

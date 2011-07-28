@@ -36,21 +36,17 @@ namespace Ponoko.Api.Rest {
 			return TryExecute(request);
 		}
 
-		public override Response Post(Uri uri, Payload payload) {
-			var unauthorized = new Request(RequestLine.Post(uri), payload) {
-				ContentType = SelectContentType(payload).ContentType
-			};
+		public override Response Post(Uri uri, HttpContentType contentType, Payload payload) {
+			var unauthorized = new Request(RequestLine.Post(uri), payload) { ContentType = contentType.ContentType };
 
 			var authorized = AuthorizeAndConvert(unauthorized);
 			
-			AddBody(authorized, payload);
+			AddBody(authorized, contentType, payload);
 
 			return TryExecute(authorized);
 		}
 
-		private void AddBody(IHttpRequest httpRequest, Payload payload) {
-			var contentType = SelectContentType(payload);
-
+		private void AddBody(IHttpRequest httpRequest, HttpContentType contentType, Payload payload) {
 			using (contentType) {
 				contentType.WriteBody(httpRequest, payload);
 			}
@@ -63,15 +59,6 @@ namespace Ponoko.Api.Rest {
 			result.Method = request.RequestLine.Verb;
 			
 			return result;
-		}
-
-		private HttpContentType SelectContentType(Payload payload) {
-			var thereAreFilesToSend = payload.DataItems.Count > 0;
-
-			if (thereAreFilesToSend)
-				return new MultipartFormData();
-
-			return new FormUrlEncoded();
 		}
 
 		private SystemHttpRequest Convert(Request authorized) {

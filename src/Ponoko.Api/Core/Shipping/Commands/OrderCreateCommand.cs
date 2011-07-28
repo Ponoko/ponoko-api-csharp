@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Net;
 using Ponoko.Api.Json;
 using Ponoko.Api.Rest;
+using Ponoko.Api.Rest.Mime;
 
 namespace Ponoko.Api.Core.Shipping.Commands {
 	public class OrderCreateCommand : Domain {
@@ -19,7 +20,7 @@ namespace Ponoko.Api.Core.Shipping.Commands {
 			parameters.AddRange(Format(product));
 			parameters.AddRange(Format(shipTo));
 			
-			var response = _internet.Post(uri, new Payload(parameters));
+			var response = _internet.Post(uri, new FormUrlEncoded(), new Payload(parameters));
 
 			Console.WriteLine(response.StatusCode);
 			Console.WriteLine(new Deserializer().Deserialize(ReadAll(response)));

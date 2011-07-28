@@ -6,6 +6,7 @@ using System.Text;
 using NUnit.Framework;
 using Ponoko.Api.Core.Product.Commands;
 using Ponoko.Api.Rest;
+using Ponoko.Api.Rest.Mime;
 using Rhino.Mocks;
 
 namespace Ponoko.Api.Unit.Tests.Core.Product.Commands {
@@ -17,7 +18,7 @@ namespace Ponoko.Api.Unit.Tests.Core.Product.Commands {
 			var okayResponse = NewFakeResponse(HttpStatusCode.OK, deleteSuccessfulBody);
 			
 			var internet = MockRepository.GenerateStub<TheInternet>();
-			internet.Stub(it => it.Post(Arg<Uri>.Is.Anything, Arg<Payload>.Is.Anything)).Return(okayResponse);
+			internet.Stub(it => it.Post(Arg<Uri>.Is.Anything, Arg<HttpContentType>.Is.Anything, Arg<Payload>.Is.Anything)).Return(okayResponse);
 
 			var deleter = new DeleteCommand(internet, AnyUrl);
 			
@@ -30,7 +31,7 @@ namespace Ponoko.Api.Unit.Tests.Core.Product.Commands {
 			var okayResponse = NewFakeResponse(HttpStatusCode.OK, deleteSuccessfulBody);
 			
 			var internet = MockRepository.GenerateStub<TheInternet>();
-			internet.Stub(it => it.Post(Arg<Uri>.Is.Anything, Arg<Payload>.Is.Anything)).Return(okayResponse);
+			internet.Stub(it => it.Post(Arg<Uri>.Is.Anything, Arg<HttpContentType>.Is.Anything, Arg<Payload>.Is.Anything)).Return(okayResponse);
 
 			var deleter = new DeleteCommand(internet, AnyUrl);
 			

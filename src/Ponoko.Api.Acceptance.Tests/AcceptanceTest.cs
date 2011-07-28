@@ -7,6 +7,7 @@ using NUnit.Framework;
 using Ponoko.Api.Json;
 using Ponoko.Api.Logging;
 using Ponoko.Api.Rest;
+using Ponoko.Api.Rest.Mime;
 using Ponoko.Api.Rest.Security.OAuth.Core;
 using Ponoko.Api.Rest.Security.OAuth.Http;
 using Ponoko.Api.Rest.Security.OAuth.Impl.OAuth.Net;
@@ -54,8 +55,8 @@ namespace Ponoko.Api.Acceptance.Tests {
 
 		protected Response Get(Uri uri) { return Internet.Get(uri); }
 
-		protected Response Post(Uri uri, Payload payload) {
-			return Internet.Post(uri, payload);
+		protected Response Post(Uri uri, HttpContentType contentType, Payload payload) {
+			return Internet.Post(uri, contentType, payload);
 		}
 
 		[SetUp]

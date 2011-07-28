@@ -4,6 +4,7 @@ using System.IO;
 using System.Net;
 using Ponoko.Api.Json;
 using Ponoko.Api.Rest;
+using Ponoko.Api.Rest.Mime;
 
 namespace Ponoko.Api.Core.Product.Commands {
 	public class CreateCommand : Domain {
@@ -90,6 +91,6 @@ namespace Ponoko.Api.Core.Product.Commands {
 			return ProductDeserializer.Deserialize(json);
 		}
 
-		private Response Post(Uri uri, Payload payload) { return _internet.Post(uri, payload); }
+		private Response Post(Uri uri, Payload payload) { return _internet.Post(uri, new MultipartFormData(), payload); }
 	}
 }

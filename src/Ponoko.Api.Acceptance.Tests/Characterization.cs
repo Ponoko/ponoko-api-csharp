@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using NUnit.Framework;
 using Ponoko.Api.Rest;
+using Ponoko.Api.Rest.Mime;
 
 namespace Ponoko.Api.Acceptance.Tests {
 	[TestFixture]
@@ -25,7 +26,7 @@ namespace Ponoko.Api.Acceptance.Tests {
 
 			var payload = new Payload(parameters, dataItems);
 
-			using (var response = Post(uri, payload)) {
+			using (var response = Post(uri, new MultipartFormData(), payload)) {
 				var body = Body(response);
 
 				var expectedMessage = String.Format("You uploaded {0} bytes", theExpectedFileSizeInBytes);

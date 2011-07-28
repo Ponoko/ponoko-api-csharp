@@ -2,6 +2,7 @@
 using System.Net;
 using Ponoko.Api.Json;
 using Ponoko.Api.Rest;
+using Ponoko.Api.Rest.Mime;
 using Ponoko.Api.Sugar;
 
 namespace Ponoko.Api.Core.Product.Commands {
@@ -34,6 +35,6 @@ namespace Ponoko.Api.Core.Product.Commands {
 			});
 		}
 
-		private Response Post(Uri uri, Payload payload) { return _internet.Post(uri, payload); }
+		private Response Post(Uri uri, Payload payload) { return _internet.Post(uri, new FormUrlEncoded(), payload); }
 	}
 }
