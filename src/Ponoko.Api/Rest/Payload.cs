@@ -2,15 +2,13 @@
 
 namespace Ponoko.Api.Rest {
 	public class Payload {
-		public List<Parameter> Parameters { get; private set; }
-		public List<DataItem> DataItems { get; private set; }
+		private readonly List<Field> _fields = new List<Field>();
 		public static Payload Empty { get {return new Payload(); }}
+		public List<Field> Fields{ get { return _fields; } }
 
-		public Payload() : this(new List<Parameter>()) {}
-		public Payload(List<Parameter> parameters) : this(parameters, new List<DataItem>(0)) {}
-		public Payload(List<Parameter> parameters, List<DataItem> dataItems) {
-			Parameters = parameters;
-			DataItems = dataItems;
+		public Payload() : this(new List<Field>()) {}
+		public Payload(List<Field> fields) {
+			_fields = fields;
 		}
 	}
 }

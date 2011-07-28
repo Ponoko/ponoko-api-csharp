@@ -23,24 +23,21 @@ namespace Ponoko.Api.Acceptance.Tests.Examples.Products {
 		}
 
 		protected void given_at_least_one_product(String called) {
-			var parameters = new List<Parameter> {
-             	new Parameter { Name = "name"						, Value = called}, 
-             	new Parameter { Name = "designs[][ref]"				, Value = "1337"},
-             	new Parameter { Name = "designs[][filename]"		, Value = "bottom_new.stl"},
-             	new Parameter { Name = "designs[][quantity]"		, Value = "1"},
-             	new Parameter { Name = "designs[][material_key]"	, Value = "6bb50fd03269012e3526404062cdb04a"},
-             };
-
-			var theFile = new List<DataItem> {
-             	new DataItem(
+			var parameters = new List<Field> {
+             	new Field { Name = "name"						, Value = called}, 
+             	new Field { Name = "designs[][ref]"				, Value = "1337"},
+             	new Field { Name = "designs[][filename]"		, Value = "bottom_new.stl"},
+             	new Field { Name = "designs[][quantity]"		, Value = "1"},
+             	new Field { Name = "designs[][material_key]"	, Value = "6bb50fd03269012e3526404062cdb04a"},
+             	new Field { Name = "file"	, Value = new DataItem(
              		"designs[][uploaded_data]", 
              		new FileInfo(@"res\bottom_new.stl"), "text/plain"
-				)
+				)},
              };
 
 			var uri = Map("{0}", "/products");
 
-			using (var response = Post(uri, new MultipartFormData(), new Payload(parameters, theFile))) {
+			using (var response = Post(uri, new MultipartFormData(), new Payload(parameters))) {
 				Assert.AreEqual(HttpStatusCode.OK, response.StatusCode, Body(response));
 			}
 		}

@@ -6,8 +6,8 @@ using Ponoko.Api.Core;
 namespace Ponoko.Api.Rest {
     public class Request {
     	public static Request Get(Uri uri) { return Get(uri, EmptyParameters); }
-    	public static Request Get(Uri uri, List<Parameter> parameters) { return Get(uri, Empty, parameters); }
-        public static Request Get(Uri uri, NameValueCollection headers, List<Parameter> parameters) {
+    	public static Request Get(Uri uri, List<Field> parameters) { return Get(uri, Empty, parameters); }
+        public static Request Get(Uri uri, NameValueCollection headers, List<Field> parameters) {
             return new Request(RequestLine.Get(uri), headers, new Payload(parameters));
         }
 
@@ -25,15 +25,12 @@ namespace Ponoko.Api.Rest {
         	ContentType = String.Empty; // TODO: perhaps this belongs with payload
         }
 
-        private static List<Parameter> EmptyParameters {
-            get { return new List<Parameter>(0); }
+        private static List<Field> EmptyParameters {
+            get { return new List<Field>(0); }
         }
 
 		private static NameValueCollection Empty {
             get { return new NameValueCollection(0); }
         }
     }
-
-	// TODO: Introduce RequestBody which represents the body of a request.
-	// There is also the concept of encoding which may be multipart-form or atom or xml perhaps.
 }

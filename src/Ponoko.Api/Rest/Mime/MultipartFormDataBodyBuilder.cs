@@ -17,35 +17,25 @@ namespace Ponoko.Api.Rest.Mime {
 			_formatter = new MultipartFormDataDataItemFormatter(boundary);
 		}
 
-		public Stream Stream {
-			get { return _stream; }
-		}
-
 		public void Append(Payload payload) {
-			Append(payload.Parameters);
-			Append(payload.DataItems);
+			Append(payload.Fields);
 		}
 
-		private void Append(List<Parameter> parameters) {
-			if (parameters.Count > 0) {
-				var bodyBuilder = new StringBuilder();
-				
-				foreach (var parameter in parameters) {
-					bodyBuilder.Append(Format(parameter.Name, parameter.Value));
+		// TODO, 2011-07-28: Now that we have one list of fields, we need to work out a way of preventing this if/else.
+		// We could push that behaviour a field abstraction, so that each field knows how to append itself.
+		// It depends whether we want protection against new objects or new functions.
+		private void Append(IEnumerable<Field> fields) {
+			foreach (var field in fields) {
+				if (field.Value != null && field.Value.GetType() == typeof(DataItem)) {
+					Append((DataItem)field.Value);
+				} else {
+					Append(Format(field.Name, field.Value != null ? field.Value.ToString() : String.Empty));
 				}
-
-				Append(bodyBuilder.ToString());
 			}
 		}
 
-		private void Append(ICollection<DataItem> dataItems) {
-			if (dataItems.Count == 0) return; 
-				
-			foreach (var dataItem in dataItems) { Append(dataItem); }
-		}
-
 		private void Append(DataItem dataItem) {
-			Append(Format(dataItem));
+			Append(FormatHeader(dataItem));
 
 			if (dataItem.Length > 0) {
 				Stream.Write(dataItem.GetBytes(), 0, dataItem.Length);
@@ -55,12 +45,14 @@ namespace Ponoko.Api.Rest.Mime {
 		}
 
 		public	void AppendFooter()			{ Append("--" + _boundary + "--\r\n"); }
-		public	void Flush()				{ Stream.Flush(); }
 		private void AppendNewline()		{ Append("\r\n");}
 		private void Append(String text)	{ Append(_encoding.GetBytes(text));}
 		private void Append(Byte[] what)	{ Stream.Write(what, 0, what.Length); }
+		
+		public	void Flush()				{ Stream.Flush(); }
+		private Stream Stream { get { return _stream; } }
 
 		private String Format(String name, String value) { return _formatter.NameValuePair(name, value); }
-		private String Format(DataItem dataItem) { return _formatter.Header(dataItem); }
+		private String FormatHeader(DataItem dataItem) { return _formatter.Header(dataItem); }
 	}
 }

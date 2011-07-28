@@ -65,7 +65,7 @@ namespace Ponoko.Api.Unit.Tests.Security.OAuth.Http {
 
 			var result = new OAuthAuthorizationPolicy(_oAuthHeaderProvider, AnyCredentials).Authorize(request);
 
-			Assert.IsFalse(result.Payload.Parameters.Exists(it => it.Name == "jazz"), 
+			Assert.IsFalse(result.Payload.Fields.Exists(it => it.Name == "jazz"), 
 				"Expected that the returned parameters NOT include the one we put in the query string."
 			);
 		}
@@ -75,17 +75,17 @@ namespace Ponoko.Api.Unit.Tests.Security.OAuth.Http {
 			var anyTwat = "Phil Murphy";
 			var anyOtherTwat = "Jazz Kang";
 
-			var parameters = new List<Parameter> {
-				new Parameter{ Name = anyTwat,		Value = "Gluten-free anything"},
-				new Parameter{ Name = anyOtherTwat, Value = "DIY kebab"} 
+			var parameters = new List<Field> {
+				new Field{ Name = anyTwat,		Value = "Gluten-free anything"},
+				new Field{ Name = anyOtherTwat, Value = "DIY kebab"} 
 			};
 
 			var request = Request.Get(new Uri("http://xxx"), parameters);
 
 			var result = new OAuthAuthorizationPolicy(_oAuthHeaderProvider, AnyCredentials).Authorize(request);
 
-			Assert.IsTrue(result.Payload.Parameters.Exists(it => it.Name == anyTwat));	
-			Assert.IsTrue(result.Payload.Parameters.Exists(it => it.Name == anyTwat));	
+			Assert.IsTrue(result.Payload.Fields.Exists(it => it.Name == anyTwat));	
+			Assert.IsTrue(result.Payload.Fields.Exists(it => it.Name == anyTwat));	
 		}
 
 		[Test]

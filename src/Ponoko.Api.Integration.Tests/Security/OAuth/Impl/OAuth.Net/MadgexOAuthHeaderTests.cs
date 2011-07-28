@@ -56,7 +56,7 @@ namespace Ponoko.Api.Integration.Tests.Security.OAuth.Impl.OAuth.Net {
 
         [Test]
         public void can_generate_correct_header_with_parameters() {
-            var parameters = new List<Parameter>{ new Parameter{ Name = "name", Value = "value"} };
+            var parameters = new List<Field>{ new Field{ Name = "name", Value = "value"} };
             var request = Request.Get(new Uri("http://xxx/"), new NameValueCollection(), parameters);
         	request.ContentType = "application/x-www-form-urlencoded";
 

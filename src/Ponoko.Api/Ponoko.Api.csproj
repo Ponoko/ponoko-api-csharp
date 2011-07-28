@@ -87,6 +87,7 @@
     <Compile Include="Core\Shipping\ShippingOptions.cs" />
     <Compile Include="Core\Shipping\Commands\FindCommand.cs" />
     <Compile Include="Json\ShippingOptionsDeserializer.cs" />
+    <Compile Include="Rest\Field.cs" />
     <Compile Include="Rest\Mime\Body.cs" />
     <Compile Include="Rest\Mime\HttpContentTypeName.cs" />
     <Compile Include="Rest\Mime\MultipartFormDataBodyBuilder.cs" />

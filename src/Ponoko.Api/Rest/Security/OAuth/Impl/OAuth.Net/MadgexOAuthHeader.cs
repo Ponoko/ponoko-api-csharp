@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Collections.Specialized;
 using OAuth.Net.Common;
-using Ponoko.Api.Core;
 using Ponoko.Api.Rest.Security.OAuth.Core;
 using Ponoko.Api.Sugar;
 
@@ -61,11 +59,11 @@ namespace Ponoko.Api.Rest.Security.OAuth.Impl.OAuth.Net {
 			var result = new NameValueCollection();
 
 			foreach (var parameter in from.RequestLine.Parameters) {
-				result.Add(parameter.Name, parameter.Value);
+				result.Add(parameter.Name, parameter.Value.ToString());
 			}
 				
-			foreach (var parameter in from.Payload.Parameters) {
-				result.Add(parameter.Name, parameter.Value);
+			foreach (var parameter in from.Payload.Fields) {
+				result.Add(parameter.Name, parameter.Value != null ? parameter.Value.ToString() : null);
 			}
 
 			return result;

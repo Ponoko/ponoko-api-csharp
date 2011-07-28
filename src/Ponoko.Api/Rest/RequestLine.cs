@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.Specialized;
-using Ponoko.Api.Core;
 
 namespace Ponoko.Api.Rest {
 	public class RequestLine {
@@ -23,7 +21,7 @@ namespace Ponoko.Api.Rest {
 		public List<Parameter> Parameters {
 			get {
 				var temp = System.Web.HttpUtility.ParseQueryString(Uri.Query);
-				var result = new List<Parameter>(temp .Count);
+				var result = new List<Parameter>(temp.Count);
 				
 				foreach (var key in temp.AllKeys) {
 					foreach (var value in temp[key].Split(new [] {','}, StringSplitOptions.RemoveEmptyEntries)) {

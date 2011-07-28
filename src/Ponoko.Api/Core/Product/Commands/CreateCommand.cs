@@ -34,32 +34,28 @@ namespace Ponoko.Api.Core.Product.Commands {
 		private void Validate(ProductSeed seed) { _validator.Validate(seed); }
 
 		private Payload ToPayload(ProductSeed seed, params Design[] designs) {
-			var parameters = new List<Parameter> {
-				new Parameter{Name = "name"	, Value = seed.Name}, 
-				new Parameter{Name = "notes", Value = seed.Notes}, 
-				new Parameter{Name = "ref"	, Value = seed.Reference}
-			};
+			var payload = new Payload();
+			payload.Fields.Add(new Field {Name = "name", Value = seed.Name});
+			payload.Fields.Add(new Field {Name = "notes", Value = seed.Notes});
+			payload.Fields.Add(new Field {Name = "ref", Value = seed.Reference});
 			
-			var theFiles = new List<DataItem>();
-
 			foreach (var design in designs) {
-				parameters.AddRange(ToParameters(design));
-				
-				theFiles.Add(new DataItem(
-				    "designs[][uploaded_data]", 
-				    new FileInfo(design.Filename), "xxx"
-				));
-			}
+				payload.Fields.AddRange(ToFields(design));
 
-			return new Payload(parameters, theFiles);
+				payload.Fields.Add(new Field {
+				    Value = new DataItem("designs[][uploaded_data]", new FileInfo(design.Filename), "xxx")
+				});
+			}
+			
+			return payload;
 		}
 
-		private IEnumerable<Parameter> ToParameters(Design design) {
-			return new List<Parameter> {
-             	new Parameter {Name = "designs[][ref]",				Value = design.Reference},
-             	new Parameter {Name = "designs[][filename]",		Value = Path.GetFileName(design.Filename)},
-             	new Parameter {Name = "designs[][quantity]",		Value = design.Quantity.ToString()},
-             	new Parameter {Name = "designs[][material_key]",	Value = design.MaterialKey}
+		private IEnumerable<Field> ToFields(Design design) {
+			return new List<Field> {
+             	new Field {Name = "designs[][ref]",				Value = design.Reference},
+             	new Field {Name = "designs[][filename]",		Value = Path.GetFileName(design.Filename)},
+             	new Field {Name = "designs[][quantity]",		Value = design.Quantity.ToString()},
+             	new Field {Name = "designs[][material_key]",	Value = design.MaterialKey}
 			};
 		}
 
