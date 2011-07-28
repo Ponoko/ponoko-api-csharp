@@ -1,5 +1,4 @@
 ﻿using NUnit.Framework;
-using Ponoko.Api.Core;
 using Ponoko.Api.Core.Product;
 using Ponoko.Api.Core.Product.Commands;
 
@@ -59,7 +58,7 @@ namespace Ponoko.Api.Acceptance.Tests.Examples.Products {
 		public void you_can_add_a_new_design() {
 			var theInitialDesignCount = ExampleProduct.Designs.Count;
 
-			var command = new UpdateCommand(Internet, Settings.BaseUrl, new DefaultProductValidator());
+			var command = new AddDesignCommand(Internet, Settings.BaseUrl);
 			var theNewDesign = NewDesign();
 
 			var result = command.Add(ExampleProduct.Key, theNewDesign);

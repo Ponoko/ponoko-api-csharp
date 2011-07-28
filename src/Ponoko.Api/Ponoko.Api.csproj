@@ -75,6 +75,7 @@
     <Compile Include="Core\MaterialsCatalogue.cs" />
     <Compile Include="Core\Node.cs" />
     <Compile Include="Core\Nodes.cs" />
+    <Compile Include="Core\Product\Commands\AddDesignCommand.cs" />
     <Compile Include="Core\Product\Commands\DefaultProductValidator.cs" />
     <Compile Include="Core\Product\Commands\DeleteCommand.cs" />
     <Compile Include="Core\Product\Commands\ProductValidator.cs" />

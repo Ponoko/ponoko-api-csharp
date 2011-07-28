@@ -1,5 +1,4 @@
 ﻿using System;
-using System.IO;
 using System.Net;
 using Ponoko.Api.Json;
 using Ponoko.Api.Rest;
@@ -37,7 +36,7 @@ namespace Ponoko.Api.Core.Product.Commands {
 			var theError = TryDeserialize(json);
 
 			return new Exception(String.Format(
-				"Failed to save product. The server returned status {0} ({1}), and error message: \"{2}\"", 
+				"Failed to update product. The server returned status {0} ({1}), and error message: \"{2}\"", 
 				response.StatusCode, 
 				(Int32)response.StatusCode, 
 				theError
@@ -59,26 +58,6 @@ namespace Ponoko.Api.Core.Product.Commands {
 			return payload;
 		}
 		
-		public Product Add(String productKey, Design design) {
-			var uri = Map("/products/{0}/add-design", productKey);
-
-			var payload = new Payload();
-
-			payload.Fields.Add(new Field {Name = "ref",		Value = design.Reference});
-			payload.Fields.Add(new Field {Name = "filename", Value = Path.GetFileName(design.Filename)});
-			payload.Fields.Add(new Field {Name = "uploaded_data", Value = new DataItem("uploaded_data", new FileInfo(design.Filename), "xxx")});
-			payload.Fields.Add(new Field {Name = "quantity", Value = design.Quantity});
-			payload.Fields.Add(new Field {Name = "material_key", Value = design.MaterialKey});
-
-			using (var response = MultipartPost(uri, payload)) {
-				if (response.StatusCode == HttpStatusCode.OK)
-					return Deserialize(response);
-
-				throw Error(response);
-			}
-		}
-
-		private Response MultipartPost(Uri uri, Payload payload) { return _internet.Post(uri, new MultipartFormData(), payload); }
 		private Response Post(Uri uri, Payload payload) { return _internet.Post(uri, new FormUrlEncoded(), payload); }
 	}
 }
