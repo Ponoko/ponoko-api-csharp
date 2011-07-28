@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using Ponoko.Api.Json;
 using Ponoko.Api.Rest;
 
 namespace Ponoko.Api.Core {
@@ -26,6 +27,17 @@ namespace Ponoko.Api.Core {
 		protected String ReadAll(Response response) {
 			using (var rdr = new StreamReader(response.Open())) {
 				return rdr.ReadToEnd();
+			}
+		}
+
+		protected Error TryDeserialize(String json) {
+			try {
+				return ErrorDeserializer.Deserialize(json);
+			} catch (Exception e) {
+				throw new Exception(String.Format(
+					"There was a problem deserializing the error message. The body of the response is: {0}", json), 
+				    e
+				);
 			}
 		}
 	}

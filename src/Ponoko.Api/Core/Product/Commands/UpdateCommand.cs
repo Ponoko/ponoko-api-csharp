@@ -43,17 +43,6 @@ namespace Ponoko.Api.Core.Product.Commands {
 			));
 		}
 
-		private Error TryDeserialize(String json) {
-			try {
-				return ErrorDeserializer.Deserialize(json);
-			} catch (Exception e) {
-				throw new Exception(String.Format(
-					"There was a problem deserializing the error message. The body of the response is: {0}", json), 
-				    e
-				);
-			}
-		}
-
 		private Product Deserialize(Response response) {
 			var json = new Deserializer().Deserialize(ReadAll(response))["product"].ToString();
 			return ProductDeserializer.Deserialize(json);
