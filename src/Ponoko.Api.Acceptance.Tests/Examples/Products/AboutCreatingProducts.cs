@@ -226,16 +226,5 @@ namespace Ponoko.Api.Acceptance.Tests.Examples.Products {
 			Assert.AreEqual(actual.MakeCost.Materials	, 0D);
 			Assert.AreEqual(actual.MakeCost.Currency	, "USD");
 		}
-
-		private Design NewDesign() {
-			const String VALID_MATERIAL_KEY = "6bb50fd03269012e3526404062cdb04a";
-
-			return new Design {
-				Filename	= new FileInfo(@"res\bottom_new.stl").FullName,
-				MaterialKey = VALID_MATERIAL_KEY,
-				Quantity	= 1,
-				Reference	= "42"
-			};
-		}
 	}
 }

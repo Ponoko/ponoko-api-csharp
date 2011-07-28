@@ -1,4 +1,5 @@
 ﻿using NUnit.Framework;
+using Ponoko.Api.Core;
 using Ponoko.Api.Core.Product;
 using Ponoko.Api.Core.Product.Commands;
 
@@ -52,6 +53,18 @@ namespace Ponoko.Api.Acceptance.Tests.Examples.Products {
 			Assert.That(result.CreatedAt, Is.EqualTo(initialCreatedAt), 
 				"Expected then created_at timestamp to have retained its initial value"
 			);
+		}
+
+		[Test]
+		public void you_can_add_a_new_design() {
+			var theInitialDesignCount = ExampleProduct.Designs.Count;
+
+			var command = new UpdateCommand(Internet, Settings.BaseUrl, new DefaultProductValidator());
+			var theNewDesign = NewDesign();
+
+			var result = command.Add(ExampleProduct.Key, theNewDesign);
+
+			Assert.AreEqual(theInitialDesignCount + 1, result.Designs.Count, "Expected the new design to have been added");
 		}
 
 		private Product ExampleProduct { get; set; }
