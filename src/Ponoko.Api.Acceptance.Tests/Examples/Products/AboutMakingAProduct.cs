@@ -1,7 +1,5 @@
-﻿using System;
-using NUnit.Framework;
+﻿using NUnit.Framework;
 using Ponoko.Api.Core.Product;
-using Ponoko.Api.Core.Product.Commands;
 using Ponoko.Api.Core.Shipping;
 using Ponoko.Api.Core.Shipping.Commands;
 using FindCommand = Ponoko.Api.Core.Shipping.Commands.FindCommand;
@@ -9,15 +7,14 @@ using FindCommand = Ponoko.Api.Core.Shipping.Commands.FindCommand;
 namespace Ponoko.Api.Acceptance.Tests.Examples.Products {
 	[TestFixture]
 	public class AboutMakingAProduct : ProductAcceptanceTest {
-		private Product _exampleProduct;
+		[SetUp]
+		public void SetUp() {
+			ExampleProduct = NewProduct("A product to for making");	
+		}
 
-		[TestFixtureTearDown]
-		public void TestFixtureTearDown() {
-			Assert.Throws<Exception>(() => 
-				new DeleteCommand(Internet, Settings.BaseUrl).Delete(ExampleProduct.Key), 
-                "Expected this to fail because at the time of writing the delete operation is broken on the server end. " + 
-                "It didn't fail, so the remote end has been fixed and you can remove this assertion."
-			);
+		[TearDown]
+		public void TearDown() {
+			Delete(ExampleProduct);
 		}
 
 		[Test]
@@ -61,10 +58,6 @@ namespace Ponoko.Api.Acceptance.Tests.Examples.Products {
 			var order = command.Create(reference, theFirstShippingOption, ExampleShippingAddress, ExampleShippingInfo);
 
 			Assert.AreEqual(ExampleProduct.Key, order.Key, "Unexpected key returned");
-		}
-
-		private Product ExampleProduct {
-			get { return _exampleProduct ?? (_exampleProduct = GetFirstProduct()); }
 		}
 
 		private NameAndAddress ExampleShippingAddress {
@@ -117,13 +110,7 @@ namespace Ponoko.Api.Acceptance.Tests.Examples.Products {
 			}
 		}
 
-		private Product GetFirstProduct() {
-			given_at_least_one_product("An example for purchasing");
-
-			var theKey = FindFirstProductKey();
-
-			return new Core.Product.Commands.FindCommand(Internet, Settings.BaseUrl).Find(theKey);
-		}
+		private Product ExampleProduct { get; set; }
 
 		// TEST: you_have_to_supply_a_product
 		// TEST: you_can_order_more_that_one

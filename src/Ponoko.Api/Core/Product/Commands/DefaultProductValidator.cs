@@ -7,8 +7,8 @@ namespace Ponoko.Api.Core.Product.Commands {
 	public class DefaultProductValidator : ProductValidator {
 		private readonly ReadonlyFileSystem _fileSystem;
 
-		public DefaultProductValidator(ReadonlyFileSystem fileSystem) {
-			_fileSystem = fileSystem;
+		public DefaultProductValidator() {
+			_fileSystem = new DefaultReadonlyFileSystem();
 		}
 
 		public void Validate(ProductSeed seed) {
