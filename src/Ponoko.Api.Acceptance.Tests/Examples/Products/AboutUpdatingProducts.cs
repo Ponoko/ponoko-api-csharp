@@ -66,6 +66,29 @@ namespace Ponoko.Api.Acceptance.Tests.Examples.Products {
 			Assert.AreEqual(theInitialDesignCount + 1, result.Designs.Count, "Expected the new design to have been added");
 		}
 
+		[Test]
+		public void you_can_add_update_an_existing_design_for_example_you_can_change_its_material() {
+			var command = new AddDesignCommand(Internet, Settings.BaseUrl);
+			
+			var theDesign = ExampleProduct.Designs[0];
+			var theOriginalMaterial = theDesign.MaterialKey;
+
+			theDesign.MaterialKey = ExampleMaterials.SUPERFINE_PLASTIC;
+
+			var result = command.Update(ExampleProduct.Key, theDesign);
+
+			var theUpdatedDesign = result.Designs[0];
+
+			Assert.AreEqual(ExampleMaterials.SUPERFINE_PLASTIC, theUpdatedDesign.MaterialKey, 
+				"Expected the design's material key to have been updated"
+			);
+			Assert.AreNotEqual(theOriginalMaterial, theUpdatedDesign.MaterialKey, 
+				"Expected the design's material key to have been changed from what it was"
+			);
+		}
+
+		// [Test] public void you_can_only_change_the_file_name_when_uploading_a_new_design_file
+
 		private Product ExampleProduct { get; set; }
 	}
 }

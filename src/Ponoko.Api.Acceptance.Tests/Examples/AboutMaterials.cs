@@ -38,6 +38,10 @@ namespace Ponoko.Api.Acceptance.Tests.Examples {
 			
 			var all = catalogue.FindAll(FirstNodeKey);
 
+			foreach (var material in all) {
+				Console.WriteLine("{0}, {1}, {2}", material.Name, material.Key, material.Type);
+			}
+
 			Assert.Greater(all.Count, 0, "Expected at least some materials for the node key <{0}>.", FirstNodeKey);
 		}
 

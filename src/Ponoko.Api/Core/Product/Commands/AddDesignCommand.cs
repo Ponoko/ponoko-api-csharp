@@ -31,6 +31,28 @@ namespace Ponoko.Api.Core.Product.Commands {
 			}
 		}
 
+		public Product Update(String productKey, Design design) {
+			var uri = Map("/products/{0}/update-design/{1}", productKey, design.Key);
+
+			var payload = new Payload();
+
+			payload.Fields.Add(new Field {Name = "ref",				Value = design.Reference});
+			//payload.Fields.Add(new Field {Name = "filename",		Value = Path.GetFileName(design.Filename)});
+			//payload.Fields.Add(new Field {
+			//    Name = "uploaded_data",	
+			//    Value = new DataItem("uploaded_data", new FileInfo(design.Filename), "xxx")
+			//});
+			payload.Fields.Add(new Field {Name = "quantity",		Value = design.Quantity});
+			payload.Fields.Add(new Field {Name = "material_key",	Value = design.MaterialKey});
+
+			using (var response = MultipartPost(uri, payload)) {
+				if (response.StatusCode == HttpStatusCode.OK)
+					return Deserialize(response);
+
+				throw Error(response);
+			}
+		}
+
 		private Product Deserialize(Response response) {
 			var json = new Deserializer().Deserialize(ReadAll(response))["product"].ToString();
 			return ProductDeserializer.Deserialize(json);

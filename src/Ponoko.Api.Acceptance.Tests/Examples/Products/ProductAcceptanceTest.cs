@@ -11,6 +11,13 @@ using Ponoko.Api.Rest;
 using Ponoko.Api.Rest.Mime;
 
 namespace Ponoko.Api.Acceptance.Tests.Examples.Products {
+	public static class ExampleMaterials {
+		public const String METAL = "6b0fa5b03269012e3438404062cdb04a";
+		public const String ACRYLIC = "68876ab03269012e2fd9404062cdb04a";
+		public const String DURABLE_PLASTIC = "6bb50fd03269012e3526404062cdb04a";
+		public const String SUPERFINE_PLASTIC = "6bb5ac203269012e3528404062cdb04a";	
+	}
+
 	public class ProductAcceptanceTest : AcceptanceTest {
 		public CreateCommand CreateCommand { get; set; }
 
@@ -33,7 +40,7 @@ namespace Ponoko.Api.Acceptance.Tests.Examples.Products {
          		new Field { Name = "designs[][ref]"				, Value = "1337"},
          		new Field { Name = "designs[][filename]"		, Value = "bottom_new.stl"},
          		new Field { Name = "designs[][quantity]"		, Value = "1"},
-         		new Field { Name = "designs[][material_key]"	, Value = "6bb50fd03269012e3526404062cdb04a"},
+         		new Field { Name = "designs[][material_key]"	, Value = ExampleMaterials.DURABLE_PLASTIC},
          		new Field { 
 					Name = "file", 
 					Value = new DataItem(
