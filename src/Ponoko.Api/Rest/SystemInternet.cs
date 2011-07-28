@@ -46,11 +46,11 @@ namespace Ponoko.Api.Rest {
 			return TryExecute(authorized);
 		}
 
-		private void AddBody(IHttpRequest httpRequest, HttpContentType contentType, Payload payload) {
+		private void AddBody(HttpWebRequest httpRequest, HttpContentType contentType, Payload payload) {
 			using (var body = contentType.Format(payload)) {
 				httpRequest.ContentLength = body.ContentLength;
 				httpRequest.ContentType = body.ContentType;
-				using (var outStream = httpRequest.Open()) {
+				using (var outStream = httpRequest.GetRequestStream()) {
 					Copy(body.Open(), outStream);
 				}
 			}
@@ -67,7 +67,7 @@ namespace Ponoko.Api.Rest {
 			}
 		}
 
-		private SystemHttpRequest AuthorizeAndConvert(Request request) {
+		private HttpWebRequest AuthorizeAndConvert(Request request) {
 			var authorized = _authPolicy.Authorize(request);
 			
 			var result = Convert(authorized);
@@ -76,26 +76,21 @@ namespace Ponoko.Api.Rest {
 			return result;
 		}
 
-		private SystemHttpRequest Convert(Request authorized) {
-			var uriBuilder = new UriBuilder(authorized.RequestLine.Uri);
-
-			var result = new SystemHttpRequest(uriBuilder.Uri) {Method = authorized.RequestLine.Verb};
-
-			foreach (var key in authorized.Headers.Keys) {
-				result.AddHeader(key.ToString(), authorized.Headers[key.ToString()]);
-			}
+		private HttpWebRequest Convert(Request authorized) {
+			var result = (HttpWebRequest)WebRequest.Create(authorized.RequestLine.Uri);
+			result.Headers.Add(authorized.Headers);
 
 			return result;
 		}
 
-		private Response TryExecute(SystemHttpRequest request) {
+		private Response TryExecute(HttpWebRequest request) {
 			Print(request);
 
 			HttpWebResponse innerResponse;
 
 			try {
 				request.AllowAutoRedirect = false;
-				innerResponse = request.GetResponse();
+				innerResponse = (HttpWebResponse)request.GetResponse();
 			} catch (WebException e) {
 				if (e.Status != WebExceptionStatus.ProtocolError)
 					throw;
@@ -106,7 +101,7 @@ namespace Ponoko.Api.Rest {
 			return new SystemResponse(innerResponse);
 		}
 
-		private void Print(SystemHttpRequest request) {
+		private void Print(HttpWebRequest request) {
 			Log.Info("{0} {1}", request.Method, request.RequestUri.AbsoluteUri);
 			Log.Info("Content-type: {0}", request.ContentType ?? "empty");
 		}

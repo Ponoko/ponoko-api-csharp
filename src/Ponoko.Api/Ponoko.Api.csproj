@@ -109,10 +109,8 @@
     <Compile Include="Logging\Log.cs" />
     <Compile Include="Rest\Mime\FormUrlEncoded.cs" />
     <Compile Include="Rest\Mime\HttpContentType.cs" />
-    <Compile Include="Rest\IHttpRequest.cs" />
     <Compile Include="Rest\Mime\MultipartFormDataDataItemFormatter.cs" />
     <Compile Include="Rest\Payload.cs" />
-    <Compile Include="Rest\SystemHttpRequest.cs" />
     <Compile Include="Rest\SystemInternet.cs" />
     <Compile Include="Rest\TheInternet.cs" />
     <Compile Include="Rest\Security\OAuth\Core\Credential.cs" />
