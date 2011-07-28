@@ -87,6 +87,8 @@
     <Compile Include="Core\Shipping\ShippingOptions.cs" />
     <Compile Include="Core\Shipping\Commands\FindCommand.cs" />
     <Compile Include="Json\ShippingOptionsDeserializer.cs" />
+    <Compile Include="Rest\Mime\Body.cs" />
+    <Compile Include="Rest\Mime\MultipartFormDataBodyBuilder.cs" />
     <Compile Include="Rest\Parameter.cs" />
     <Compile Include="Core\Product\Product.cs" />
     <Compile Include="Core\Product\Commands\ProductSeed.cs" />
