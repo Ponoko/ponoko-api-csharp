@@ -47,8 +47,23 @@ namespace Ponoko.Api.Rest {
 		}
 
 		private void AddBody(IHttpRequest httpRequest, HttpContentType contentType, Payload payload) {
-			using (contentType) {
-				contentType.WriteBody(httpRequest, payload);
+			using (var body = contentType.Format(payload)) {
+				httpRequest.ContentLength = body.ContentLength;
+				httpRequest.ContentType = body.ContentType;
+				using (var outStream = httpRequest.Open()) {
+					Copy(body.Open(), outStream);
+				}
+			}
+		}
+
+		private void Copy(Stream from, Stream to) {
+			var buffer = new Byte[1024*512];
+
+			var reader = new BinaryReader(from);
+			var writer = new BinaryWriter(to);
+			var bytesRead = 0;
+			while ((bytesRead = reader.Read(buffer, 0, buffer.Length)) > 0 ) {
+				writer.Write(buffer, 0, bytesRead);
 			}
 		}
 

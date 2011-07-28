@@ -10,18 +10,19 @@ namespace Ponoko.Api.Rest.Mime {
 			get { return "application/x-www-form-urlencoded";  }
 		}
 
-		public void WriteBody(IHttpRequest request, Payload payload) {
+		public Body Format(Payload payload) {
 			var serializedParams = ToQuery(payload.Parameters);
 
-			request.ContentLength = Encoding.UTF8.GetByteCount(serializedParams);
-			request.ContentType = ContentType;
+			var result = new Body {
+				ContentLength = Encoding.UTF8.GetByteCount(serializedParams),
+				ContentType = this.ContentType
+			};
 
-			using (var writer = new StreamWriter(request.Open())) {
-			    writer.Write(serializedParams);
-			}
+			var writer = new StreamWriter(result.Open());
+			writer.Write(serializedParams);
+			return result;
 		}
 
-		// TODO: Extension
 		private String ToQuery(IEnumerable<Parameter> parameters) {
 			var buffer = new StringBuilder();
 			

@@ -5,13 +5,13 @@ using System.IO;
 
 namespace Ponoko.Api.Rest.Mime {
 	public class MultipartFormData : HttpContentType {
-		private readonly MemoryStream _stream = new MemoryStream();
+		private Stream _stream = new MemoryStream();
 		private readonly Encoding _characterEncoding = Encoding.UTF8;
 		private readonly MultipartFormDataDataItemFormatter _formatter;
 		
 		private String Boundary { get; set; }
 		public String ContentType { get; private set; }
-		private MemoryStream Stream { get { return _stream; } }
+		private Stream Stream { get { return _stream; } }
 		public Encoding CharacterEncoding { get { return _characterEncoding; }}
 
 		public MultipartFormData() {
@@ -20,17 +20,20 @@ namespace Ponoko.Api.Rest.Mime {
 			_formatter = new MultipartFormDataDataItemFormatter(Boundary);
 		}
 
-		public void WriteBody(IHttpRequest request, Payload payload) {
+		public Body Format(Payload payload) {
+			var body = new Body();
+			_stream = body.Open();
+
 			Append(payload);
 
 			AppendFooter();
 
 			Flush();
 
-			request.ContentLength = Stream.Position+1;
-			request.ContentType = ContentType;
+			body.ContentLength = body.In.Position;
+			body.ContentType = ContentType;
 
-			EmitTo(request);
+			return body;
 		}
 
 		private void Append(Payload payload) {
@@ -76,7 +79,7 @@ namespace Ponoko.Api.Rest.Mime {
 
 		private void EmitTo(IHttpRequest request) {
 			using (var outWriter = new BinaryWriter(request.Open())) {
-				outWriter.Write(Stream.GetBuffer(), 0, Convert.ToInt32(request.ContentLength));
+				outWriter.Write(((MemoryStream)Stream).GetBuffer(), 0, Convert.ToInt32(request.ContentLength));
 			}
 		}
 
