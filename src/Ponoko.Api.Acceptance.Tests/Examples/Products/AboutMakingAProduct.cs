@@ -47,7 +47,7 @@ namespace Ponoko.Api.Acceptance.Tests.Examples.Products {
 			Assert.That(result.Options[0].Price, Is.GreaterThan(0.00d), "Unexpected price for the first option, expected non-zero value.");
 		}
 
-		[Test, Ignore("PENDING: waiting for server end fix. Endpoint is returning 404 errors for some reason.")]
+		[Test]
 		public void you_can_get_a_product_made() {
 			var shippingOptions = new FindCommand(Internet, Settings.BaseUrl).For(ExampleAddress, ExampleShippingInfo);
 			var command = new OrderCreateCommand(Internet, Settings.BaseUrl);

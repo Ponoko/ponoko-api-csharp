@@ -128,7 +128,7 @@ namespace Ponoko.Api.Acceptance.Tests.Examples.Products {
 		}
 
 		[Test]
-		public void deleting_the_last_design_results_in_error() {
+		public void you_cannot_delete_the_last_design() {
 			var command = new DeleteDesignCommand(Internet, Settings.BaseUrl);
 			Assert.Throws<Exception>(() => command.Delete(ExampleProduct.Key, ExampleProduct.Designs[0].Key), 
 				"Products are only valid while they have designs and you can't delete the last design from a product."
