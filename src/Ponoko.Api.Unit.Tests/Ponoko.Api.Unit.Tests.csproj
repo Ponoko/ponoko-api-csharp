@@ -50,6 +50,7 @@
     <Compile Include="Core\DomainUnitTest.cs" />
     <Compile Include="Core\MaterialsCatalogueTests.cs" />
     <Compile Include="Core\Product\Commands\DeleteCommandTests.cs" />
+    <Compile Include="Core\Product\Commands\DeleteResourceCommandTests.cs" />
     <Compile Include="Core\Product\Commands\FindCommandTests.cs" />
     <Compile Include="Core\Product\Commands\CreateCommandTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

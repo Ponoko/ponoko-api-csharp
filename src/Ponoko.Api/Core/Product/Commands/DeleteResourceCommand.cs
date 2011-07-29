@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Net;
+using Newtonsoft.Json.Linq;
 using Ponoko.Api.Json;
 using Ponoko.Api.Rest;
 using Ponoko.Api.Sugar;
@@ -11,7 +12,7 @@ namespace Ponoko.Api.Core.Product.Commands {
 		public void Delete(Uri uri) {
 			using (var response = Post(uri, Payload.Empty)) {
 				un.less(() => response.StatusCode == HttpStatusCode.OK, () => {
-					throw new Exception("Delete failed");
+					throw Error("Deleted failed", response);
 				});
 
 				Verify(response);
@@ -20,6 +21,8 @@ namespace Ponoko.Api.Core.Product.Commands {
 
 		private void Verify(Response response) {
 			var json = new Deserializer().Deserialize(ReadAll(response));
+
+			Ensure(json);
 
 			var deleted = json.Value<String>("deleted");
 			var wasDeletedOkay = (deleted == "true");
@@ -30,6 +33,32 @@ namespace Ponoko.Api.Core.Product.Commands {
 			        deleted
 				));
 			});
+		}
+
+		private void Ensure(JObject json) {
+			var hasTheFlag = HasDeletedFlag(json);
+
+			un.less (hasTheFlag, () => {
+				throw new Exception(String.Format(
+         			"Delete failed. " +
+         			"Expected the response to contain a deleted flag, but it does not. " +
+         			"The server returned: {0}",
+         			json
+				));
+			});
+		}
+
+		private bool HasDeletedFlag(JObject json) {
+			var hasTheFlag = false;
+
+			foreach (JProperty property in json.Properties()) {
+				if (property.Name == "deleted") {
+					hasTheFlag = true;
+					break;
+				}
+			}
+
+			return hasTheFlag;
 		}
 	}
 }
