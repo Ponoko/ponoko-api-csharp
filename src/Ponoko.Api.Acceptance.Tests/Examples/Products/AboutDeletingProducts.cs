@@ -11,7 +11,7 @@ namespace Ponoko.Api.Acceptance.Tests.Examples.Products {
 			
 			var id = FindFirstProductKey();
 
-			new DeleteCommand(Internet, Settings.BaseUrl);
+			new DeleteCommand(Internet, Settings.BaseUrl).Delete(id);
 
 			then_the_product_does_not_exist_with_key(id);
 		}
@@ -23,7 +23,6 @@ namespace Ponoko.Api.Acceptance.Tests.Examples.Products {
 			Assert.IsNull(result, "Expected that finding the product with key <{0}> would return null.", id);
 		}
 
-		
 		// [Test] public void it_deletes_all_products_with_the_same_key() { }
 		// [Test] public void cannot_delete_a_product_that_has_been_made() { }
 	}

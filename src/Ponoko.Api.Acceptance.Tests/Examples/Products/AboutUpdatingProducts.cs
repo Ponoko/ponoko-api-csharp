@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using NUnit.Framework;
 using Ponoko.Api.Core.Product;
 using Ponoko.Api.Core.Product.Commands;
@@ -102,6 +103,36 @@ namespace Ponoko.Api.Acceptance.Tests.Examples.Products {
 			var theUpdatedDesign = result.Designs[0];	
 
 			Assert.AreEqual(theNewFile.Name, theUpdatedDesign.Filename, "Expected the filename to have been updated");
+		}
+
+		[Test]
+		public void you_can_delete_a_design() {
+			var theLastDesign = ExampleProduct.Designs[0];
+			var addNewDesign = new AddDesignCommand(Internet, Settings.BaseUrl);
+			
+			ExampleProduct = addNewDesign.Add(ExampleProduct.Key, NewDesign());
+
+			Assert.AreEqual(2, ExampleProduct.Designs.Count, 
+				"In order for this test to be valid, the product needs to have " + 
+				"more than one design (since you can't delete the last one)"
+			);
+
+			var command = new DeleteDesignCommand(Internet, Settings.BaseUrl);
+
+			command.Delete(ExampleProduct.Key, ExampleProduct.Designs[1].Key);
+
+			var theRefreshedProduct = new FindCommand(Internet, Settings.BaseUrl).Find(ExampleProduct.Key);
+
+			Assert.AreEqual(1, theRefreshedProduct.Designs.Count, "Expected the desing to have been deleted");
+			Assert.AreEqual(theLastDesign.Key, theRefreshedProduct.Designs[0].Key, "Expected that the newly-added one was deleted");
+		}
+
+		[Test]
+		public void deleting_the_last_design_results_in_error() {
+			var command = new DeleteDesignCommand(Internet, Settings.BaseUrl);
+			Assert.Throws<Exception>(() => command.Delete(ExampleProduct.Key, ExampleProduct.Designs[0].Key), 
+				"Products are only valid while they have designs and you can't delete the last design from a product."
+			);
 		}
 
 		private Product ExampleProduct { get; set; }
