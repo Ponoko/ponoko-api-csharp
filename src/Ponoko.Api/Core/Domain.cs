@@ -71,5 +71,18 @@ namespace Ponoko.Api.Core {
 				);
 			}
 		}
+
+		protected Exception Error(String message, Response response) {
+			var json = ReadAll(response);
+			var theError = TryDeserialize(json);
+
+			return new Exception(String.Format(
+				"{0}. The server returned status {1} ({2}), and error message: \"{3}\"", 
+				message,
+				response.StatusCode, 
+				(Int32)response.StatusCode, 
+				theError
+			));
+		}
 	}
 }

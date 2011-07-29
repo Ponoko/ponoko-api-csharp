@@ -3,7 +3,6 @@ using System.IO;
 using System.Net;
 using Ponoko.Api.Json;
 using Ponoko.Api.Rest;
-using Ponoko.Api.Rest.Mime;
 
 namespace Ponoko.Api.Core.Product.Commands {
 	public class AddDesignCommand : Domain {
@@ -54,25 +53,13 @@ namespace Ponoko.Api.Core.Product.Commands {
 				if (response.StatusCode == HttpStatusCode.OK)
 					return Deserialize(response);
 
-				throw Error(response);
+				throw Error("Failed to update design", response);
 			}
 		}
 
 		private Product Deserialize(Response response) {
 			var json = new Deserializer().Deserialize(ReadAll(response))["product"].ToString();
 			return ProductDeserializer.Deserialize(json);
-		}
-
-		private Exception Error(Response response) {
-			var json = ReadAll(response);
-			var theError = TryDeserialize(json);
-
-			return new Exception(String.Format(
-				"Failed to update design. The server returned status {0} ({1}), and error message: \"{2}\"", 
-				response.StatusCode, 
-				(Int32)response.StatusCode, 
-				theError
-			));
 		}
 	}
 }

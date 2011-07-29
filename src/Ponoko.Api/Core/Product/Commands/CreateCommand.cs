@@ -25,7 +25,7 @@ namespace Ponoko.Api.Core.Product.Commands {
 				if (response.StatusCode == HttpStatusCode.OK)
 					return Deserialize(response);
 
-				throw Error(response);
+				throw Error("Failed to create product", response);
 			}
 		}
 
@@ -56,18 +56,6 @@ namespace Ponoko.Api.Core.Product.Commands {
              	new Field {Name = "designs[][quantity]",		Value = design.Quantity.ToString()},
              	new Field {Name = "designs[][material_key]",	Value = design.MaterialKey}
 			};
-		}
-
-		private Exception Error(Response response) {
-			var json = ReadAll(response);
-			var theError = TryDeserialize(json);
-
-			return new Exception(String.Format(
-				"Failed to save product. The server returned status {0} ({1}), and error message: \"{2}\"", 
-				response.StatusCode, 
-				(Int32)response.StatusCode, 
-				theError
-			));
 		}
 
 		private Product Deserialize(Response response) {
