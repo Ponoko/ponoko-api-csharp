@@ -75,6 +75,7 @@
     <Compile Include="Core\MaterialsCatalogue.cs" />
     <Compile Include="Core\Node.cs" />
     <Compile Include="Core\Nodes.cs" />
+    <Compile Include="Core\Orders\FindCommand.cs" />
     <Compile Include="Core\Product\Commands\AddDesignCommand.cs" />
     <Compile Include="Core\Product\Commands\DefaultProductValidator.cs" />
     <Compile Include="Core\Product\Commands\DeleteCommand.cs" />
@@ -137,9 +138,6 @@
     <Compile Include="Rest\Request.cs" />
     <Compile Include="Rest\Security\OAuth\Core\ParameterInclusionPolicy.cs" />
     <Compile Include="Sugar\Un.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Core\Orders\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
