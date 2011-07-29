@@ -1,4 +1,5 @@
-﻿using NUnit.Framework;
+﻿using System.IO;
+using NUnit.Framework;
 using Ponoko.Api.Core.Product;
 using Ponoko.Api.Core.Product.Commands;
 
@@ -67,7 +68,7 @@ namespace Ponoko.Api.Acceptance.Tests.Examples.Products {
 		}
 
 		[Test]
-		public void you_can_add_update_an_existing_design_for_example_you_can_change_its_material() {
+		public void you_can_update_an_existing_design_for_example_you_can_change_its_material() {
 			var command = new AddDesignCommand(Internet, Settings.BaseUrl);
 			
 			var theDesign = ExampleProduct.Designs[0];
@@ -82,12 +83,26 @@ namespace Ponoko.Api.Acceptance.Tests.Examples.Products {
 			Assert.AreEqual(ExampleMaterials.SUPERFINE_PLASTIC, theUpdatedDesign.MaterialKey, 
 				"Expected the design's material key to have been updated"
 			);
+
 			Assert.AreNotEqual(theOriginalMaterial, theUpdatedDesign.MaterialKey, 
 				"Expected the design's material key to have been changed from what it was"
 			);
 		}
 
-		// [Test] public void you_can_only_change_the_file_name_when_uploading_a_new_design_file
+		[Test] 
+		public void you_can_only_change_the_file_name_when_uploading_a_new_design_file() {
+			var command = new AddDesignCommand(Internet, Settings.BaseUrl);
+			
+			var theDesign = ExampleProduct.Designs[0];
+
+			var theNewFile = new FileInfo("res\\another_bottom_new.stl");
+
+			var result = command.Update(ExampleProduct.Key, theDesign, theNewFile);
+
+			var theUpdatedDesign = result.Designs[0];	
+
+			Assert.AreEqual(theNewFile.Name, theUpdatedDesign.Filename, "Expected the filename to have been updated");
+		}
 
 		private Product ExampleProduct { get; set; }
 	}
