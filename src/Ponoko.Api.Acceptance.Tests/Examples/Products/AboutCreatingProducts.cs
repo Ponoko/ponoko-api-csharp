@@ -45,16 +45,28 @@ namespace Ponoko.Api.Acceptance.Tests.Examples.Products {
 				"Expected the product to be returned with a node key."
 			);
 
-    		AssertIsAboutUtcNow(theNewProduct.CreatedAt, TimeSpan.FromSeconds(5));
-    		AssertIsAboutUtcNow(theNewProduct.UpdatedAt, TimeSpan.FromSeconds(5));
+    		AssertIsAboutUtcNow(theNewProduct.CreatedAt, TimeSpan.FromSeconds(10));
+    		AssertIsAboutUtcNow(theNewProduct.UpdatedAt, TimeSpan.FromSeconds(10));
     		
 			Assert.AreEqual(1, theNewProduct.Designs.Count, 
 				"Expected the new product to have the design we supplied."
 			);
+
     		AssertEqual(expectedDesign, actualDesign);
-			Assert.IsNull(actualDesign.MaterialKey, 
-				"Expected no material key because the product's materials are not available."
-			);
+
+			var shouldHaveMaterialKey = theNewProduct.AreMaterialsAvailable;
+
+			if (shouldHaveMaterialKey) {
+				Assert.IsNotNull(actualDesign.MaterialKey, 
+					"Expected a material key because the product's materials are available."
+				);
+			} else {
+				Assert.IsNull(actualDesign.MaterialKey, 
+					"Expected no material key because the product's materials are not available."
+				);
+			}
+
+			
     	}
 
 		[Test]
@@ -221,10 +233,11 @@ namespace Ponoko.Api.Acceptance.Tests.Examples.Products {
 			Assert.AreEqual(expected.Quantity, actual.Quantity);
 			Assert.AreEqual(expected.Reference, actual.Reference);
 			
-			Assert.AreEqual(actual.MakeCost.Total		, 0D);
-			Assert.AreEqual(actual.MakeCost.Making		, 0D);
-			Assert.AreEqual(actual.MakeCost.Materials	, 0D);
-			Assert.AreEqual(actual.MakeCost.Currency	, "USD");
+			Assert.That(actual.MakeCost.Total, Is.GreaterThan(0D), "Unexpected total make cost");
+			Assert.That(actual.MakeCost.Making, Is.GreaterThan(0D), "Unexpected making cost");
+			Assert.That(actual.MakeCost.Materials, Is.GreaterThan(0D), "Unexpected material making cost");
+			
+			Assert.AreEqual("USD", actual.MakeCost.Currency	, "Unexpected currency");
 		}
 	}
 }
