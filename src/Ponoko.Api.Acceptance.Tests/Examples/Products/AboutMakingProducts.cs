@@ -6,7 +6,7 @@ using FindCommand = Ponoko.Api.Core.Shipping.Commands.FindCommand;
 
 namespace Ponoko.Api.Acceptance.Tests.Examples.Products {
 	[TestFixture]
-	public class AboutMakingAProduct : ProductAcceptanceTest {
+	public class AboutMakingProducts : ProductAcceptanceTest {
 		[SetUp]
 		public void SetUp() {
 			ExampleProduct = NewProduct("A product to for making");	

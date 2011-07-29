@@ -75,7 +75,7 @@
     <Compile Include="Examples\Products\AboutCreatingProducts.cs" />
     <Compile Include="Examples\Products\AboutFetchingProducts.cs" />
     <Compile Include="Examples\Products\AboutDeletingProducts.cs" />
-    <Compile Include="Examples\Products\AboutMakingAProduct.cs" />
+    <Compile Include="Examples\Products\AboutMakingProducts.cs" />
     <Compile Include="Examples\Products\AboutUpdatingProducts.cs" />
     <Compile Include="Examples\Products\ProductAcceptanceTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
