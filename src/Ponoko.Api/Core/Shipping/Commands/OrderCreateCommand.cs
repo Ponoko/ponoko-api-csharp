@@ -20,7 +20,7 @@ namespace Ponoko.Api.Core.Shipping.Commands {
 			fields.AddRange(Format(product));
 			fields.AddRange(Format(shipTo));
 			
-			var response = _internet.Post(uri, new FormUrlEncoded(), new Payload(fields));
+			var response = Post(uri, new Payload(fields));
 
 			Console.WriteLine(response.StatusCode);
 			Console.WriteLine(new Deserializer().Deserialize(ReadAll(response)));

@@ -4,7 +4,6 @@ using System.IO;
 using System.Net;
 using Ponoko.Api.Json;
 using Ponoko.Api.Rest;
-using Ponoko.Api.Rest.Mime;
 
 namespace Ponoko.Api.Core.Product.Commands {
 	public class CreateCommand : Domain {
@@ -20,9 +19,9 @@ namespace Ponoko.Api.Core.Product.Commands {
 
 			var payload = ToPayload(seed, designs);
 
-			var uri = Map("{0}", "/products");
+			var uri = Map("/products");
 
-			using (var response = Post(uri, payload)) {
+			using (var response = MultipartPost(uri, payload)) {
 				if (response.StatusCode == HttpStatusCode.OK)
 					return Deserialize(response);
 
@@ -75,7 +74,5 @@ namespace Ponoko.Api.Core.Product.Commands {
 			var json = new Deserializer().Deserialize(ReadAll(response))["product"].ToString();
 			return ProductDeserializer.Deserialize(json);
 		}
-
-		private Response Post(Uri uri, Payload payload) { return _internet.Post(uri, new MultipartFormData(), payload); }
 	}
 }

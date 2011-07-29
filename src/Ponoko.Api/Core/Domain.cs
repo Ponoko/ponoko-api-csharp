@@ -1,7 +1,9 @@
 ﻿using System;
 using System.IO;
+using System.Net;
 using Ponoko.Api.Json;
 using Ponoko.Api.Rest;
+using Ponoko.Api.Rest.Mime;
 
 namespace Ponoko.Api.Core {
 	public class Domain {
@@ -18,9 +20,38 @@ namespace Ponoko.Api.Core {
 			return new Uri(String.Format("{0}{1}", _baseUrl, relativeUrl));
 		}
 
-		protected String Get(Uri uri) {
-			using (var response = _internet.Get(uri)) {
-				return ReadAll(response);
+		protected Response Get(Uri uri) {
+			var response = _internet.Get(uri);
+			EnsureAuthorized(response);
+			return response;
+		}
+
+		protected Response MultipartPost(Uri uri, Payload payload) {
+			return Post(uri, new MultipartFormData(), payload);
+		}
+
+		protected Response Post(Uri uri, Payload payload) {
+			return Post(uri, new FormUrlEncoded(), payload);
+		}
+
+		protected Response Post(Uri uri, HttpContentType contentType, Payload payload) {
+			var response = _internet.Post(uri, contentType, payload);
+			EnsureAuthorized(response);
+			return response;
+		}
+
+		private void EnsureAuthorized(Response response) {
+			var unauthorized = HttpStatusCode.Unauthorized;
+			
+			if (response.StatusCode == unauthorized) {
+				var message = String.Format(
+					"Authorization failed. " +
+					"The server returned status {0} ({1}).", 
+					unauthorized, 
+					(Int32)unauthorized
+				);
+
+				throw new Exception(message);
 			}
 		}
 

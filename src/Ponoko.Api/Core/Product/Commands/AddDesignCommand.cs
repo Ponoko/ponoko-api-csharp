@@ -74,7 +74,5 @@ namespace Ponoko.Api.Core.Product.Commands {
 				theError
 			));
 		}
-
-		private Response MultipartPost(Uri uri, Payload payload) { return _internet.Post(uri, new MultipartFormData(), payload); }
 	}
 }

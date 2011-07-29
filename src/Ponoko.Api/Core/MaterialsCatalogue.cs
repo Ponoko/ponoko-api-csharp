@@ -10,9 +10,10 @@ namespace Ponoko.Api.Core {
 		public IList<Material> FindAll(String nodeKey) {
 			var uri = Map("{0}/{1}", "/nodes/material-catalog", nodeKey);
 
-			var json = Get(uri);
-
-			return MaterialCatalogueDeserializer.Deserialize(json);
+			using (var response = Get(uri)) {
+				var json = ReadAll(response);
+				return MaterialCatalogueDeserializer.Deserialize(json);
+			}
 		}
 	}
 }

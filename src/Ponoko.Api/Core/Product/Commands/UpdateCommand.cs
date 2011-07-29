@@ -2,7 +2,6 @@
 using System.Net;
 using Ponoko.Api.Json;
 using Ponoko.Api.Rest;
-using Ponoko.Api.Rest.Mime;
 
 namespace Ponoko.Api.Core.Product.Commands {
 	public class UpdateCommand : Domain {
@@ -57,7 +56,5 @@ namespace Ponoko.Api.Core.Product.Commands {
 			
 			return payload;
 		}
-		
-		private Response Post(Uri uri, Payload payload) { return _internet.Post(uri, new FormUrlEncoded(), payload); }
 	}
 }

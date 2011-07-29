@@ -10,7 +10,7 @@ namespace Ponoko.Api.Core.Product.Commands {
 		public FindCommand(TheInternet internet, string baseUrl) : base(internet, baseUrl) {}
 
 		public Product[] FindAll() {
-			var response = GetAndEnsure(Map("/products"));
+			var response = Get(Map("/products"));
 
 			var theList = new Deserializer().Deserialize(ReadAll(response));
 
@@ -24,7 +24,7 @@ namespace Ponoko.Api.Core.Product.Commands {
 		}
 
 		public Product Find(String id) {
-			var response = GetAndEnsure(Map("/products/{0}", id));
+			var response = Get(Map("/products/{0}", id));
 
 			Product aProductThatDoesNotExist = null;
 
@@ -48,14 +48,6 @@ namespace Ponoko.Api.Core.Product.Commands {
 
 		private Product Deserialize(JToken productJson) {
 			return ProductDeserializer.Deserialize(productJson.ToString());
-		}
-
-		private Response GetAndEnsure(Uri uri) {
-			var response = _internet.Get(uri);
-
-			EnsureAuthorized(response);
-
-			return response;
 		}
 
 		private void EnsureAuthorized(Response response) {
