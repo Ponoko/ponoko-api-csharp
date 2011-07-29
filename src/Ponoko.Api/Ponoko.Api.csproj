@@ -118,6 +118,7 @@
     <Compile Include="Rest\Mime\MultipartFormDataDataItemFormatter.cs" />
     <Compile Include="Rest\Payload.cs" />
     <Compile Include="Rest\SystemInternet.cs" />
+    <Compile Include="Rest\SystemResponse.cs" />
     <Compile Include="Rest\TheInternet.cs" />
     <Compile Include="Rest\Security\OAuth\Core\Credential.cs" />
     <Compile Include="Rest\Security\OAuth\Core\CredentialSet.cs" />
