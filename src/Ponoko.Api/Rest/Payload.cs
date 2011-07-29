@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace Ponoko.Api.Rest {
 	public class Payload : IEnumerable<Field> {
-		private readonly List<Field> _fields = new List<Field>();
+		private readonly List<Field> _fields;
 		public static Payload Empty { get {return new Payload(); }}
 
 		public Payload() : this(new List<Field>()) {}
