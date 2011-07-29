@@ -2,7 +2,6 @@
 using System.Net;
 using NUnit.Framework;
 using Ponoko.Api.Core;
-using Ponoko.Api.Core.Product;
 using Ponoko.Api.Core.Product.Commands;
 using Ponoko.Api.Rest;
 using Ponoko.Api.Rest.Mime;
@@ -35,7 +34,7 @@ namespace Ponoko.Api.Unit.Tests.Core.Product.Commands {
 			var theError = Assert.Throws<Exception>(() => products.Create(ProductSeed.WithName(expectedName), AnyDesign()));
 			
 			var expectedError = String.Format(
-				"Failed to save product. " +
+				"Failed to create product. " +
 				"The server returned status {0} ({1}), and error message: \"{2}\"", 
 				expectedStatus, 
 				(Int32)expectedStatus,
