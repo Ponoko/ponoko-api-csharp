@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using NUnit.Framework;
-using Ponoko.Api.Core;
 using Ponoko.Api.Rest;
 using Ponoko.Api.Rest.Security.OAuth.Core;
 using Ponoko.Api.Rest.Security.OAuth.Http;
@@ -60,32 +58,15 @@ namespace Ponoko.Api.Unit.Tests.Security.OAuth.Http {
 		}
 
 		[Test]
-		public void it_does_not_parse_query_string_from_uri() {
-			var request = Request.Get(new Uri("http://xxx?jazz=a%20fat%20tart"));
+		public void when_authorizing_a_get_it_leaves_parameters_in_uri_and_does_not_return_payload() {
+			var uri = new Uri("http://xxx?Phil%20Murphy=Gluten-free%20anything&Jazz%20Kang&DIY%Kebab");
+
+			var request = Request.Get(uri);
 
 			var result = new OAuthAuthorizationPolicy(_oAuthHeaderProvider, AnyCredentials).Authorize(request);
 
-			Assert.IsFalse(result.Payload.Exists(it => it.Name == "jazz"), 
-				"Expected that the returned parameters NOT include the one we put in the query string."
-			);
-		}
-
-		[Test]
-		public void it_preserves_supplied_parameters() {
-			var anyTwat = "Phil Murphy";
-			var anyOtherTwat = "Jazz Kang";
-
-			var parameters = new List<Field> {
-				new Field{ Name = anyTwat,		Value = "Gluten-free anything"},
-				new Field{ Name = anyOtherTwat, Value = "DIY kebab"} 
-			};
-
-			var request = Request.Get(new Uri("http://xxx"), parameters);
-
-			var result = new OAuthAuthorizationPolicy(_oAuthHeaderProvider, AnyCredentials).Authorize(request);
-
-			Assert.IsTrue(result.Payload.Exists(it => it.Name == anyTwat));	
-			Assert.IsTrue(result.Payload.Exists(it => it.Name == anyTwat));	
+			Assert.AreEqual(uri, result.RequestLine.Uri);
+			Assert.That(result.Payload, Is.Empty, "Expected no payload because the request was a GET");	
 		}
 
 		[Test]

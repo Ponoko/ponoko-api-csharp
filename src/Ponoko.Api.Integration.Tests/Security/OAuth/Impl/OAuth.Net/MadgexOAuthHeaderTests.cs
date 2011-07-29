@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Collections.Specialized;
 using NUnit.Framework;
-using Ponoko.Api.Core;
 using Ponoko.Api.Rest;
 using Ponoko.Api.Rest.Security.OAuth.Core;
 using Ponoko.Api.Rest.Security.OAuth.Impl.OAuth.Net;
@@ -56,8 +53,7 @@ namespace Ponoko.Api.Integration.Tests.Security.OAuth.Impl.OAuth.Net {
 
         [Test]
         public void can_generate_correct_header_with_parameters() {
-            var parameters = new List<Field>{ new Field{ Name = "name", Value = "value"} };
-            var request = Request.Get(new Uri("http://xxx/"), new NameValueCollection(), parameters);
+            var request = Request.Get(new Uri("http://xxx/?name=value"));
         	request.ContentType = "application/x-www-form-urlencoded";
 
         	_clock.Stub(clock => clock.NewTimestamp()).Return("1303692000");
