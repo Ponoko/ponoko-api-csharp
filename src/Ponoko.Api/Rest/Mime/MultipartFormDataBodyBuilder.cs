@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Text;
 
@@ -17,15 +16,11 @@ namespace Ponoko.Api.Rest.Mime {
 			_formatter = new MultipartFormDataDataItemFormatter(boundary);
 		}
 
-		public void Append(Payload payload) {
-			Append(payload.Fields);
-		}
-
 		// TODO, 2011-07-28: Now that we have one list of fields, we need to work out a way of preventing this if/else.
 		// We could push that behaviour a field abstraction, so that each field knows how to append itself.
 		// It depends whether we want protection against new objects or new functions.
-		private void Append(IEnumerable<Field> fields) {
-			foreach (var field in fields) {
+		public void Append(Payload payload) {
+			foreach (var field in payload) {
 				if (field.Value != null && field.Value.GetType() == typeof(DataItem)) {
 					Append((DataItem)field.Value);
 				} else {

@@ -35,24 +35,18 @@ namespace Ponoko.Api.Acceptance.Tests.Examples.Products {
 		}
 
 		protected Product NewProduct(string called) {
-			var parameters = new List<Field> {
-         		new Field { Name = "name"						, Value = called}, 
-         		new Field { Name = "designs[][ref]"				, Value = "1337"},
-         		new Field { Name = "designs[][filename]"		, Value = "bottom_new.stl"},
-         		new Field { Name = "designs[][quantity]"		, Value = "1"},
-         		new Field { Name = "designs[][material_key]"	, Value = ExampleMaterials.DURABLE_PLASTIC},
-         		new Field { 
-					Name = "file", 
-					Value = new DataItem(
-						"designs[][uploaded_data]", 
-						new FileInfo(@"res\bottom_new.stl"), "text/plain"
-					)
-				},
+			var payload = new Payload {
+         		{ "name"					, called}, 
+         		{ "designs[][ref]"			, "1337"},
+         		{ "designs[][filename]"		, "bottom_new.stl"},
+         		{ "designs[][quantity]"		, "1"},
+         		{ "designs[][material_key]"	, ExampleMaterials.DURABLE_PLASTIC},
+         		{ "file", new DataItem("designs[][uploaded_data]", new FileInfo(@"res\bottom_new.stl"), "text/plain")},
 			};
 
 			var uri = Map("{0}", "/products");
 
-			using (var response = Post(uri, new MultipartFormData(), new Payload(parameters))) {
+			using (var response = Post(uri, new MultipartFormData(), payload)) {
 				var json = new Deserializer().Deserialize(Body(response))["product"].ToString();
 				Assert.AreEqual(HttpStatusCode.OK, response.StatusCode, json);
 				return ProductDeserializer.Deserialize(json);

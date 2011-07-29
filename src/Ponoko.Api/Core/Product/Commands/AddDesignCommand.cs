@@ -18,9 +18,9 @@ namespace Ponoko.Api.Core.Product.Commands {
 
 			var payload = new Payload();
 
-			payload.Fields.Add(new Field {Name = "ref",				Value = design.Reference});
-			payload.Fields.Add(new Field {Name = "quantity",		Value = design.Quantity});
-			payload.Fields.Add(new Field {Name = "material_key",	Value = design.MaterialKey});
+			payload.Add("ref",			design.Reference);
+			payload.Add("quantity",		design.Quantity);
+			payload.Add("material_key",	design.MaterialKey);
 
 			return Run(uri, payload);
 		}
@@ -36,14 +36,11 @@ namespace Ponoko.Api.Core.Product.Commands {
 		private Product Submit(Uri uri, Design design) {
 			var payload = new Payload();
 
-			payload.Fields.Add(new Field {Name = "ref",				Value = design.Reference});
-			payload.Fields.Add(new Field {Name = "filename",		Value = Path.GetFileName(design.Filename)});
-			payload.Fields.Add(new Field {
-			    Name = "uploaded_data",	
-			    Value = new DataItem("uploaded_data", new FileInfo(design.Filename), "xxx")
-			});
-			payload.Fields.Add(new Field {Name = "quantity",		Value = design.Quantity});
-			payload.Fields.Add(new Field {Name = "material_key",	Value = design.MaterialKey});
+			payload.Add("ref",				design.Reference);
+			payload.Add("filename",			Path.GetFileName(design.Filename));
+			payload.Add("uploaded_data",	new DataItem("uploaded_data", new FileInfo(design.Filename), "xxx"));
+			payload.Add("quantity",			design.Quantity);
+			payload.Add("material_key",		design.MaterialKey);
 
 			return Run(uri, payload);
 		}

@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Net;
 using Ponoko.Api.Json;
 using Ponoko.Api.Rest;
-using Ponoko.Api.Rest.Mime;
 
 namespace Ponoko.Api.Core.Shipping.Commands {
 	public class OrderCreateCommand : Domain {
@@ -12,15 +11,15 @@ namespace Ponoko.Api.Core.Shipping.Commands {
 		public Order Create(String reference, Option shippingOption, NameAndAddress shipTo, ProductShippingInfo product) {
 			var uri = Map("/orders");
 
-			var fields = new List<Field> {
+			var payload = new Payload {
 				new Field { Name = "ref", Value = reference },                                    	
 				new Field { Name = "shipping_option_code", Value = shippingOption.Code },                                    	
 			};
 
-			fields.AddRange(Format(product));
-			fields.AddRange(Format(shipTo));
+			payload.AddRange(Format(product));
+			payload.AddRange(Format(shipTo));
 			
-			var response = Post(uri, new Payload(fields));
+			var response = Post(uri, payload);
 
 			Console.WriteLine(response.StatusCode);
 			Console.WriteLine(new Deserializer().Deserialize(ReadAll(response)));

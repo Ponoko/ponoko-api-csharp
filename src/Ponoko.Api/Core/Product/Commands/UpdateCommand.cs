@@ -36,13 +36,11 @@ namespace Ponoko.Api.Core.Product.Commands {
 		}
 
 		private Payload ToPayload(ProductSeed seed) {
-			var payload = new Payload();
-
-			payload.Fields.Add(new Field {Name = "name",		Value = seed.Name});
-			payload.Fields.Add(new Field {Name = "description", Value = seed.Notes});
-			payload.Fields.Add(new Field {Name = "ref",			Value = seed.Reference});
-			
-			return payload;
+			return new Payload {
+				{"name", seed.Name},
+			    {"description", seed.Notes},
+				{"ref", seed.Reference}
+			};
 		}
 	}
 }

@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
-using Ponoko.Api.Core;
 
 namespace Ponoko.Api.Rest {
     public class Request {

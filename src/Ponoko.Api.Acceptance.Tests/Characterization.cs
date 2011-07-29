@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
 using NUnit.Framework;
 using Ponoko.Api.Rest;
@@ -11,14 +10,12 @@ namespace Ponoko.Api.Acceptance.Tests {
 		[Test]
 		public void can_post_a_file_and_it_emerges_with_correct_size() {
 			var theFile = new FileInfo(@"res\not_an_eps_really.eps");
-			
-			var fields = new List<Field> {
-			    new Field { Name = "SUBMIT", Value = "Upload!"}, 
-			    new Field { Name = "xxx", Value = "xxx"}, 
-				new Field { Name = "xxx", Value =  new DataItem("FILE1", theFile, "text/plain") }
-			};
 
-			var payload = new Payload(fields);
+			var payload = new Payload {
+				{"SUBMIT", "Upload!"}, 
+				{"xxx", "xxx"}, 
+				{ "xxx", new DataItem("FILE1", theFile, "text/plain") }
+			};
 			
 			var uri = new Uri("http://www.toledorocket.com/perftest/uploadtest/uploadstatus.asp");
 

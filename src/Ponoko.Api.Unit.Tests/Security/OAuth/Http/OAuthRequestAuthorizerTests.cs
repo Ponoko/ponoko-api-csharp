@@ -65,7 +65,7 @@ namespace Ponoko.Api.Unit.Tests.Security.OAuth.Http {
 
 			var result = new OAuthAuthorizationPolicy(_oAuthHeaderProvider, AnyCredentials).Authorize(request);
 
-			Assert.IsFalse(result.Payload.Fields.Exists(it => it.Name == "jazz"), 
+			Assert.IsFalse(result.Payload.Exists(it => it.Name == "jazz"), 
 				"Expected that the returned parameters NOT include the one we put in the query string."
 			);
 		}
@@ -84,8 +84,8 @@ namespace Ponoko.Api.Unit.Tests.Security.OAuth.Http {
 
 			var result = new OAuthAuthorizationPolicy(_oAuthHeaderProvider, AnyCredentials).Authorize(request);
 
-			Assert.IsTrue(result.Payload.Fields.Exists(it => it.Name == anyTwat));	
-			Assert.IsTrue(result.Payload.Fields.Exists(it => it.Name == anyTwat));	
+			Assert.IsTrue(result.Payload.Exists(it => it.Name == anyTwat));	
+			Assert.IsTrue(result.Payload.Exists(it => it.Name == anyTwat));	
 		}
 
 		[Test]

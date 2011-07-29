@@ -33,17 +33,19 @@ namespace Ponoko.Api.Core.Product.Commands {
 		private void Validate(ProductSeed seed) { _validator.Validate(seed); }
 
 		private Payload ToPayload(ProductSeed seed, params Design[] designs) {
-			var payload = new Payload();
-			payload.Fields.Add(new Field {Name = "name", Value = seed.Name});
-			payload.Fields.Add(new Field {Name = "notes", Value = seed.Notes});
-			payload.Fields.Add(new Field {Name = "ref", Value = seed.Reference});
-			
-			foreach (var design in designs) {
-				payload.Fields.AddRange(ToFields(design));
+			var payload = new Payload {
+          		{ "name",	seed.Name},
+          		{ "notes",	seed.Notes},
+          		{ "ref",	seed.Reference}
+			};
 
-				payload.Fields.Add(new Field {
-				    Value = new DataItem("designs[][uploaded_data]", new FileInfo(design.Filename), "xxx")
-				});
+			foreach (var design in designs) {
+				payload.AddRange(ToFields(design));
+
+				payload.Add(
+					"designs[][uploaded_data]",
+				    new DataItem("designs[][uploaded_data]", new FileInfo(design.Filename), "xxx")
+				);
 			}
 			
 			return payload;

@@ -19,9 +19,7 @@ namespace Ponoko.Api.Unit.Tests.Rest.Mime {
 		[Test]
 		public void it_returns_a_non_zero_content_length_for_more_than_zero_fields() {
 			var instance = new FormUrlEncoded();
-			var payload = new Payload();
-
-			payload.Fields.Add(new Field { Name = "name", Value = "value" });
+			var payload = new Payload { {"name", "value"} };
 
 			using (var result = instance.Format(payload)) {
 				Assert.That(result.ContentLength, Is.GreaterThan(0), "Expected zero content length for empty payload");
@@ -31,9 +29,7 @@ namespace Ponoko.Api.Unit.Tests.Rest.Mime {
 		[Test]
 		public void the_content_length_returned_matches_the_length_of_the_stream() {
 			var instance = new FormUrlEncoded();
-			var payload = new Payload();
-
-			payload.Fields.Add(new Field { Name = "name", Value = "value" });
+			var payload = new Payload { { "name", "value" } };
 
 			using (var result = instance.Format(payload)) {
 				Assert.AreEqual(result.Open().Length, result.ContentLength, 
@@ -46,9 +42,7 @@ namespace Ponoko.Api.Unit.Tests.Rest.Mime {
 		[Test]
 		public void it_returns_a_single_field() {
 			var instance = new FormUrlEncoded();
-			var payload = new Payload();
-
-			payload.Fields.Add(new Field { Name = "name", Value = "value" });
+			var payload = new Payload { { "name", "value" } };
 
 			using (var result = instance.Format(payload)) {
 				Assert.AreEqual("name=value", ToText(result), "Expected the fi8eld to have been written");
@@ -58,10 +52,7 @@ namespace Ponoko.Api.Unit.Tests.Rest.Mime {
 		[Test]
 		public void it_returns_multiple_fields_joining_them_with_ampersands() {
 			var instance = new FormUrlEncoded();
-			var payload = new Payload();
-
-			payload.Fields.Add(new Field { Name = "name", Value = "value" });
-			payload.Fields.Add(new Field { Name = "name_1", Value = "value_1" });
+			var payload = new Payload { { "name", "value" }, { "name_1", "value_1"} };
 
 			using (var result = instance.Format(payload)) {
 				Assert.AreEqual("name=value&name_1=value_1", ToText(result), 
@@ -73,9 +64,7 @@ namespace Ponoko.Api.Unit.Tests.Rest.Mime {
 		[Test]
 		public void it_url_encodes_each_field() {
 			var instance = new FormUrlEncoded();
-			var payload = new Payload();
-
-			payload.Fields.Add(new Field { Name = "Full name", Value = "Phil Murphy" });
+			var payload = new Payload { { "Full name", "Phil Murphy" } };
 
 			using (var result = instance.Format(payload)) {
 				Assert.AreEqual("Full%20name=Phil%20Murphy", ToText(result), "Expected the fi8eld to have been written");
@@ -85,10 +74,7 @@ namespace Ponoko.Api.Unit.Tests.Rest.Mime {
 		[Test]
 		public void fields_with_no_value_are_ignored_for_better_or_worse() {
 			var instance = new FormUrlEncoded();
-			var payload = new Payload();
-
-			payload.Fields.Add(new Field { Name = "name", Value = null });
-			payload.Fields.Add(new Field { Name = "name_1", Value = "value_1" });
+			var payload = new Payload { { "name", null }, { "name_1", "value_1"} };
 
 			using (var result = instance.Format(payload)) {
 				Assert.AreEqual("name_1=value_1", ToText(result), "Expected the field to have been skipped");
@@ -98,10 +84,7 @@ namespace Ponoko.Api.Unit.Tests.Rest.Mime {
 		[Test]
 		public void fields_with_no_name_are_ignored() {
 			var instance = new FormUrlEncoded();
-			var payload = new Payload();
-
-			payload.Fields.Add(new Field { Name = null, Value = "value" });
-			payload.Fields.Add(new Field { Name = "name_1", Value = "value_1" });
+			var payload = new Payload { { null, "value" }, { "name_1", "value_1"} };
 
 			using (var result = instance.Format(payload)) {
 				Assert.AreEqual("name_1=value_1", ToText(result), "Expected the field to have been skipped");

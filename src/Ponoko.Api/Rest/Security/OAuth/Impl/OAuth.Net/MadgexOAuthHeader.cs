@@ -62,7 +62,7 @@ namespace Ponoko.Api.Rest.Security.OAuth.Impl.OAuth.Net {
 				result.Add(parameter.Name, parameter.Value.ToString());
 			}
 				
-			foreach (var parameter in from.Payload.Fields) {
+			foreach (var parameter in from.Payload) {
 				result.Add(parameter.Name, parameter.Value != null ? parameter.Value.ToString() : null);
 			}
 

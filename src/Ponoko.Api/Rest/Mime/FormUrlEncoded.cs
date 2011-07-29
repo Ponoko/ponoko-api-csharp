@@ -11,7 +11,7 @@ namespace Ponoko.Api.Rest.Mime {
 		}
 
 		public Body Format(Payload payload) {
-			var serializedParams = ToQuery(payload.Fields);
+			var serializedParams = ToQuery(payload);
 
 			var theBytes = Encoding.UTF8.GetBytes(serializedParams);
 
