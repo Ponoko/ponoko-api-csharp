@@ -16,16 +16,18 @@ namespace Ponoko.Api.Rest.Mime {
 			_formatter = new MultipartFormDataDataItemFormatter(boundary);
 		}
 
+		public void Append(Payload payload) {
+			foreach (var field in payload) { Append(field); }
+		}
+
 		// TODO, 2011-07-28: Now that we have one list of fields, we need to work out a way of preventing this if/else.
 		// We could push that behaviour a field abstraction, so that each field knows how to append itself.
 		// It depends whether we want protection against new objects or new functions.
-		public void Append(Payload payload) {
-			foreach (var field in payload) {
-				if (field.Value != null && field.Value.GetType() == typeof(DataItem)) {
-					Append((DataItem)field.Value);
-				} else {
-					Append(Format(field.Name, field.Value != null ? field.Value.ToString() : String.Empty));
-				}
+		private void Append(Field field) {
+			if (field.Value != null && field.Value.GetType() == typeof(DataItem)) {
+				Append((DataItem)field.Value);
+			} else {
+				Append(Format(field.Name, field.Value != null ? field.Value.ToString() : String.Empty));
 			}
 		}
 
