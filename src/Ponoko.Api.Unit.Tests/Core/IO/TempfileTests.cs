@@ -150,6 +150,28 @@ namespace Ponoko.Api.Unit.Tests.Core.IO {
 			);
 		}
 
+		[Test]
+		public void it_seeks_on_its_underlying_file() {
+			var fakeFileSystem = MockRepository.GenerateMock<FileSystem>();
+			var fakeFileStream = NewFakeFileStream();
+
+			fakeFileSystem.
+				Stub(it => it.Open(Arg<FileInfo>.Is.Anything)).
+				Return(fakeFileStream);
+
+			var tempFile = new Tempfile(fakeFileSystem);
+
+			var expextedOffset = 1337;
+			var expectedSeekOrigin = SeekOrigin.Begin;
+
+			tempFile.Seek(expextedOffset, expectedSeekOrigin);
+
+			fakeFileStream.AssertWasCalled(
+				it => it.Seek(expextedOffset, expectedSeekOrigin), 
+				options => options.Message("Expected it to seek from the supplied offset using the supplied seek origin")
+			);
+		}
+
 		// TEST: it_closes_the_file_stream_before_deleting_it
 		// TEST: it_does_not_open_file_if_nothing_written
 
