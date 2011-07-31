@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using Ponoko.Api.Sugar;
 
 namespace Ponoko.Api.Core.IO {
 	public class TempFileStream : Stream {
@@ -22,6 +23,7 @@ namespace Ponoko.Api.Core.IO {
 		}
 		
 		public override void Close() {
+			un.less(null == _out, () => _out.Close()); 
 			_fileSystem.Delete(File);
 		}
 

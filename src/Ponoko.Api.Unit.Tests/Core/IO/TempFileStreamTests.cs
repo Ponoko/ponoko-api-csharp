@@ -172,7 +172,54 @@ namespace Ponoko.Api.Unit.Tests.Core.IO {
 			);
 		}
 
-		// TEST: it_closes_the_file_stream_before_deleting_it
+		[Test]
+		public void it_closes_its_file_stream_before_deleting_the_file() {
+			var theUnderlyingFile = new FileInfo("xxx_any_fake_file_name_xxx");
+			var fakeFileSystem = MockRepository.GenerateMock<FileSystem>();
+			var fakeFileStream = NewFakeFileStream();
+			var itHasDeletedTheFile = false;
+
+			fakeFileSystem.Stub(it => it.New(Arg<String>.Is.Anything)).Return(theUnderlyingFile);
+
+			fakeFileSystem.
+				Expect(it => it.Delete(Arg<FileInfo>.Is.Anything)).
+				Repeat.Once().Message("Expected it to delete its underlying file").
+				Callback((FileInfo file) => { itHasDeletedTheFile = true; return true; });
+
+			fakeFileStream.Expect(it => it.Close()).Repeat.Once().
+				Callback(() => { Assert.IsFalse(itHasDeletedTheFile, "Expected it to close the stream BEFORE deleting the file"); return true; }).
+				Message("Expected it to close its file stream");
+
+			fakeFileSystem.
+				Stub(it => it.Open(Arg<FileInfo>.Is.Anything)).
+				Return(fakeFileStream);
+
+			var tempFile = new TempFileStream(fakeFileSystem);
+			tempFile.Write(new Byte[0], 0, 0);
+			tempFile.Dispose();
+		}
+
+		[Test]
+		public void it_skips_closing_the_file_stream_if_nothing_has_been_written() {
+			var fakeFileSystem = MockRepository.GenerateMock<FileSystem>();
+			var fakeFileStream = NewFakeFileStream();
+
+			fakeFileSystem.Stub(it => it.New(Arg<String>.Is.Anything)).
+				Return(new FileInfo("xxx_any_fake_file_name_xxx"));
+			
+			fakeFileSystem.Stub(it => it.Delete(Arg<FileInfo>.Is.Anything));
+
+			fakeFileSystem.Stub(it => it.Open(Arg<FileInfo>.Is.Anything)).
+				Return(fakeFileStream);
+
+			var tempFile = new TempFileStream(fakeFileSystem);
+			tempFile.Dispose();
+
+			fakeFileStream.AssertWasNotCalled(it => it.Close(), options => options.Message(
+				"Expected it to skip closing the stream because it is only initialized on the first write"
+			));
+		}
+
 		// TEST: it_does_not_open_file_if_nothing_written
 
 		private FileStream NewFakeFileStream() {
