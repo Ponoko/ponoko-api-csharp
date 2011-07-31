@@ -115,18 +115,49 @@ namespace Ponoko.Api.Unit.Tests.Rest.Mime {
 			var fakeFileSystem = MockRepository.GenerateMock<FileSystem>();
 			var fakeFileStream = NewFakeFileStream();
 
-			var tempFile = new Tempfile(fakeFileSystem);
-
 			fakeFileSystem.
 				Expect(it => it.Open(Arg<FileInfo>.Is.Anything)).
-				Repeat.Once().
 				Return(fakeFileStream).
-				Message("Expected the underlying file to have been opened");
+				Repeat.Once(); // [!] Does not work, try setting it to Twice() and it doesn't fail
+
+			var tempFile = new Tempfile(fakeFileSystem);
 
 			var anyBytes = Encoding.UTF8.GetBytes("Ben rules");
 
 			tempFile.Write(anyBytes, 0, anyBytes.Length);
 			tempFile.Write(anyBytes, 0, anyBytes.Length);
+		}
+
+		[Test]
+		public void it_writes_to_its_underlying_file() {
+			var fakeFileSystem = MockRepository.GenerateMock<FileSystem>();
+			var fakeFileStream = NewFakeFileStream();
+
+			fakeFileSystem.
+				Stub(it => it.Open(Arg<FileInfo>.Is.Anything)).
+				Return(fakeFileStream);
+
+			var tempFile = new Tempfile(fakeFileSystem);
+
+			var lineOne = Encoding.UTF8.GetBytes("Lasciate ogne speranza, voi ch'intrate");
+			var lineTwo = Encoding.UTF8.GetBytes("Abandon all hope, ye who enter here");
+
+			tempFile.Write(lineOne, 0, lineOne.Length);
+			tempFile.Write(lineTwo, 0, lineOne.Length);
+
+			var allTheArgs = fakeFileStream.GetArgumentsForCallsMadeOn(it => 
+				it.Write(
+					Arg<Byte[]>.Is.Anything, 
+					Arg<Int32>.Is.Anything, 
+					Arg<Int32>.Is.Anything
+				)
+			);
+
+			var firstWrittenLine = Encoding.UTF8.GetString((Byte[])allTheArgs[0][0]);
+			var secondWrittenLine = Encoding.UTF8.GetString((Byte[])allTheArgs[1][0]);
+
+			Assert.AreEqual(Encoding.UTF8.GetString(lineOne), firstWrittenLine);
+			Assert.AreEqual(Encoding.UTF8.GetString(lineTwo), secondWrittenLine);
 		}
 
 		// TEST: it_closes_the_file_stream_before_deleting_it
@@ -152,6 +183,7 @@ namespace Ponoko.Api.Unit.Tests.Rest.Mime {
 
 			public Tempfile(FileSystem fileSystem) {
 				_fileSystem = fileSystem;
+				
 				var tempDir = Path.GetTempPath();
 				var randomFileName = Path.GetRandomFileName();
 				var fullPath = Path.Combine(tempDir, randomFileName);
