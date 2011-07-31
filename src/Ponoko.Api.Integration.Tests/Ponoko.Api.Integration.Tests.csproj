@@ -62,6 +62,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Core\IO\FileSystemTests.cs" />
     <Compile Include="Json\DateTimeReaderTests.cs" />
     <Compile Include="Json\DeserializerTests.cs" />
     <Compile Include="Json\ErrorDeserializerTests.cs" />
