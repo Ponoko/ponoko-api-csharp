@@ -7,12 +7,12 @@ using Rhino.Mocks;
 
 namespace Ponoko.Api.Unit.Tests.Core.IO {
 	[TestFixture]
-	public class TempfileTests {
+	public class TempFileStreamTests {
 		[Test]
 		public void it_creates_its_underlying_file_on_disk_exactly_once() {
 			var fakeFileSystem = MockRepository.GenerateMock<FileSystem>();
 
-			new Tempfile(fakeFileSystem);
+			new TempFileStream(fakeFileSystem);
 
 			fakeFileSystem.AssertWasCalled(
 				it => it.New(Arg<String>.Is.Anything),
@@ -24,7 +24,7 @@ namespace Ponoko.Api.Unit.Tests.Core.IO {
 		public void it_creates_its_underlying_file_in_the_system_temp_file_directory() {
 			var fakeFileSystem = MockRepository.GenerateMock<FileSystem>();
 
-			new Tempfile(fakeFileSystem);
+			new TempFileStream(fakeFileSystem);
 
 			var theArgs = fakeFileSystem.GetArgumentsForCallsMadeOn(it => it.New(Arg<String>.Is.Anything));
 
@@ -43,7 +43,7 @@ namespace Ponoko.Api.Unit.Tests.Core.IO {
 		public void it_creates_its_underlying_file_with_a_unique_non_empty_name() {
 			var fakeFileSystem = MockRepository.GenerateMock<FileSystem>();
 
-			new Tempfile(fakeFileSystem);
+			new TempFileStream(fakeFileSystem);
 
 			var theArgs = fakeFileSystem.GetArgumentsForCallsMadeOn(it => it.New(Arg<String>.Is.Anything));
 
@@ -51,20 +51,20 @@ namespace Ponoko.Api.Unit.Tests.Core.IO {
 
 			fakeFileSystem = MockRepository.GenerateMock<FileSystem>();
 
-			new Tempfile(fakeFileSystem);
+			new TempFileStream(fakeFileSystem);
 
 			theArgs = fakeFileSystem.GetArgumentsForCallsMadeOn(it => it.New(Arg<String>.Is.Anything));
 
 			var theSecondFileNameUsed = theArgs[0][0];
 
 			Assert.AreNotEqual(String.Empty, theFirstFileNameUsed, 
-				"Tempfile must not create files with empty names"
+				"TempFileStream must not create files with empty names"
 			);
 			Assert.AreNotEqual(String.Empty, theSecondFileNameUsed, 
-				"Tempfile must not create files with empty names"
+				"TempFileStream must not create files with empty names"
 			);
 			Assert.AreNotEqual(theFirstFileNameUsed, theSecondFileNameUsed, 
-				"Expected every new Tempfile instance to create a different file"
+				"Expected every new TempFileStream instance to create a different file"
 			);
 		}
 
@@ -78,7 +78,7 @@ namespace Ponoko.Api.Unit.Tests.Core.IO {
 				Return(fakeFileStream).
 				Repeat.Once(); // [!] Does not work, try setting it to Twice() and it doesn't fail
 
-			var tempFile = new Tempfile(fakeFileSystem);
+			var tempFile = new TempFileStream(fakeFileSystem);
 
 			var anyBytes = Encoding.UTF8.GetBytes("Ben rules");
 
@@ -95,7 +95,7 @@ namespace Ponoko.Api.Unit.Tests.Core.IO {
 				Stub(it => it.Open(Arg<FileInfo>.Is.Anything)).
 				Return(fakeFileStream);
 
-			var tempFile = new Tempfile(fakeFileSystem);
+			var tempFile = new TempFileStream(fakeFileSystem);
 
 			var lineOne = Encoding.UTF8.GetBytes("Lasciate ogne speranza, voi ch'intrate");
 			var lineTwo = Encoding.UTF8.GetBytes("Abandon all hope, ye who enter here");
@@ -121,7 +121,7 @@ namespace Ponoko.Api.Unit.Tests.Core.IO {
 		[Test]
 		public void it_deletes_its_underlying_file_when_it_is_disposed() {
 			var fakeFileSystem = MockRepository.GenerateMock<FileSystem>();
-			var tempFile = new Tempfile(fakeFileSystem);
+			var tempFile = new TempFileStream(fakeFileSystem);
 
 			tempFile.Dispose();
 
@@ -138,7 +138,7 @@ namespace Ponoko.Api.Unit.Tests.Core.IO {
 
 			fakeFileSystem.Stub(it => it.New(Arg<String>.Is.Anything)).Return(theUnderlyingFile);
 
-			var tempFile = new Tempfile(fakeFileSystem);
+			var tempFile = new TempFileStream(fakeFileSystem);
 			tempFile.Dispose();
 
 			fakeFileSystem.AssertWasCalled(
@@ -159,7 +159,7 @@ namespace Ponoko.Api.Unit.Tests.Core.IO {
 				Stub(it => it.Open(Arg<FileInfo>.Is.Anything)).
 				Return(fakeFileStream);
 
-			var tempFile = new Tempfile(fakeFileSystem);
+			var tempFile = new TempFileStream(fakeFileSystem);
 
 			var expextedOffset = 1337;
 			var expectedSeekOrigin = SeekOrigin.Begin;

@@ -2,7 +2,7 @@
 using System.IO;
 
 namespace Ponoko.Api.Core.IO {
-	public class Tempfile : Stream {
+	public class TempFileStream : Stream {
 		private readonly FileSystem _fileSystem;
 		private FileInfo File { get { return _file ?? (_file = NewFile()); } }
 		private FileStream _out;
@@ -12,7 +12,7 @@ namespace Ponoko.Api.Core.IO {
 			get { return _out ?? (_out = _fileSystem.Open(File)); }
 		}
 
-		public Tempfile(FileSystem fileSystem) {
+		public TempFileStream(FileSystem fileSystem) {
 			_fileSystem = fileSystem;
 			_file = NewFile();
 		}
