@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Text;
 using NUnit.Framework;
 using Ponoko.Api.Rest.Mime;
 using Rhino.Mocks;
@@ -31,7 +32,7 @@ namespace Ponoko.Api.Unit.Tests.Rest.Mime {
 			tempFile.Dispose();
 
 			fakeFileSystem.AssertWasCalled(
-				it => it.Delete(Arg<FileInfo>.Is.Anything), 
+				it => it.Delete(Arg<FileInfo>.Is.Anything),
 				options => options.Repeat.Once().Message("Expected that when I close a TempFile, the underlying file is removed.")
 			);
 		}
@@ -40,16 +41,16 @@ namespace Ponoko.Api.Unit.Tests.Rest.Mime {
 		public void it_deletes_the_same_file_it_creates() {
 			var theUnderlyingFile = new FileInfo("xxx_any_fake_file_name_xxx");
 			var fakeFileSystem = MockRepository.GenerateMock<FileSystem>();
-			
+
 			fakeFileSystem.Stub(it => it.New(Arg<String>.Is.Anything)).Return(theUnderlyingFile);
 
 			var tempFile = new Tempfile(fakeFileSystem);
 			tempFile.Dispose();
 
 			fakeFileSystem.AssertWasCalled(
-				it => it.Delete(Arg<FileInfo>.Is.Same(theUnderlyingFile)), 
+				it => it.Delete(Arg<FileInfo>.Is.Same(theUnderlyingFile)),
 				options => options.Repeat.Once().Message(
-					"Expected that when it deletes its underlying file, " + 
+					"Expected that when it deletes its underlying file, " +
 					"it is the same one that was returned by the file system at the beginning"
 				)
 			);
@@ -58,11 +59,11 @@ namespace Ponoko.Api.Unit.Tests.Rest.Mime {
 		[Test]
 		public void it_creates_a_file_once() {
 			var fakeFileSystem = MockRepository.GenerateMock<FileSystem>();
-			
+
 			new Tempfile(fakeFileSystem);
 
 			fakeFileSystem.AssertWasCalled(
-				it => it.New(Arg<String>.Is.Anything), 
+				it => it.New(Arg<String>.Is.Anything),
 				options => options.Repeat.Once().Message("Expected a new file to be created when a Temfile is initialized")
 			);
 		}
@@ -70,26 +71,26 @@ namespace Ponoko.Api.Unit.Tests.Rest.Mime {
 		[Test]
 		public void it_creates_files_in_the_system_temp_file_directory() {
 			var fakeFileSystem = MockRepository.GenerateMock<FileSystem>();
-			
+
 			new Tempfile(fakeFileSystem);
 
 			var theArgs = fakeFileSystem.GetArgumentsForCallsMadeOn(it => it.New(Arg<String>.Is.Anything));
 
 			var actualFilename = theArgs[0][0].ToString();
 
-			var theDirectory = Path.GetDirectoryName(actualFilename);
+			var actualDirectoryuPath = Path.GetDirectoryName(actualFilename);
 
-			var expectedDirectory = Path.GetDirectoryName(Path.GetTempPath());
+			var expectedDirectoryName = Path.GetDirectoryName(Path.GetTempPath());
 
-			Assert.AreEqual(expectedDirectory, theDirectory, 
+			Assert.AreEqual(expectedDirectoryName, actualDirectoryuPath,
 				"Expected the underlying files to all go in the temp directory for the current system"
 			);
 		}
 
-		[Test] 
+		[Test]
 		public void it_creates_files_with_unique_non_empty_names() {
 			var fakeFileSystem = MockRepository.GenerateMock<FileSystem>();
-			
+
 			new Tempfile(fakeFileSystem);
 
 			var theArgs = fakeFileSystem.GetArgumentsForCallsMadeOn(it => it.New(Arg<String>.Is.Anything));
@@ -108,30 +109,69 @@ namespace Ponoko.Api.Unit.Tests.Rest.Mime {
 			Assert.AreNotEqual(String.Empty, theSecondFileNameUsed, "Tempfile must not create files with empty names");
 			Assert.AreNotEqual(theFirstFileNameUsed, theSecondFileNameUsed, "Expected every new Tempfile instance to create a different file");
 		}
-	}
 
-	public class Tempfile : IDisposable {
-		private readonly FileSystem _fileSystem;
-		private FileInfo File { get; set; }
-		
-		public Tempfile(FileSystem fileSystem) {
-			_fileSystem = fileSystem;
-			var tempDir = Path.GetTempPath();
-			var randomFileName = Path.GetRandomFileName();
-			var fullPath = Path.Combine(tempDir, randomFileName);
+		[Test]
+		public void it_opens_the_file_the_first_time_you_write_to_it() {
+			var fakeFileSystem = MockRepository.GenerateMock<FileSystem>();
+			var fakeFileStream = NewFakeFileStream();
 
-			File = fileSystem.New(fullPath);
+			var tempFile = new Tempfile(fakeFileSystem);
+
+			fakeFileSystem.
+				Expect(it => it.Open(Arg<FileInfo>.Is.Anything)).
+				Repeat.Once().
+				Return(fakeFileStream).
+				Message("Expected the underlying file to have been opened");
+
+			var anyBytes = Encoding.UTF8.GetBytes("Ben rules");
+
+			tempFile.Write(anyBytes, 0, anyBytes.Length);
+			tempFile.Write(anyBytes, 0, anyBytes.Length);
 		}
 
-		//public Int64 Write(Byte[] buffer, Int32 offset, Int32 length) {}
+		// TEST: it_closes_the_file_stream_before_deleting_it
 
-		public void Dispose() {
-			_fileSystem.Delete(File);
+		private FileStream NewFakeFileStream() {
+			var fakeFileStream = MockRepository.GenerateMock<FileStream>();
+			
+			fakeFileStream.Stub(it => 
+				it.Write(Arg<Byte[]>.Is.Anything, Arg<Int32>.Is.Anything, Arg<Int32>.Is.Anything)
+			);
+			
+			return fakeFileStream;
 		}
-	}
 
-	public interface FileSystem {
-		FileInfo New(String filename);
-		void Delete(FileInfo filename);
+		public class Tempfile : IDisposable {
+			private readonly FileSystem _fileSystem;
+			private FileInfo File { get; set; }
+			private FileStream _out;
+
+			private FileStream Out {
+				get { return _out ?? (_out = _fileSystem.Open(File)); }
+			}
+
+			public Tempfile(FileSystem fileSystem) {
+				_fileSystem = fileSystem;
+				var tempDir = Path.GetTempPath();
+				var randomFileName = Path.GetRandomFileName();
+				var fullPath = Path.Combine(tempDir, randomFileName);
+
+				File = fileSystem.New(fullPath);
+			}
+
+			public void Write(Byte[] buffer, Int32 offset, Int32 count) {
+				Out.Write(buffer, offset, count);
+			}
+
+			public void Dispose() {
+				_fileSystem.Delete(File);
+			}
+		}
+
+		public interface FileSystem {
+			FileInfo New(String filename);
+			FileStream Open(FileInfo filename);
+			void Delete(FileInfo filename);
+		}
 	}
 }
