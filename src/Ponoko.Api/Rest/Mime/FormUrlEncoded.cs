@@ -15,7 +15,7 @@ namespace Ponoko.Api.Rest.Mime {
 
 			var theBytes = Encoding.UTF8.GetBytes(serializedParams);
 
-			var result = new Body {
+			var result = new Body(new MemoryStream()) {
 				ContentLength = theBytes.Length,
 				ContentType = this.ContentType
 			};
