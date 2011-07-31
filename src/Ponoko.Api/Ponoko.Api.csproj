@@ -70,6 +70,8 @@
     <Compile Include="Core\Error.cs" />
     <Compile Include="Core\ErrorMessage.cs" />
     <Compile Include="Core\IO\DefaultReadonlyFileSystem.cs" />
+    <Compile Include="Core\IO\FileSystem.cs" />
+    <Compile Include="Core\IO\Tempfile.cs" />
     <Compile Include="Core\MakeCost.cs" />
     <Compile Include="Core\Material.cs" />
     <Compile Include="Core\MaterialsCatalogue.cs" />
