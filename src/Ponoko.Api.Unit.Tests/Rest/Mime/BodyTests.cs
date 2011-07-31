@@ -18,5 +18,18 @@ namespace Ponoko.Api.Unit.Tests.Rest.Mime {
 				Message("Expected that when a body is disposed of, it closes its underlying stream")
 			);
 		}
+
+		[Test]
+		public void it_seeks_its_underlying_stream_to_its_start_when_open_is_invoked() {
+			var fakeStore = MockRepository.GenerateMock<Stream>();
+			var body = new Body(fakeStore);
+
+			body.Open();
+
+			fakeStore.AssertWasCalled(it => it.Seek(0, SeekOrigin.Begin), options => options.
+				Repeat.Once().
+				Message("Expected it to seek its underlying stream to its beginning")
+			);
+		}
 	}
 }

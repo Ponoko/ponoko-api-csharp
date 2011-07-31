@@ -11,9 +11,7 @@ namespace Ponoko.Api.Rest.Mime {
 			_backingStream = backingStream;
 		}
 
-		public Stream In {
-			get { return _backingStream; }
-		}	
+		public Stream In { get { return _backingStream; } }	
 
 		public Stream Open() {
 			In.Seek(0, SeekOrigin.Begin);
