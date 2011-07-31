@@ -57,7 +57,7 @@ namespace Ponoko.Api.Unit.Tests.Rest.Mime {
 		}
 
 		[Test]
-		public void it_creates_a_file_once() {
+		public void it_creates_its_underlying_file_on_disk_exactly_once() {
 			var fakeFileSystem = MockRepository.GenerateMock<FileSystem>();
 
 			new Tempfile(fakeFileSystem);
@@ -69,7 +69,7 @@ namespace Ponoko.Api.Unit.Tests.Rest.Mime {
 		}
 
 		[Test]
-		public void it_creates_files_in_the_system_temp_file_directory() {
+		public void it_creates_its_underlying_file_in_the_system_temp_file_directory() {
 			var fakeFileSystem = MockRepository.GenerateMock<FileSystem>();
 
 			new Tempfile(fakeFileSystem);
@@ -78,17 +78,17 @@ namespace Ponoko.Api.Unit.Tests.Rest.Mime {
 
 			var actualFilename = theArgs[0][0].ToString();
 
-			var actualDirectoryuPath = Path.GetDirectoryName(actualFilename);
+			var actualDirectoryPath = Path.GetDirectoryName(actualFilename);
 
 			var expectedDirectoryName = Path.GetDirectoryName(Path.GetTempPath());
 
-			Assert.AreEqual(expectedDirectoryName, actualDirectoryuPath,
+			Assert.AreEqual(expectedDirectoryName, actualDirectoryPath,
 				"Expected the underlying files to all go in the temp directory for the current system"
 			);
 		}
 
 		[Test]
-		public void it_creates_files_with_unique_non_empty_names() {
+		public void it_creates_its_underlying_file_with_a_unique_non_empty_name() {
 			var fakeFileSystem = MockRepository.GenerateMock<FileSystem>();
 
 			new Tempfile(fakeFileSystem);
@@ -111,7 +111,7 @@ namespace Ponoko.Api.Unit.Tests.Rest.Mime {
 		}
 
 		[Test]
-		public void it_opens_the_file_the_first_time_you_write_to_it() {
+		public void it_opens_its_underlying_file_the_first_time_you_write_to_it() {
 			var fakeFileSystem = MockRepository.GenerateMock<FileSystem>();
 			var fakeFileStream = NewFakeFileStream();
 
@@ -161,6 +161,7 @@ namespace Ponoko.Api.Unit.Tests.Rest.Mime {
 		}
 
 		// TEST: it_closes_the_file_stream_before_deleting_it
+		// TEST: it_does_not_open_file_if_nothing_written
 
 		private FileStream NewFakeFileStream() {
 			var fakeFileStream = MockRepository.GenerateMock<FileStream>();
