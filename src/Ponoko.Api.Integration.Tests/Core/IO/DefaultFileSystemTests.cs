@@ -131,6 +131,52 @@ namespace Ponoko.Api.Integration.Tests.Core.IO {
 			}
 		}
 
+		[Test]
+		public void it_has_a_buffer_size_of_1024_bytes() {
+			AssertDoesNotFlushAutomatically(	new Byte[0]);
+			AssertDoesNotFlushAutomatically(	new Byte[1023]);
+			AssertFlushesAutomatically(			new Byte[1024]);
+			AssertFlushesAutomatically(			new Byte[1025]);
+		}
+
+		private void AssertDoesNotFlushAutomatically(Byte[] bytes) {
+			var fileSystem = new DefaultFileSystem();
+			var theFilePath = fileSystem.New(NewRandomTempFile());
+			
+			Assert.That(theFilePath.Length, Is.EqualTo(0), 
+				"Expected the file to be empty to start with"
+			);
+
+			using (var _out = fileSystem.Open(theFilePath)) {
+				_out.Write(bytes, 0, bytes.Length);
+				
+				theFilePath.Refresh();
+				
+				Assert.AreEqual(0, theFilePath.Length, 
+					"Expected that the bytes would not be flushed because the buffer is not yet full"
+				);
+			}
+		}
+
+		private void AssertFlushesAutomatically(Byte[] bytes) {
+			var fileSystem = new DefaultFileSystem();
+			var theFilePath = fileSystem.New(NewRandomTempFile());
+			
+			Assert.That(theFilePath.Length, Is.EqualTo(0), 
+				"Expected the file to be empty to start with"
+			);
+
+			using (var _out = fileSystem.Open(theFilePath)) {
+				_out.Write(bytes, 0, bytes.Length);
+				
+				theFilePath.Refresh();
+				
+				Assert.AreEqual(bytes.Length, theFilePath.Length, 
+					"Expected the bytes to have been automatically flushed because the buffer was filled"
+				);
+			}
+		}
+
 		private String NewRandomTempFile() {
 			return Path.Combine(Path.GetTempPath(), Path.GetRandomFileName());
 		}
