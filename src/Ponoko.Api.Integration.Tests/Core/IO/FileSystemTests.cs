@@ -69,23 +69,24 @@ namespace Ponoko.Api.Integration.Tests.Core.IO {
 			Assert.That(theError.Message, Is.StringMatching("^Could not find file"));
 		}
 
+		[Test]
+		public void it_deletes_files() {
+			var theFilePath = new FileInfo(NewRandomTempFile());
+
+			using (File.Create(theFilePath.FullName)) {;}
+
+			Assert.IsTrue(theFilePath.Exists, "Invalid test data. Expected the file to exist so it can be deleted.");
+
+			var fileSystem = new DefaultFileSystem();
+
+			fileSystem.Delete(theFilePath);
+
+			Assert.IsTrue(theFilePath.Exists, "Expected the file to have been deleted");
+		}
+
 		private String NewRandomTempFile() {
 			return Path.Combine(Path.GetTempPath(), Path.GetRandomFileName());
 		}
 	}
 
-	public class DefaultFileSystem : FileSystem {
-		public FileInfo New(string filename) {
-			using (var newFile = File.Create(filename)) {}
-			return new FileInfo(filename);
-		}
-
-		public FileStream Open(FileInfo filename) {
-			return File.Open(filename.FullName, FileMode.Open);
-		}
-
-		public void Delete(FileInfo filename) {
-			throw new NotImplementedException();
-		}
-	}
 }

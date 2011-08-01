@@ -69,6 +69,7 @@
     <Compile Include="Core\Domain.cs" />
     <Compile Include="Core\Error.cs" />
     <Compile Include="Core\ErrorMessage.cs" />
+    <Compile Include="Core\IO\DefaultFileSystem.cs" />
     <Compile Include="Core\IO\DefaultReadonlyFileSystem.cs" />
     <Compile Include="Core\IO\FileSystem.cs" />
     <Compile Include="Core\IO\TempFileStream.cs" />
