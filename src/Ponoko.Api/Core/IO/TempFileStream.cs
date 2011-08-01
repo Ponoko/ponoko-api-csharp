@@ -18,6 +18,14 @@ namespace Ponoko.Api.Core.IO {
 			_file = NewFile();
 		}
 
+		private FileInfo NewFile() {
+			var tempDir = Path.GetTempPath();
+			var randomFileName = Path.GetRandomFileName();
+			var fullPath = Path.Combine(tempDir, randomFileName);
+
+			return _fileSystem.New(fullPath);
+		}
+
 		public override void Write(Byte[] buffer, Int32 offset, Int32 count) {
 			Out.Write(buffer, offset, count);
 		}
@@ -62,14 +70,6 @@ namespace Ponoko.Api.Core.IO {
 
 		public override Int64 Length {
 			get { throw new NotImplementedException(); }
-		}
-
-		private FileInfo NewFile() {
-			var tempDir = Path.GetTempPath();
-			var randomFileName = Path.GetRandomFileName();
-			var fullPath = Path.Combine(tempDir, randomFileName);
-
-			return _fileSystem.New(fullPath);
 		}
 	}
 }
