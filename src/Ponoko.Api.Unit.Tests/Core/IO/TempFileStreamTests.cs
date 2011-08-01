@@ -241,6 +241,14 @@ namespace Ponoko.Api.Unit.Tests.Core.IO {
 			);
 		}
 
+		[Test]
+		public void it_does_not_support_reading_or_writing_its_length() {
+			var fakeFileSystem = MockRepository.GenerateMock<FileSystem>();
+			var tempFile = new TempFileStream(fakeFileSystem);
+
+			Assert.Throws<NotImplementedException>(() => tempFile.SetLength(1337));
+			Assert.Throws<NotImplementedException>(() => { var length = tempFile.Length; });
+		}
 		// TEST: it_does_not_open_file_if_nothing_written
 
 		private FileStream NewFakeFileStream() {

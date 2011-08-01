@@ -52,12 +52,12 @@ namespace Ponoko.Api.Core.IO {
 			Out.Flush();
 		}
 
-		public override void SetLength(Int64 value) {
-			throw new NotImplementedException();
-		}
-
 		public override Int32 Read(byte[] buffer, Int32 offset, Int32 count) {
 			return Out.Read(buffer, offset, count);
+		}
+
+		public override void SetLength(Int64 value) {
+			throw new NotImplementedException();
 		}
 
 		public override Int64 Length {
