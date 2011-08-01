@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Text;
 using NUnit.Framework;
 using Ponoko.Api.Core.IO;
 
@@ -82,6 +83,29 @@ namespace Ponoko.Api.Integration.Tests.Core.IO {
 			fileSystem.Delete(theFilePath);
 
 			Assert.IsTrue(theFilePath.Exists, "Expected the file to have been deleted");
+		}
+
+		[Test]
+		public void you_need_to_flush_a_file_stream_to_propagate_bytes_to_disk_unless_buffer_is_full() {
+			var fileSystem = new DefaultFileSystem();
+			var theFilePath = fileSystem.New(NewRandomTempFile());
+
+			using (var _out = fileSystem.Open(theFilePath)) {
+				var bytes = Encoding.UTF8.GetBytes("An example string");
+				_out.Write(bytes, 0, bytes.Length);
+				
+				Assert.That(theFilePath.Length, Is.EqualTo(0), 
+					"Expected the bytes to have been buffered and not yet written to disk"
+				);
+				
+				_out.Flush();
+
+				theFilePath.Refresh();
+				
+				Assert.That(theFilePath.Length, Is.GreaterThan(0), 
+					"Expected the bytes to have been written to disk now that the stream has been flushed"
+				);
+			}
 		}
 
 		private String NewRandomTempFile() {
