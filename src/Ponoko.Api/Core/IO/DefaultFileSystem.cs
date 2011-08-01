@@ -9,7 +9,13 @@ namespace Ponoko.Api.Core.IO {
 		}
 
 		public FileStream Open(FileInfo filename) {
-			return File.Open(filename.FullName, FileMode.Open);
+			return new FileStream(
+				filename.FullName, 
+				FileMode.Open, 
+				FileAccess.ReadWrite, 
+				FileShare.None, 
+				1024
+			);
 		}
 
 		public void Delete(FileInfo filename) {
