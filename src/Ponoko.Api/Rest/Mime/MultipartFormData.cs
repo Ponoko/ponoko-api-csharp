@@ -1,6 +1,6 @@
 ﻿using System;
-using System.IO;
 using System.Text;
+using Ponoko.Api.Core.IO;
 
 namespace Ponoko.Api.Rest.Mime {
 	public class MultipartFormData : HttpContentType {
@@ -13,9 +13,9 @@ namespace Ponoko.Api.Rest.Mime {
 		}
 
 		public Body Format(Payload payload) {
-			var body = new Body(new MemoryStream());
+			var body = NewBody();
 
-			var builder = new MultipartFormDataBodyBuilder(Boundary, Encoding.UTF8, body.Open());
+			var builder = NewBodyBuilder(body);
 
 			builder.Append(payload);
 			builder.AppendFooter();
@@ -25,6 +25,18 @@ namespace Ponoko.Api.Rest.Mime {
 			body.ContentType = ContentType;
 
 			return body;
+		}
+
+		private MultipartFormDataBodyBuilder NewBodyBuilder(Body body) {
+			return new MultipartFormDataBodyBuilder(Boundary, Encoding.UTF8, body.Open());
+		}
+
+		private Body NewBody() {
+			return new Body(BackingStream());
+		}
+
+		private TempFileStream BackingStream() {
+			return new TempFileStream(new DefaultFileSystem());
 		}
 	}
 }
