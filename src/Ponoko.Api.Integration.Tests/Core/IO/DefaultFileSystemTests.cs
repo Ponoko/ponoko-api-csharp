@@ -6,7 +6,7 @@ using Ponoko.Api.Core.IO;
 
 namespace Ponoko.Api.Integration.Tests.Core.IO {
 	[TestFixture]
-	public class FileSystemTests {
+	public class DefaultFileSystemTests {
 		[Test]
 		public void it_creates_a_file_on_disk() {
 			var theFilePath = NewRandomTempFile();
