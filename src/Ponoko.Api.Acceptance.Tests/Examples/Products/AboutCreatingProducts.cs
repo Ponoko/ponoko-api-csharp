@@ -65,8 +65,6 @@ namespace Ponoko.Api.Acceptance.Tests.Examples.Products {
 					"Expected no material key because the product's materials are not available."
 				);
 			}
-
-			
     	}
 
 		[Test]
