@@ -57,7 +57,7 @@ namespace Ponoko.Api.Core.IO {
 		}
 
 		public override Int32 Read(byte[] buffer, Int32 offset, Int32 count) {
-			throw new NotImplementedException();
+			return Out.Read(buffer, offset, count);
 		}
 
 		public override Int64 Length {

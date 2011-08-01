@@ -161,13 +161,13 @@ namespace Ponoko.Api.Unit.Tests.Core.IO {
 
 			var tempFile = new TempFileStream(fakeFileSystem);
 
-			var expextedOffset = 1337;
+			var expectedOffset = 1337;
 			var expectedSeekOrigin = SeekOrigin.Begin;
 
-			tempFile.Seek(expextedOffset, expectedSeekOrigin);
+			tempFile.Seek(expectedOffset, expectedSeekOrigin);
 
 			fakeFileStream.AssertWasCalled(
-				it => it.Seek(expextedOffset, expectedSeekOrigin), 
+				it => it.Seek(expectedOffset, expectedSeekOrigin), 
 				options => options.Message("Expected it to seek from the supplied offset using the supplied seek origin")
 			);
 		}
@@ -218,6 +218,27 @@ namespace Ponoko.Api.Unit.Tests.Core.IO {
 			fakeFileStream.AssertWasNotCalled(it => it.Close(), options => options.Message(
 				"Expected it to skip closing the stream because it is only initialized on the first write"
 			));
+		}
+
+		[Test]
+		public void it_reads_from_its_underlying_file() {
+			var fakeFileSystem = MockRepository.GenerateMock<FileSystem>();
+			var fakeFileStream = NewFakeFileStream();
+
+			fakeFileSystem.
+				Stub(it => it.Open(Arg<FileInfo>.Is.Anything)).
+				Return(fakeFileStream);
+
+			var tempFile = new TempFileStream(fakeFileSystem);
+
+			var buffer = new Byte[32];
+
+			tempFile.Read(buffer, 0, 32);
+
+			fakeFileStream.AssertWasCalled(
+				it => it.Read(buffer, 0, 32), 
+				options => options.Message("Expected it to read 32 bytes from its underlying stream")
+			);
 		}
 
 		// TEST: it_does_not_open_file_if_nothing_written
