@@ -11,7 +11,11 @@ namespace Ponoko.Api.Integration.Tests.Core.IO {
 		public void it_creates_a_file_on_disk() {
 			var theFilePath = NewRandomTempFile();
 			
-			Assert.IsFalse(File.Exists(theFilePath), "Invalid test data, the file must not exist before it is created!");
+			Assert.IsFalse(File.Exists(theFilePath), 
+				"Invalid test data, The file <{0}> already exists. " + 
+				"The file must NOT exist before a create attempt is tried.", 
+				theFilePath
+			);
 			
 			new DefaultFileSystem().New(theFilePath);
 
@@ -26,9 +30,15 @@ namespace Ponoko.Api.Integration.Tests.Core.IO {
 			
 			fileSystem.New(theFilePath);
 
-			Assert.IsTrue(File.Exists(theFilePath), "Invalid test data, the file must exist before a create attempt is tried");
+			Assert.IsTrue(File.Exists(theFilePath), 
+				"Invalid test data, The file <{0}> does not exist. " + 
+				"The file must exist before a create attempt is tried.", 
+				theFilePath
+			);
 
-			Assert.Throws<IOException>(() => fileSystem.New(theFilePath), "Expected trying to create a file that already exists to fail with error");
+			Assert.Throws<IOException>(() => fileSystem.New(theFilePath), 
+				"Expected trying to create a file that already exists to fail with error"
+			);
 		}
 
 		[Test]
