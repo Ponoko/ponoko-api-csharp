@@ -19,6 +19,19 @@ namespace Ponoko.Api.Integration.Tests.Core.IO {
 		}
 
 		[Test]
+		public void it_fails_to_create_a_new_file_if_the_file_already_exists() {
+			var theFilePath = NewRandomTempFile();
+
+			var fileSystem = new DefaultFileSystem();
+			
+			fileSystem.New(theFilePath);
+
+			Assert.IsTrue(File.Exists(theFilePath), "Invalid test data, the file must exist before a create attempt is tried");
+
+			Assert.Throws<IOException>(() => fileSystem.New(theFilePath), "Expected trying to create a file that already exists to fail with error");
+		}
+
+		[Test]
 		public void it_can_open_any_file_for_read_and_write_and_seek() {
 			var fileSystem = new DefaultFileSystem();
 
