@@ -25,5 +25,15 @@ namespace Ponoko.Api.Core.Orders.Commands {
 
 			return OrderDeserializer.Deserialize(theNode);
 		}
+
+		public Order Status(String key) {
+			var response = _internet.Get(Map("/orders/status/{0}", key));
+
+			var json = ReadAll(response);
+
+			var theNode = new Deserializer().Deserialize(json)["order"].ToString();
+
+			return OrderDeserializer.Deserialize(theNode);
+		}
 	}
 }

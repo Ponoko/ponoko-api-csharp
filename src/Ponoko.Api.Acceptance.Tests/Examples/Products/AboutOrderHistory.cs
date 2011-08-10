@@ -43,6 +43,15 @@ namespace Ponoko.Api.Acceptance.Tests.Examples.Products {
 			Assert.AreEqual(NewOrder.Key, result.Key, "Unexpected key returned");
 		}
 
+		[Test]
+		public void you_can_check_order_status() {
+			var result = new OrderHistory(Internet, Settings.BaseUrl).Status(NewOrder.Key);
+
+			Assert.AreEqual(NewOrder.Key, result.Key, "Unexpected key returned");
+			Assert.AreEqual(NewOrder.HasShipped, result.HasShipped, "Unexpected value for whether or not it has shipped");
+			Assert.AreEqual(NewOrder.Events.First().Name, result.Events.First().Name, "Unexpected value for the first returned event");
+		}
+
 		private void AssertTheOrderIsReturned(IEnumerable<Order> orders, String reference) {
 			var exists = orders.Any(it => it.Reference == reference);
 

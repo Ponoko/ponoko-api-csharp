@@ -6,7 +6,7 @@ using Ponoko.Api.Json;
 namespace Ponoko.Api.Integration.Tests.Json {
 	[TestFixture]
 	public class NewOrderDeserializerTests {
-		[Test]
+		[Test, Description("Can deserialize a single order")]
 		public void tell_me_how_do_I_feel() {
 			var json = "{" + 
 				"	'created_at': '2011/08/10 09:05:58 +0000', " +
@@ -35,7 +35,7 @@ namespace Ponoko.Api.Integration.Tests.Json {
 				"	'ref': 'any reference'," +
 				"	'key': 'c60b169a12c44412de9bdc832985a402'," +
 				"	'shipped': false" +
-			"}";
+				"}";
 
 			var result = OrderDeserializer.Deserialize(json);
 
