@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using NUnit.Framework;
+using Ponoko.Api.Core.Orders.Commands;
 using Ponoko.Api.Core.Shipping.Commands;
 
 namespace Ponoko.Api.Acceptance.Tests.Examples.Products {

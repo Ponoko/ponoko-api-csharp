@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Net;
-using Ponoko.Api.Core.Orders;
+using Ponoko.Api.Core.Shipping;
 using Ponoko.Api.Json;
 using Ponoko.Api.Rest;
 
-namespace Ponoko.Api.Core.Shipping.Commands {
+namespace Ponoko.Api.Core.Orders.Commands {
 	public class OrderCreateCommand : Domain {
 		public OrderCreateCommand(TheInternet internet, string baseUrl) : base(internet, baseUrl) {}
 
