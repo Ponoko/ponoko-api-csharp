@@ -25,7 +25,11 @@ namespace Ponoko.Api.Core.Shipping.Commands {
 			if (response.StatusCode != HttpStatusCode.OK)
 				throw Error("Failed to create order", response);
 
-			return OrderDeserializer.Deserialize(ReadAll(response));
+			var json = ReadAll(response);
+
+			var theOrderNode = new Deserializer().Deserialize(json)["order"];
+
+			return OrderDeserializer.Deserialize(theOrderNode.ToString());
 		}
 
 		private IEnumerable<Field> Format(NameAndAddress shipTo) {

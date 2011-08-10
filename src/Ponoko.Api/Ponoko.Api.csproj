@@ -78,6 +78,7 @@
     <Compile Include="Core\MaterialsCatalogue.cs" />
     <Compile Include="Core\Node.cs" />
     <Compile Include="Core\Nodes.cs" />
+    <Compile Include="Core\Orders\Commands\OrderHistory.cs" />
     <Compile Include="Core\Orders\Event.cs" />
     <Compile Include="Core\Orders\Commands\FindCommand.cs" />
     <Compile Include="Core\Orders\MadeProduct.cs" />
@@ -97,8 +98,9 @@
     <Compile Include="Core\Shipping\NameAndAddress.cs" />
     <Compile Include="Core\Shipping\ProductShippingInfo.cs" />
     <Compile Include="Core\Shipping\ShippingOptions.cs" />
-    <Compile Include="Core\Shipping\Commands\FindCommand.cs" />
+    <Compile Include="Core\Shipping\Commands\FindShippingOptionsCommand.cs" />
     <Compile Include="Json\OrderDeserializer.cs" />
+    <Compile Include="Json\OrderListDeserializer.cs" />
     <Compile Include="Json\ShippingOptionsDeserializer.cs" />
     <Compile Include="Rest\Field.cs" />
     <Compile Include="Rest\Mime\Body.cs" />

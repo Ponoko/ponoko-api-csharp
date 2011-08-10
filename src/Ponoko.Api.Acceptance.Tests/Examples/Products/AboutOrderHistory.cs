@@ -1,27 +1,43 @@
 ﻿using System;
+using System.Collections.Generic;
+using NUnit.Framework;
+using Ponoko.Api.Core.Orders;
+using Ponoko.Api.Core.Orders.Commands;
+using Ponoko.Api.Core.Shipping;
 using Ponoko.Api.Core.Shipping.Commands;
+using System.Linq;
 
 namespace Ponoko.Api.Acceptance.Tests.Examples.Products {
 	[TestFixture]
 	public class AboutOrderHistory : OrderingAcceptanceTest {
 		[Test]
 		public void you_can_get_the_list_of_orders() {
-			var shippingOptions = new FindCommand(Internet, Settings.BaseUrl).For(ExampleAddress, ExampleShippingInfo);
+			var aNewOrder = CreateANewOrder();
+
+			var result = new OrderHistory(Internet, Settings.BaseUrl).FindAll();
+
+			AssertTheOrderIsReturned(result, aNewOrder.Reference);
+		}
+
+		private void AssertTheOrderIsReturned(IEnumerable<Order> orders, String reference) {
+			var exists = orders.Any(it => it.Reference == reference);
+
+			Assert.IsTrue(exists, "Could not find an order with reference <{0}>", reference);
+		}
+
+		private Order CreateANewOrder() {
 			var command = new OrderCreateCommand(Internet, Settings.BaseUrl);
 			
-			var theFirstShippingOption = shippingOptions.Options[0];
 			var reference = Guid.NewGuid().ToString();
 
-			var order = command.Create(reference, theFirstShippingOption, ExampleShippingAddress, ExampleShippingInfo);
+			return command.Create(reference, AnyShippingOption(), ExampleShippingAddress, ExampleShippingInfo);
+		}
 
-			var finder = new FindCommand(Internet, Settings.BaseUrl);
-			
-			var result = finder.All();
+		private Option AnyShippingOption() {
+			var allOptions = new FindShippingOptionsCommand(Internet, Settings.BaseUrl).
+				For(ExampleAddress, ExampleShippingInfo);
 
-			Assert.Fail(
-				"Even though the query was successful, " + 
-				"this can't be tested until we're able to create orders."
-			);
+			return allOptions.Options.First();
 		}
 	}
 }
