@@ -45,8 +45,8 @@ namespace Ponoko.Api.Acceptance.Tests.Examples.Products {
 				"Expected the product to be returned with a node key."
 			);
 
-    		AssertIsAboutUtcNow(theNewProduct.CreatedAt, TimeSpan.FromSeconds(10));
-    		AssertIsAboutUtcNow(theNewProduct.UpdatedAt, TimeSpan.FromSeconds(10));
+    		AssertIsAboutUtcNow(theNewProduct.CreatedAt, TimeSpan.FromSeconds(30));
+    		AssertIsAboutUtcNow(theNewProduct.UpdatedAt, TimeSpan.FromSeconds(30));
     		
 			Assert.AreEqual(1, theNewProduct.Designs.Count, 
 				"Expected the new product to have the design we supplied."
