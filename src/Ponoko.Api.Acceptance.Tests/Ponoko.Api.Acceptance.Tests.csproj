@@ -78,6 +78,7 @@
     <Compile Include="Examples\Products\AboutMakingProducts.cs" />
     <Compile Include="Examples\Products\AboutOrderHistory.cs" />
     <Compile Include="Examples\Products\AboutUpdatingProducts.cs" />
+    <Compile Include="Examples\Products\OrderingAcceptanceTest.cs" />
     <Compile Include="Examples\Products\ProductAcceptanceTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Settings.cs" />
