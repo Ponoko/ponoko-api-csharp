@@ -1,4 +1,6 @@
-﻿using NUnit.Framework;
+﻿using System;
+using System.Linq;
+using NUnit.Framework;
 using Ponoko.Api.Core.Product;
 using Ponoko.Api.Core.Shipping;
 using Ponoko.Api.Core.Shipping.Commands;
@@ -53,11 +55,31 @@ namespace Ponoko.Api.Acceptance.Tests.Examples.Products {
 			var command = new OrderCreateCommand(Internet, Settings.BaseUrl);
 			
 			var theFirstShippingOption = shippingOptions.Options[0];
-			var reference = "any reference";
+			var reference = Guid.NewGuid().ToString();
 
 			var order = command.Create(reference, theFirstShippingOption, ExampleShippingAddress, ExampleShippingInfo);
 
-			Assert.AreEqual(ExampleProduct.Key, order.Key, "Unexpected key returned");
+			Assert.AreEqual(ExampleProduct.Key, order.Products.First().Key, "Unexpected key returned");
+		}
+
+		[Test]
+		public void to_get_a_product_made_reference_must_be_unique() {
+			var shippingOptions = new FindCommand(Internet, Settings.BaseUrl).For(ExampleAddress, ExampleShippingInfo);
+			var command = new OrderCreateCommand(Internet, Settings.BaseUrl);
+			
+			var theFirstShippingOption = shippingOptions.Options[0];
+			var duplicateReference = Guid.NewGuid().ToString();
+
+			Assert.DoesNotThrow(() 
+				=> command.Create(duplicateReference, theFirstShippingOption, ExampleShippingAddress, ExampleShippingInfo), 
+                "The first time a reference is used the order should be created successfully"                
+			);
+
+			var theError = Assert.Throws<Exception>(()
+				=> command.Create(duplicateReference, theFirstShippingOption, ExampleShippingAddress, ExampleShippingInfo)
+			);
+
+			Assert.That(theError.Message, Is.StringContaining("'Ref' must be unique"));
 		}
 
 		private NameAndAddress ExampleShippingAddress {
@@ -70,7 +92,8 @@ namespace Ponoko.Api.Acceptance.Tests.Examples.Products {
 					City			= "Wellington",
 					ZipOrPostalCode = "6021",
 					State			= "NA",
-					Country			= "NZ"
+					Country			= "NZ",
+					Phone			= "Any telephone number"
 			    };
 			}
 		}

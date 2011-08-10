@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Net;
+using Ponoko.Api.Core.Orders;
 using Ponoko.Api.Json;
 using Ponoko.Api.Rest;
 
@@ -21,13 +22,10 @@ namespace Ponoko.Api.Core.Shipping.Commands {
 			
 			var response = Post(uri, payload);
 
-			Console.WriteLine(response.StatusCode);
-			Console.WriteLine(new Deserializer().Deserialize(ReadAll(response)));
-
 			if (response.StatusCode != HttpStatusCode.OK)
-				throw new Exception("Server returned " + response.StatusCode);
+				throw Error("Failed to create order", response);
 
-			return new Order();
+			return OrderDeserializer.Deserialize(ReadAll(response));
 		}
 
 		private IEnumerable<Field> Format(NameAndAddress shipTo) {

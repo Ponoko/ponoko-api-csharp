@@ -47,9 +47,18 @@ namespace Ponoko.Api.Acceptance.Tests.Examples.Products {
 			var uri = Map("{0}", "/products");
 
 			using (var response = Post(uri, new MultipartFormData(), payload)) {
-				var json = new Deserializer().Deserialize(Body(response))["product"].ToString();
-				Assert.AreEqual(HttpStatusCode.OK, response.StatusCode, json);
+				var text = Body(response);
+				Assert.AreEqual(HttpStatusCode.OK, response.StatusCode, "Expected the delete to return 200. The response returned: {0}", text);
+				var json = TryDeserializeProduct(text);
 				return ProductDeserializer.Deserialize(json);
+			}
+		}
+
+		private String TryDeserializeProduct(String text) {
+			try {
+				return new Deserializer().Deserialize(text)["product"].ToString();
+			} catch (Exception e) {
+				throw new Exception(String.Format("Failed to deserialize: <{0}>", text));
 			}
 		}
 
