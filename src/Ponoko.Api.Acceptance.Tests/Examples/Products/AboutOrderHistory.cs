@@ -36,6 +36,13 @@ namespace Ponoko.Api.Acceptance.Tests.Examples.Products {
 			Assert.That(theError.Message, Is.StringMatching("^Delete failed. The server returned status NotFound \\(404\\).+"));
 		}
 
+		[Test]
+		public void you_can_get_a_single_order() {
+			var result = new OrderHistory(Internet, Settings.BaseUrl).Find(NewOrder.Key);
+
+			Assert.AreEqual(NewOrder.Key, result.Key, "Unexpected key returned");
+		}
+
 		private void AssertTheOrderIsReturned(IEnumerable<Order> orders, String reference) {
 			var exists = orders.Any(it => it.Reference == reference);
 
