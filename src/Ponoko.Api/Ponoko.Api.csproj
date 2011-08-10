@@ -78,8 +78,12 @@
     <Compile Include="Core\MaterialsCatalogue.cs" />
     <Compile Include="Core\Node.cs" />
     <Compile Include="Core\Nodes.cs" />
-    <Compile Include="Core\Orders\FindCommand.cs" />
+    <Compile Include="Core\Orders\Event.cs" />
+    <Compile Include="Core\Orders\Commands\FindCommand.cs" />
+    <Compile Include="Core\Orders\MadeProduct.cs" />
     <Compile Include="Core\Orders\Order.cs" />
+    <Compile Include="Core\Orders\ShippingCost.cs" />
+    <Compile Include="Core\Orders\TrackingNumber.cs" />
     <Compile Include="Core\Product\Commands\AddDesignCommand.cs" />
     <Compile Include="Core\Product\Commands\DefaultProductValidator.cs" />
     <Compile Include="Core\Product\Commands\DeleteCommand.cs" />

@@ -23,27 +23,4 @@ namespace Ponoko.Api.Core.Orders {
 		[JsonProperty(PropertyName = "shipped")]
 		public Boolean HasShipped;
 	}
-
-	public class Event {
-		[JsonProperty(PropertyName = "completed_at")]
-		public DateTime CompletedAt;
-		public String Name;
-	}
-
-	public class TrackingNumber {
-		public String Value;
-	}
-
-	public class ShippingCost {
-		public Decimal Making { get; set; }
-		public Decimal Shipping { get; set; }
-		public Decimal Materials { get; set; }
-	}
-
-	public class MadeProduct {
-		public Int32 Quantity;
-		[JsonProperty(PropertyName = "ref")]
-		public String Reference;
-		public String Key;
-	}
 }
