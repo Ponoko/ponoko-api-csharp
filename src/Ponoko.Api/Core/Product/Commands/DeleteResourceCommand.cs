@@ -12,7 +12,7 @@ namespace Ponoko.Api.Core.Product.Commands {
 		public void Delete(Uri uri) {
 			using (var response = Post(uri, Payload.Empty)) {
 				un.less(() => response.StatusCode == HttpStatusCode.OK, () => {
-					throw Error("Deleted failed", response);
+					throw Error("Delete failed", response);
 				});
 
 				Verify(response);
