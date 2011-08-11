@@ -1,18 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
 using Ponoko.Api.Core;
+using Ponoko.Api.Json.Generic;
 
 namespace Ponoko.Api.Json {
 	public static class MaterialCatalogueDeserializer {
 		public static Material[] Deserialize(String json) {
-			var theList = new Deserializer().Deserialize(json);
-			var result = new List<Material>();
-
-			foreach (var materialJson in theList["materials"].Children()) {
-				result.Add(MaterialDeserializer.Deserialize(materialJson.ToString()));
-			}
-
-			return result.ToArray();
+			return new ListDeserializer<Material>(MaterialDeserializer.Deserialize, "materials").
+				Deserialize(json);
 		}
 	}
 }
