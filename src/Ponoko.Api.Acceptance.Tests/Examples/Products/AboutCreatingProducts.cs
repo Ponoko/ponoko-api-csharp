@@ -109,6 +109,19 @@ namespace Ponoko.Api.Acceptance.Tests.Examples.Products {
 		}
 
 		[Test]
+		public void you_get_an_error_if_the_design_file_cannot_be_understood() {
+			var designWithABungFile = new Design {Filename = "res\\not_an_eps_really.eps"};
+
+    		var theError = Assert.Throws<Exception>(() => 
+				CreateCommand.Create(ProductSeed.WithName("xxx"), designWithABungFile)
+			);
+
+			Assert.That(theError.Message, Is.StringMatching(
+				"\"Bad Request. Error processing design file\\(s\\).\""
+			));
+		}
+
+		[Test]
     	public void you_must_supply_a_file_and_filename_with_the_design() {
 			var designWithoutAFile = new Design {Filename = null};
 
