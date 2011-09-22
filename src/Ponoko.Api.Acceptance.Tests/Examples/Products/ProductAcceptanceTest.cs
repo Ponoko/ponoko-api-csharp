@@ -1,13 +1,10 @@
 ﻿using System;
 using System.IO;
-using System.Net;
 using NUnit.Framework;
 using Ponoko.Api.Core;
 using Ponoko.Api.Core.Product;
 using Ponoko.Api.Core.Product.Commands;
 using Ponoko.Api.Json;
-using Ponoko.Api.Rest;
-using Ponoko.Api.Rest.Mime;
 
 namespace Ponoko.Api.Acceptance.Tests.Examples.Products {
 	public static class ExampleMaterials {
@@ -33,32 +30,8 @@ namespace Ponoko.Api.Acceptance.Tests.Examples.Products {
 			NewProduct(called);
 		}
 
-		protected Product NewProduct(string called) {
-			var payload = new Payload {
-         		{ "name"					, called}, 
-         		{ "designs[][ref]"			, "1337"},
-         		{ "designs[][filename]"		, "bottom_new.stl"},
-         		{ "designs[][quantity]"		, "1"},
-         		{ "designs[][material_key]"	, ExampleMaterials.DURABLE_PLASTIC},
-         		{ "file", new DataItem("designs[][uploaded_data]", new FileInfo(@"res\bottom_new.stl"), "text/plain")},
-			};
-
-			var uri = Map("{0}", "/products");
-
-			using (var response = Post(uri, new MultipartFormData(), payload)) {
-				var text = Body(response);
-				Assert.AreEqual(HttpStatusCode.OK, response.StatusCode, "Expected the delete to return 200. The response returned: {0}", text);
-				var json = TryDeserializeProduct(text);
-				return ProductDeserializer.Deserialize(json);
-			}
-		}
-
-		private String TryDeserializeProduct(String text) {
-			try {
-				return new Deserializer().Deserialize(text)["product"].ToString();
-			} catch (Exception e) {
-				throw new Exception(String.Format("Failed to deserialize: <{0}>", text));
-			}
+		protected Product NewProduct(String called) {
+			return CreateCommand.Create(ProductSeed.WithName(called), NewDesign());
 		}
 
 		protected String FindFirstProductKey() {
