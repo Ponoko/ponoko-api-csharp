@@ -11,7 +11,15 @@ namespace Ponoko.Api.Json {
           		Converters = new List<JsonConverter> { new DateTimeReader() }
 			};
 
-			return JsonConvert.DeserializeObject<Product>(json, settings);
+			return TryDeserialize(json, settings);
+		}
+
+		private static Product TryDeserialize(String json, JsonSerializerSettings settings) {
+			try {
+				return JsonConvert.DeserializeObject<Product>(json, settings);
+			} catch (Exception e) {
+				throw new Exception(String.Format("Failed to deserialize: \n\n{0}", json), e);
+			}
 		}
 	}
 }
