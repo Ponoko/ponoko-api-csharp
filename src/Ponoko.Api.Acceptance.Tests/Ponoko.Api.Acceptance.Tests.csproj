@@ -71,6 +71,7 @@
     <Compile Include="Examples\AboutAuthorization.cs" />
     <Compile Include="Examples\AboutMaterials.cs" />
     <Compile Include="Examples\AboutNodes.cs" />
+    <Compile Include="Examples\About_design_images.cs" />
     <Compile Include="Examples\Products\AboutCreatingProducts.cs" />
     <Compile Include="Examples\Products\AboutFetchingProducts.cs" />
     <Compile Include="Examples\Products\AboutDeletingProducts.cs" />
@@ -91,6 +92,9 @@
   <ItemGroup>
     <None Include="App.config" />
     <Content Include="res\another_bottom_new.stl">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="res\ponoko_logo_text_page.gif">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="res\top_new.stl">
