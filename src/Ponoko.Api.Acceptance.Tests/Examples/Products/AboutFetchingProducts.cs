@@ -26,7 +26,7 @@ namespace Ponoko.Api.Acceptance.Tests.Examples.Products {
 
 			Assert.IsNotNull(result, "Expected a non-null result");
 			Assert.AreEqual(result.Name, "example", "Unexpected name");
-			Assert.AreEqual(result.Designs[0].Reference, "1337", "Unexpected name");
+			Assert.AreEqual("42", result.Designs[0].Reference, "Unexpected name");
 		}
 
 		[Test]
