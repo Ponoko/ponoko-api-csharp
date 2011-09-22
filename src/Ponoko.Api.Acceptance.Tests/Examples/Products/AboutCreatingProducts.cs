@@ -227,6 +227,9 @@ namespace Ponoko.Api.Acceptance.Tests.Examples.Products {
 			Assert.That(theError.Message, Is.StringContaining("'Ref' must be unique"));
 		}
 
+		[Test, Ignore("PENDING")]
+		public void there_is_a_rule_around_automatically_generated_design_images() {}
+
 		private void AssertIsAboutUtcNow(DateTime expected, TimeSpan within) {
 			var now = DateTime.UtcNow;
 			var diff = now.Subtract(expected);
