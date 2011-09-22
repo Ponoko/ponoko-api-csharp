@@ -68,7 +68,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AcceptanceTest.cs" />
-    <Compile Include="Characterization.cs" />
     <Compile Include="Examples\AboutAuthorization.cs" />
     <Compile Include="Examples\AboutMaterials.cs" />
     <Compile Include="Examples\AboutNodes.cs" />
