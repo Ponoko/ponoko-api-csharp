@@ -5,6 +5,7 @@ namespace Ponoko.Api.Core {
 		public Decimal Total { get; set; }
 		public Decimal Making { get; set; }
 		public Decimal Materials { get; set; }
+		public Decimal Hardware { get; set; }
 		public String Currency { get; set; }
 	}
 }

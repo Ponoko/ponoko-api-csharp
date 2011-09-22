@@ -31,7 +31,7 @@ namespace Ponoko.Api.Integration.Tests.Json {
 				"			'make_cost': {'currency': 'USD', 'making': '56.78', 'materials': '56.78', 'total': '56.78'}" + 
 				"		}" + 
 				"	], " +
-				"'total_make_cost': {'currency': 'USD', 'making': '56.78', 'materials': '56.78', 'total': '56.78'}" + 
+				"'total_make_cost': {'currency': 'USD', 'making': '56.78', 'materials': '56.78', 'total': '56.78', 'hardware': '0.99'}" + 
 			"}";
 
 			var result = ProductDeserializer.Deserialize(json);
@@ -55,6 +55,7 @@ namespace Ponoko.Api.Integration.Tests.Json {
 			Assert.AreEqual(56.78, result.TotalMakeCost.Making, "Unexpected making cost");
 			Assert.AreEqual(56.78, result.TotalMakeCost.Materials, "Unexpected materials cost");
 			Assert.AreEqual(56.78, result.TotalMakeCost.Total, "Unexpected total cost");
+			Assert.AreEqual(0.99, result.TotalMakeCost.Hardware, "Unexpected hardware cost");
 		}
 	}
 }
