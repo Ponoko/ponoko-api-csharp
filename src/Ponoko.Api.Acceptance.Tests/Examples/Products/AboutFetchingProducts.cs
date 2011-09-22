@@ -54,5 +54,8 @@ namespace Ponoko.Api.Acceptance.Tests.Examples.Products {
 
 			Assert.IsNull(result, "Expected finding a product that does not exist to return null.");	
 		}
+
+		[Test, Ignore("PENDING")]
+		public void product_may_include_an_auto_generated_design_image() {}
 	}
 }
