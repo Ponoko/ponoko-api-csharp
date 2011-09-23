@@ -9,7 +9,7 @@ namespace Ponoko.Api.Acceptance.Tests {
 		}
 
 		public static String BaseUrl { 
-			get { return "https://sandbox.ponoko.com/services/api/v2"; }
+			get { return ConfigurationManager.AppSettings["Ponoko.Api.BaseUrl"]; }
 		}
 
 		private static readonly Credential _consumer = new Credential(
