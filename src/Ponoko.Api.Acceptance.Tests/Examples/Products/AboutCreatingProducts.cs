@@ -142,14 +142,10 @@ namespace Ponoko.Api.Acceptance.Tests.Examples.Products {
 		}
 
 		[Test]
-    	public void you_must_supply_a_material_with_the_design() {
+    	public void you_do_not_need_to_supply_a_material_with_the_design() {
 			var designWithoutAMaterial = new Design {Filename = "res\\bottom_new.stl", MaterialKey = null};
 
-    		var theError = Assert.Throws<Exception>(() => CreateCommand.Create(ProductSeed.WithName("xxx"), designWithoutAMaterial));
-
-			Assert.That(theError.Message, Is.StringMatching(
-				"could not find requested material. is it available to this Node's materail catalog?"
-			));
+    		Assert.DoesNotThrow(() => CreateCommand.Create(ProductSeed.WithName("xxx"), designWithoutAMaterial));
 		}
 
 		[Test]
