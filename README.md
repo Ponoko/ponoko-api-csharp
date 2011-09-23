@@ -1,15 +1,47 @@
 ## Getting Started
 
-To get the acceptance tests to pass, you will need your Ponoko API consumer credential and a valid access token. 
-Place them in the spaces provided in Ponoko.Api.Acceptance.Tests/App.example.config, and rename it to App.config.
+To get the acceptance tests to pass, you will need: 
+
+* your consumer credential and 
+* a valid access token
+* and a base url for the version of the API you're connecting to
+
+Place them in the spaces provided in __Ponoko.Api.Acceptance.Tests/App.example.config__, and rename it to __App.config__.
 
 ## Examples/How-to
 
-There is a fully-executable specification in *Ponoko.Api.Acceptance.Tests.Examples*.
+There is a fully-executable specification in __Ponoko.Api.Acceptance.Tests.Examples__.
 
-##Known issues
+For example, here is how to get the materials catalogue:
 
-###Four failing tests
+    // You need some credentials 
+	  var consumer = new Credential("your_consumer_key", "your_consumer_secret");
+	  var token = new Credential("your_token_key", "your_token_key");
+	  var credentials = new CredentialSet(consumer, token);
+	
+    // and an authorization policy
+	  var authPolicy = new OAuthAuthorizationPolicy(
+		    new MadgexOAuthHeader(new SystemClock(), new SystemNonceFactory()),
+		    credentials
+	  );
+
+	  // which is used by the Internet
+	  var theInternet = new SystemInternet(authPolicy);
+	
+	  var baseUrl = "https://sandbox.ponoko.com/services/api/v2";
+    	
+	  // First you need a Node			
+	  var nodes = new Nodes(Internet, baseUrl);
+    var all = nodes.FindAll();
+    var firstNode = all[0];
+    
+    // Then you can get the catalogue
+    var catalogue = new MaterialsCatalogue(Internet, Settings.BaseUrl);
+    var allMaterials = catalogue.FindAll(firstNode);			      
+
+## Known issues
+
+### Four failing tests
 
 These are mainly related to deletes not returning the correct result:
 
@@ -17,3 +49,7 @@ These are mainly related to deletes not returning the correct result:
 1. AboutDeletingProducts can_delete_a_product
 1. AboutUpdatingProducts you_can_delete_a_design
 1. AboutUpdatingProducts you_cannot_delete_the_last_design  
+
+## Previewing readme
+
+    $ rake -s preview_github_readme[README.md] > readme.html
