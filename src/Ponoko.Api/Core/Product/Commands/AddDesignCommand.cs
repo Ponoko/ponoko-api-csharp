@@ -38,7 +38,7 @@ namespace Ponoko.Api.Core.Product.Commands {
 
 			payload.Add("ref",				design.Reference);
 			payload.Add("filename",			Path.GetFileName(design.Filename));
-			payload.Add("uploaded_data",	new DataItem("uploaded_data", new FileInfo(design.Filename), "xxx"));
+			payload.Add("uploaded_data",	new DataItem(new FileInfo(design.Filename), "xxx"));
 			payload.Add("quantity",			design.Quantity);
 			payload.Add("material_key",		design.MaterialKey);
 

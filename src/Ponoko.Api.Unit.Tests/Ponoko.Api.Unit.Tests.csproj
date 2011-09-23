@@ -58,7 +58,6 @@
     <Compile Include="Rest\Mime\FormUrlEncodedTests.cs" />
     <Compile Include="Core\IO\TempFileStreamTests.cs" />
     <Compile Include="Rest\MultipartFormDataTests.cs" />
-    <Compile Include="Rest\DataItemTests.cs" />
     <Compile Include="Security\OAuth\Core\RequestTests.cs" />
     <Compile Include="Security\OAuth\Http\OAuthRequestAuthorizerTests.cs" />
   </ItemGroup>

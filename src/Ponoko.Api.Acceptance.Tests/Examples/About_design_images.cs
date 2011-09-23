@@ -43,10 +43,9 @@ namespace Ponoko.Api.Acceptance.Tests.Examples {
 		public Product Add(String product, FileInfo file) {
 			var uri = Map("/products/{0}/design-images", product);
 
-			// TODO: why do I need to supply the field name twice?
 			var payload = new Payload{{
 				"design_images[][uploaded_data]", 
-				new DataItem("design_images[][uploaded_data]", file, "image/gif")
+				new DataItem(file, "image/gif")
 			}};
 
 			using (var response = MultipartPost(uri, payload)) {

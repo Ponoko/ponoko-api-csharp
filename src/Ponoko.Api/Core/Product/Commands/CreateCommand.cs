@@ -44,7 +44,7 @@ namespace Ponoko.Api.Core.Product.Commands {
 
 				payload.Add(
 					"designs[][uploaded_data]",
-				    new DataItem("designs[][uploaded_data]", new FileInfo(design.Filename), "xxx")
+				    new DataItem(new FileInfo(design.Filename), "xxx")
 				);
 			}
 			
