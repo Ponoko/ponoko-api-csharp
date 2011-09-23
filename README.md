@@ -12,32 +12,42 @@ Place them in the spaces provided in __Ponoko.Api.Acceptance.Tests/App.example.c
 
 There is a fully-executable specification in __Ponoko.Api.Acceptance.Tests.Examples__.
 
+### Key Abstractions
+
+#### Internet
+The domain repositories require access to the internet. 
+There is a default implementation (SystemInternet) which uses System.Net classes.
+
+#### AuthorizationPolicy
+SystemInternet requires an AuthorizationPolicy, and there is a default one of those too (OAuthAuthorizationPolicy), 
+see below for how to create one.
+
 For example, here is how to get the materials catalogue:
 
-    // You need some credentials 
-	  var consumer = new Credential("your_consumer_key", "your_consumer_secret");
-	  var token = new Credential("your_token_key", "your_token_key");
-	  var credentials = new CredentialSet(consumer, token);
+	// You need some credentials 
+	var consumer = new Credential("your_consumer_key", "your_consumer_secret");
+	var token = new Credential("your_token_key", "your_token_secret");
+	var credentials = new CredentialSet(consumer, token);
 	
-    // and an authorization policy
-	  var authPolicy = new OAuthAuthorizationPolicy(
-		    new MadgexOAuthHeader(new SystemClock(), new SystemNonceFactory()),
-		    credentials
-	  );
+	// and an authorization policy
+	var authPolicy = new OAuthAuthorizationPolicy(
+		new MadgexOAuthHeader(new SystemClock(), new SystemNonceFactory()),
+		credentials
+	);
 
-	  // which is used by the Internet
-	  var theInternet = new SystemInternet(authPolicy);
+	// which is used by the Internet
+	var theInternet = new SystemInternet(authPolicy);
 	
-	  var baseUrl = "https://sandbox.ponoko.com/services/api/v2";
-    	
-	  // First you need a Node			
-	  var nodes = new Nodes(Internet, baseUrl);
-    var all = nodes.FindAll();
-    var firstNode = all[0];
-    
-    // Then you can get the catalogue
-    var catalogue = new MaterialsCatalogue(Internet, Settings.BaseUrl);
-    var allMaterials = catalogue.FindAll(firstNode);			      
+	var baseUrl = "https://sandbox.ponoko.com/services/api/v2";
+	
+	// To get a catalogue, first you need a Node			
+	var nodes = new Nodes(theInternet, baseUrl);
+	var all = nodes.FindAll();
+	var firstNode = all[0];
+	
+	// then you can get the catalogue
+	var catalogue = new MaterialsCatalogue(theInternet, baseUrl);
+	var allMaterials = catalogue.FindAll(firstNode);			      
 
 ## Known issues
 
