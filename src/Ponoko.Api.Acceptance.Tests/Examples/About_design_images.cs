@@ -53,9 +53,30 @@ namespace Ponoko.Api.Acceptance.Tests.Examples {
 			Assert.AreEqual(expectedChecksum, actualChecksum, "The file returned is not identical");
 		}
 		
+		[Test]
+		public void you_can_remove_a_design_image_from_a_product() {
+			given_at_least_one_product();
+
+			var id = FindFirstProductKey();
+
+			var theImage = new FileInfo("res\\ponoko_logo_text_page.gif");
+
+			var command = new DesignImageAddCommand(Internet, Settings.BaseUrl);
+			var theProduct = command.Add(id, theImage);
+
+			Assert.IsTrue(theProduct.DesignImages.Exists(it =>
+				it.Filename == Path.GetFileName(theImage.Name))
+			);
+
+			theProduct = command.Remove(id, theImage.Name);
+
+			Assert.IsFalse(theProduct.DesignImages.Exists(it =>
+				it.Filename == Path.GetFileName(theImage.Name))
+			);
+		}
+
 		private String Checksum(Byte[] file) {
-			MD5 md5 = new MD5CryptoServiceProvider();
-			var checksum = md5.ComputeHash(file);
+			var checksum = new MD5CryptoServiceProvider().ComputeHash(file);
 			var buffer = new StringBuilder();
 
 			for (var i = 0; i < checksum.Length; i++) {
@@ -69,14 +90,11 @@ namespace Ponoko.Api.Acceptance.Tests.Examples {
 		public void you_cannot_add_a_design_image_if_the_product_does_not_exist() { }
 
 		[Test, Ignore("PENDING")]
-		public void you_can_get_the_design_images_for_a_product() { }
-
-		[Test, Ignore("PENDING")]
 		public void you_may_get_an_auto_generated_image() { }
 	}
 
 	public class DesignImageAddCommand : Domain {
-		public DesignImageAddCommand(TheInternet internet, string baseUrl) : base(internet, baseUrl) { }
+		public DesignImageAddCommand(TheInternet internet, String baseUrl) : base(internet, baseUrl) { }
 
 		public Product Add(String product, FileInfo file) {
 			var uri = Map("/products/{0}/design-images", product);
@@ -84,10 +102,7 @@ namespace Ponoko.Api.Acceptance.Tests.Examples {
 			var payload = new Payload { { "design_images[][uploaded_data]", new DataItem(file, "image/gif") } };
 
 			using (var response = MultipartPost(uri, payload)) {
-				var json = ReadAll(response);
-
-				var productJson = new Deserializer().Deserialize(json)["product"];
-				return ProductDeserializer.Deserialize(productJson.ToString());
+				return Deserialize(response);
 			}
 		}
 
@@ -98,6 +113,21 @@ namespace Ponoko.Api.Acceptance.Tests.Examples {
 				var length = Int32.Parse(response.Header("Content-length"));
 				return ReadAll(response.Open(), length);
 			}
+		}
+
+		public Product Remove(String product, String filename) {
+			var uri = Map("/products/{0}/design-images/destroy?filename={1}", product, filename);
+
+			using (var response = Get(uri)) {
+				return Deserialize(response);
+			}
+		}
+
+		private Product Deserialize(Response response) {
+			var json = ReadAll(response);
+
+			var productJson = new Deserializer().Deserialize(json)["product"];
+			return ProductDeserializer.Deserialize(productJson.ToString());
 		}
 
 		private byte[] ReadAll(Stream input, Int32 length) {
