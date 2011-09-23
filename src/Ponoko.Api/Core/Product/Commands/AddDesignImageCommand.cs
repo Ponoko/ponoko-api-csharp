@@ -4,8 +4,8 @@ using Ponoko.Api.Json;
 using Ponoko.Api.Rest;
 
 namespace Ponoko.Api.Core.Product.Commands {
-	public class DesignImageAddCommand : Domain {
-		public DesignImageAddCommand(TheInternet internet, String baseUrl) : base(internet, baseUrl) { }
+	public class AddDesignImageCommand : Domain {
+		public AddDesignImageCommand(TheInternet internet, String baseUrl) : base(internet, baseUrl) { }
 
 		public Product Add(String product, FileInfo file) {
 			var uri = Map("/products/{0}/design-images", product);

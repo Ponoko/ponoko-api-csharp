@@ -17,7 +17,7 @@ namespace Ponoko.Api.Acceptance.Tests.Examples {
 
 			var theImage = new FileInfo("res\\ponoko_logo_text_page.gif");
 
-			var theProduct = new DesignImageAddCommand(Internet, Settings.BaseUrl).Add(id, theImage);
+			var theProduct = new AddDesignImageCommand(Internet, Settings.BaseUrl).Add(id, theImage);
 
 			Assert.That(theProduct.DesignImages.Count, Is.GreaterThan(0), "Expected at least one design image");
 
@@ -34,7 +34,7 @@ namespace Ponoko.Api.Acceptance.Tests.Examples {
 
 			var theImage = new FileInfo("res\\ponoko_logo_text_page.gif");
 
-			var command = new DesignImageAddCommand(Internet, Settings.BaseUrl);
+			var command = new AddDesignImageCommand(Internet, Settings.BaseUrl);
 
 			command.Add(id, theImage);
 
@@ -58,7 +58,7 @@ namespace Ponoko.Api.Acceptance.Tests.Examples {
 
 			var theImage = new FileInfo("res\\ponoko_logo_text_page.gif");
 
-			var command = new DesignImageAddCommand(Internet, Settings.BaseUrl);
+			var command = new AddDesignImageCommand(Internet, Settings.BaseUrl);
 			var theProduct = command.Add(id, theImage);
 
 			Assert.IsTrue(theProduct.DesignImages.Exists(it =>
