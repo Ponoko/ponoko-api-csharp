@@ -1,5 +1,7 @@
 ﻿using System;
 using System.IO;
+using System.Security.Cryptography;
+using System.Text;
 using NUnit.Framework;
 using Ponoko.Api.Acceptance.Tests.Examples.Products;
 using Ponoko.Api.Core;
@@ -44,6 +46,23 @@ namespace Ponoko.Api.Acceptance.Tests.Examples {
 			Assert.That(result.Length, Is.EqualTo(theImage.Length),
 				"Expected the returned file to have exactly the same size as the one we uploaded"
 			);
+
+			var expectedChecksum = Checksum(File.ReadAllBytes(theImage.FullName));
+			var actualChecksum = Checksum(result);
+
+			Assert.AreEqual(expectedChecksum, actualChecksum, "The file returned is not identical");
+		}
+		
+		private String Checksum(Byte[] file) {
+			MD5 md5 = new MD5CryptoServiceProvider();
+			var checksum = md5.ComputeHash(file);
+			var buffer = new StringBuilder();
+
+			for (var i = 0; i < checksum.Length; i++) {
+				buffer.Append(checksum[i].ToString("x2"));
+			}
+
+			return buffer.ToString();
 		}
 
 		[Test, Ignore("PENDING")]
