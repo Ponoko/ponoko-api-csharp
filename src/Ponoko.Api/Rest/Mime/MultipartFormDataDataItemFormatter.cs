@@ -9,11 +9,11 @@ namespace Ponoko.Api.Rest.Mime {
 			_boundary = boundary;
 		}
 
-		public String Header(DataItem dataItem) {
+		public String Header(String name, DataItem dataItem) {
 			var builder = new StringBuilder();
 			builder.AppendFormat("--{0}\r\n", _boundary);
 			
-			var attributes = String.Format("name=\"{0}\"; filename=\"{1}\"", dataItem.Name, dataItem.FileName);
+			var attributes = String.Format("name=\"{0}\"; filename=\"{1}\"", name, dataItem.FileName);
 
 			builder.AppendFormat("Content-Disposition: form-data; {0}\r\n", attributes);
 			builder.AppendFormat("Content-Type: {0}\r\n", dataItem.ContentType);

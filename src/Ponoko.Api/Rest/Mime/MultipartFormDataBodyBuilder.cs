@@ -25,14 +25,14 @@ namespace Ponoko.Api.Rest.Mime {
 		// It depends whether we want protection against new objects or new functions.
 		private void Append(Field field) {
 			if (field.Value != null && field.Value.GetType() == typeof(DataItem)) {
-				Append((DataItem)field.Value);
+				Append(field.Name, (DataItem)field.Value);
 			} else {
 				Append(Format(field.Name, field.Value != null ? field.Value.ToString() : String.Empty));
 			}
 		}
 
-		private void Append(DataItem dataItem) {
-			Append(FormatHeader(dataItem));
+		private void Append(String name, DataItem dataItem) {
+			Append(FormatHeader(name, dataItem));
 
 			if (dataItem.Length > 0) {
 				Stream.Write(dataItem.GetBytes(), 0, dataItem.Length);
@@ -40,6 +40,8 @@ namespace Ponoko.Api.Rest.Mime {
 
 			AppendNewline();
 		}
+		
+		private String FormatHeader(String name, DataItem dataItem) { return _formatter.Header(name, dataItem); }
 
 		public	void AppendFooter()			{ Append("--" + _boundary + "--\r\n"); }
 		private void AppendNewline()		{ Append("\r\n");}
@@ -50,6 +52,5 @@ namespace Ponoko.Api.Rest.Mime {
 		private Stream Stream { get { return _stream; } }
 
 		private String Format(String name, String value) { return _formatter.NameValuePair(name, value); }
-		private String FormatHeader(DataItem dataItem) { return _formatter.Header(dataItem); }
 	}
 }
