@@ -9,6 +9,7 @@ using Ponoko.Api.Core.Product.Commands;
 namespace Ponoko.Api.Acceptance.Tests.Examples {
 	[TestFixture]
 	public class About_design_images : ProductAcceptanceTest {
+		// TODO: Are these methods poorly-hung? Passing Product seems to smell somehow.
 		[Test]
 		public void you_can_add_a_design_image_to_a_product() {
 			given_at_least_one_product();
@@ -21,8 +22,25 @@ namespace Ponoko.Api.Acceptance.Tests.Examples {
 
 			Assert.That(theProduct.DesignImages.Count, Is.GreaterThan(0), "Expected at least one design image");
 
-			Assert.That(theProduct.DesignImages.Exists(it =>
-				it.Filename == Path.GetFileName(theImage.Name))
+			Assert.IsTrue(theProduct.DesignImages.Exists(it =>
+				it.Filename == Path.GetFileName(theImage.Name)), 
+				"The design image was not added"
+			);
+		}
+
+		[Test]
+		public void when_you_add_file_with_a_name_containing_spaces_they_are_replaced_with_underscores() {
+			given_at_least_one_product();
+
+			var id = FindFirstProductKey();
+
+			var theImage = new FileInfo("res\\example image with spaces.gif");
+
+			var theProduct = new AddDesignImageCommand(Internet, Settings.BaseUrl).Add(id, theImage);
+			
+			Assert.IsTrue(theProduct.DesignImages.Exists(it =>
+				it.Filename == Path.GetFileName("example_image_with_spaces.gif")), 
+				"The design image was not added"
 			);
 		}
 
@@ -40,14 +58,14 @@ namespace Ponoko.Api.Acceptance.Tests.Examples {
 
 			var result = command.Get(id, theImage.Name);
 
-			Assert.That(result.Length, Is.EqualTo(theImage.Length),
+			Assert.AreEqual(theImage.Length, result.Length,
 				"Expected the returned file to have exactly the same size as the one we uploaded"
 			);
 
 			var expectedChecksum = Checksum(File.ReadAllBytes(theImage.FullName));
 			var actualChecksum = Checksum(result);
 
-			Assert.AreEqual(expectedChecksum, actualChecksum, "The file returned is not identical");
+			Assert.AreEqual(expectedChecksum, actualChecksum, "The file returned is not identical to the one uploaded");
 		}
 		
 		[Test]
@@ -62,13 +80,15 @@ namespace Ponoko.Api.Acceptance.Tests.Examples {
 			var theProduct = command.Add(id, theImage);
 
 			Assert.IsTrue(theProduct.DesignImages.Exists(it =>
-				it.Filename == Path.GetFileName(theImage.Name))
+				it.Filename == Path.GetFileName(theImage.Name)),
+				"The design image was not added"
 			);
 
 			theProduct = command.Remove(id, theImage.Name);
 
 			Assert.IsFalse(theProduct.DesignImages.Exists(it =>
-				it.Filename == Path.GetFileName(theImage.Name))
+				it.Filename == Path.GetFileName(theImage.Name)), 
+				"Expected the design image to hav been deleted"
 			);
 		}
 

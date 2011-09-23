@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Net;
 using Ponoko.Api.Json;
 using Ponoko.Api.Rest;
 
@@ -35,6 +36,9 @@ namespace Ponoko.Api.Core.Product.Commands {
 		}
 
 		private Product Deserialize(Response response) {
+			if (response.StatusCode != HttpStatusCode.OK)
+				throw new Exception("Invalid status returned");
+
 			var json = ReadAll(response);
 
 			var productJson = new Deserializer().Deserialize(json)["product"];
