@@ -123,7 +123,7 @@ namespace Ponoko.Api.Acceptance.Tests.Examples.Products {
 
 			var theRefreshedProduct = new FindCommand(Internet, Settings.BaseUrl).Find(ExampleProduct.Key);
 
-			Assert.AreEqual(1, theRefreshedProduct.Designs.Count, "Expected the desing to have been deleted");
+			Assert.AreEqual(1, theRefreshedProduct.Designs.Count, "Expected the design to have been deleted");
 			Assert.AreEqual(theLastDesign.Key, theRefreshedProduct.Designs[0].Key, "Expected that the newly-added one was deleted");
 		}
 
