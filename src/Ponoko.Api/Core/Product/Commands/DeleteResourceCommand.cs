@@ -20,8 +20,7 @@ namespace Ponoko.Api.Core.Product.Commands {
 		}
 
 		private void Verify(Response response) {
-			var readAll = ReadAll(response);
-			var json = new Deserializer().Deserialize(readAll);
+			var json = new Deserializer().Deserialize(ReadAll(response));
 
 			Ensure(json);
 
