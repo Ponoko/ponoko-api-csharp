@@ -25,7 +25,7 @@ namespace Ponoko.Api.Core.Product.Commands {
 			Ensure(json);
 
 			var deleted = json.Value<String>("deleted");
-			var wasDeletedOkay = (deleted == "true");
+			var wasDeletedOkay = (deleted == Boolean.TrueString);
 
 			un.less(wasDeletedOkay, () => {
 				throw new Exception(String.Format(
