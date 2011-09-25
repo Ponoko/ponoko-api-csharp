@@ -15,7 +15,7 @@ namespace Ponoko.Api.Unit.Tests.Core.Product.Commands {
 			
 			var response = NewFakeResponse(
 				HttpStatusCode.OK, 
-				"{'deleted' : 'true'}"
+				"{'deleted' : true}"
 			);
 
 			internet.
@@ -33,7 +33,7 @@ namespace Ponoko.Api.Unit.Tests.Core.Product.Commands {
 			
 			var response = NewFakeResponse(
 				HttpStatusCode.OK, 
-				"{'deleted' : 'false'}"
+				"{'deleted' : false}"
 			);
 
 			internet.

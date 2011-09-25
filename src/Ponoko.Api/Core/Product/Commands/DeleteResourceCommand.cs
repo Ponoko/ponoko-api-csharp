@@ -20,12 +20,13 @@ namespace Ponoko.Api.Core.Product.Commands {
 		}
 
 		private void Verify(Response response) {
-			var json = new Deserializer().Deserialize(ReadAll(response));
+			var readAll = ReadAll(response);
+			var json = new Deserializer().Deserialize(readAll);
 
 			Ensure(json);
 
-			var deleted = json.Value<String>("deleted");
-			var wasDeletedOkay = (deleted == Boolean.TrueString);
+			var deleted = json.Value<String>("deleted").ToLower();
+			var wasDeletedOkay = (deleted == "true");
 
 			un.less(wasDeletedOkay, () => {
 				throw new Exception(String.Format(
