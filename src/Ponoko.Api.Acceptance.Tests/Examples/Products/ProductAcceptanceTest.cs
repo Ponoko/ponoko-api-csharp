@@ -49,11 +49,7 @@ namespace Ponoko.Api.Acceptance.Tests.Examples.Products {
 		}
 
 		protected void Delete(Product product) {
-			Assert.Throws<Exception>(() => 
-				new DeleteCommand(Internet, Settings.BaseUrl).Delete(product.Key), 
-			    "Expected this to fail because at the time of writing the delete operation is broken on the server end. " + 
-			    "It didn't fail, so the remote end has been fixed and you can remove this assertion."
-			);
+			new DeleteCommand(Internet, Settings.BaseUrl).Delete(product.Key);
 		}
 
 		protected Design NewDesign() {
