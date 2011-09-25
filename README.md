@@ -51,11 +51,10 @@ For example, here is how to get the materials catalogue:
 
 ## Known issues
 
-### Two failing tests
+### One failing test
 
 These are related to deletes not returning the correct result:
 
-1. AboutUpdatingProducts you_can_delete_a_design
 1. AboutUpdatingProducts you_cannot_delete_the_last_design  
 
 ## Previewing readme
