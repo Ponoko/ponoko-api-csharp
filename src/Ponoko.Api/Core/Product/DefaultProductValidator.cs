@@ -1,9 +1,10 @@
 ﻿using System;
 using System.IO;
 using Ponoko.Api.Core.IO;
+using Ponoko.Api.Core.Product.Commands;
 using Ponoko.Api.Sugar;
 
-namespace Ponoko.Api.Core.Product.Commands {
+namespace Ponoko.Api.Core.Product {
 	public class DefaultProductValidator : ProductValidator {
 		private readonly ReadonlyFileSystem _fileSystem;
 

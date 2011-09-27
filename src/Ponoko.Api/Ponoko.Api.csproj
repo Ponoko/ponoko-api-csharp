@@ -86,12 +86,12 @@
     <Compile Include="Core\Orders\ShippingCost.cs" />
     <Compile Include="Core\Orders\TrackingNumber.cs" />
     <Compile Include="Core\Product\Commands\AddDesignCommand.cs" />
-    <Compile Include="Core\Product\Commands\DefaultProductValidator.cs" />
+    <Compile Include="Core\Product\DefaultProductValidator.cs" />
     <Compile Include="Core\Product\Commands\DeleteCommand.cs" />
     <Compile Include="Core\Product\Commands\DeleteDesignCommand.cs" />
     <Compile Include="Core\Product\Commands\DeleteResourceCommand.cs" />
     <Compile Include="Core\Product\Commands\AddDesignImageCommand.cs" />
-    <Compile Include="Core\Product\Commands\ProductValidator.cs" />
+    <Compile Include="Core\Product\ProductValidator.cs" />
     <Compile Include="Core\Product\Commands\UpdateCommand.cs" />
     <Compile Include="Core\Shipping\Address.cs" />
     <Compile Include="Core\Shipping\Option.cs" />
@@ -110,7 +110,7 @@
     <Compile Include="Rest\Mime\MultipartFormDataBodyBuilder.cs" />
     <Compile Include="Rest\Parameter.cs" />
     <Compile Include="Core\Product\Product.cs" />
-    <Compile Include="Core\Product\Commands\ProductSeed.cs" />
+    <Compile Include="Core\Product\ProductSeed.cs" />
     <Compile Include="Json\ProductDeserializer.cs" />
     <Compile Include="Core\Product\Commands\FindCommand.cs" />
     <Compile Include="Core\Product\Commands\CreateCommand.cs" />

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Ponoko.Api.Core.Product.Commands {
+namespace Ponoko.Api.Core.Product {
 	public class ProductSeed {
 		public static ProductSeed WithName(String name) {
 			return new ProductSeed {Name = name};

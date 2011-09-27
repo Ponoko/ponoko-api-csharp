@@ -16,11 +16,11 @@ namespace Ponoko.Api.Core.Product.Commands {
 		public Product Update(String productKey, Design design) {
 			var uri = Map("/products/{0}/update-design/{1}", productKey, design.Key);
 
-			var payload = new Payload();
-
-			payload.Add("ref",			design.Reference);
-			payload.Add("quantity",		design.Quantity);
-			payload.Add("material_key",	design.MaterialKey);
+			var payload = new Payload {
+				{"ref"			, design.Reference},
+			    {"quantity"		, design.Quantity},
+			    {"material_key"	, design.MaterialKey}
+			};
 
 			return Run(uri, payload);
 		}
@@ -34,13 +34,13 @@ namespace Ponoko.Api.Core.Product.Commands {
 		}
 
 		private Product Submit(Uri uri, Design design) {
-			var payload = new Payload();
-
-			payload.Add("ref",				design.Reference);
-			payload.Add("filename",			Path.GetFileName(design.Filename));
-			payload.Add("uploaded_data",	new DataItem(new FileInfo(design.Filename), "xxx"));
-			payload.Add("quantity",			design.Quantity);
-			payload.Add("material_key",		design.MaterialKey);
+			var payload = new Payload {
+				{"ref"				, design.Reference},
+			    {"filename"			, Path.GetFileName(design.Filename)},
+			    {"uploaded_data"	, new DataItem(new FileInfo(design.Filename), "xxx")},
+			    {"quantity"			, design.Quantity},
+			    {"material_key"		,design.MaterialKey}
+			};
 
 			return Run(uri, payload);
 		}
