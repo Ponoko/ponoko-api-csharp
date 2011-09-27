@@ -9,7 +9,6 @@ using Ponoko.Api.Core.Product.Commands;
 namespace Ponoko.Api.Acceptance.Tests.Examples {
 	[TestFixture]
 	public class AboutDesignImages : ProductAcceptanceTest {
-		// TODO: Are these methods poorly-hung? Passing Product seems to smell somehow.
 		[Test]
 		public void you_can_add_a_design_image_to_a_product() {
 			given_at_least_one_product();
@@ -69,26 +68,6 @@ namespace Ponoko.Api.Acceptance.Tests.Examples {
 				"Expected the file returned to be identical to the one uploaded"
 			);
 		}
-		
-		private Byte[] ReadAll(Stream input) {
-			const Int32 BUFFER_SIZE = 1024 * 10;
-
-			using (var output = new MemoryStream()) {
-				var buffer = new Byte[BUFFER_SIZE];
-				var bytesRead = 0;
-				var totalBytesRead = 0;
-				while ((bytesRead = input.Read(buffer, 0, buffer.Length)) > 0) {
-					output.Write(buffer, 0, bytesRead);
-					totalBytesRead += bytesRead;
-				}
-
-				var result = new Byte[totalBytesRead];
-
-				Buffer.BlockCopy(output.GetBuffer(), 0, result, 0, totalBytesRead);
-
-				return result;
-			}
-		}
 
 		[Test]
 		public void you_can_remove_a_design_image_from_a_product() {
@@ -114,6 +93,12 @@ namespace Ponoko.Api.Acceptance.Tests.Examples {
 			);
 		}
 
+		[Test, Ignore("PENDING")]
+		public void you_cannot_add_a_design_image_if_the_product_does_not_exist() { }
+
+		[Test, Ignore("PENDING")]
+		public void you_may_get_an_auto_generated_image() { }
+
 		private String Checksum(Byte[] file) {
 			var checksum = new MD5CryptoServiceProvider().ComputeHash(file);
 			var buffer = new StringBuilder();
@@ -125,10 +110,24 @@ namespace Ponoko.Api.Acceptance.Tests.Examples {
 			return buffer.ToString();
 		}
 
-		[Test, Ignore("PENDING")]
-		public void you_cannot_add_a_design_image_if_the_product_does_not_exist() { }
+		private Byte[] ReadAll(Stream input) {
+			const Int32 BUFFER_SIZE = 1024 * 10;
 
-		[Test, Ignore("PENDING")]
-		public void you_may_get_an_auto_generated_image() { }
+			using (var output = new MemoryStream()) {
+				var buffer = new Byte[BUFFER_SIZE];
+				var bytesRead = 0;
+				var totalBytesRead = 0;
+				while ((bytesRead = input.Read(buffer, 0, buffer.Length)) > 0) {
+					output.Write(buffer, 0, bytesRead);
+					totalBytesRead += bytesRead;
+				}
+
+				var result = new Byte[totalBytesRead];
+
+				Buffer.BlockCopy(output.GetBuffer(), 0, result, 0, totalBytesRead);
+
+				return result;
+			}
+		}
 	}
 }
