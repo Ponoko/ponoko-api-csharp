@@ -39,7 +39,7 @@ namespace Ponoko.Api.Core.Product.Commands {
 			    {"filename"			, Path.GetFileName(design.Filename)},
 			    {"uploaded_data"	, new DataItem(new FileInfo(design.Filename), "xxx")},
 			    {"quantity"			, design.Quantity},
-			    {"material_key"		,design.MaterialKey}
+			    {"material_key"		, design.MaterialKey}
 			};
 
 			return Run(uri, payload);
@@ -50,7 +50,7 @@ namespace Ponoko.Api.Core.Product.Commands {
 				if (response.StatusCode == HttpStatusCode.OK)
 					return Deserialize(response);
 
-				throw Error("Failed to update design", response);
+				throw Error("Failed to update or add design", response);
 			}
 		}
 
