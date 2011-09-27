@@ -5,13 +5,23 @@ using Ponoko.Api.Json;
 using Ponoko.Api.Rest;
 
 namespace Ponoko.Api.Core.Product.Commands {
+	public class DesignImage {
+		public FileInfo FileInfo { get; private set; }
+		public string ContentType { get; private set; }
+
+		public DesignImage(FileInfo fileInfo, String contentType) {
+			FileInfo = fileInfo;
+			ContentType = contentType;
+		}
+	}
+	
 	public class AddDesignImageCommand : Domain {
 		public AddDesignImageCommand(TheInternet internet, String baseUrl) : base(internet, baseUrl) { }
 
-		public Product Add(String productKey, FileInfo file, String contentType) {
+		public Product Add(String productKey, params DesignImage[] designImages) {
 			var uri = Map("/products/{0}/design-images", productKey);
 
-			var payload = new Payload { { "design_images[][uploaded_data]", new DataItem(file, contentType) } };
+			var payload = new Payload { { "design_images[][uploaded_data]", new DataItem(designImages[0].FileInfo, designImages[0].ContentType) } };
 
 			using (var response = MultipartPost(uri, payload)) {
 				return Deserialize(response);

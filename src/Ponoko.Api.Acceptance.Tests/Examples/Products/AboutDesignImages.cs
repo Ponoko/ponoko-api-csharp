@@ -14,15 +14,32 @@ namespace Ponoko.Api.Acceptance.Tests.Examples.Products {
 
 			var id = FindFirstProductKey();
 
-			var theImage = new FileInfo("res\\ponoko_logo_text_page.gif");
-			var theContentType = "image/gif";
+			var theImage = new DesignImage(new FileInfo("res\\ponoko_logo_text_page.gif"), "image/gif");
 
-			var theProduct = new AddDesignImageCommand(Internet, Settings.BaseUrl).Add(id, theImage, theContentType);
+			var theProduct = new AddDesignImageCommand(Internet, Settings.BaseUrl).Add(id, theImage);
 
 			Assert.That(theProduct.DesignImages.Count, Is.GreaterThan(0), "Expected at least one design image");
 
 			Assert.IsTrue(theProduct.DesignImages.Exists(it =>
-				it.Filename == Path.GetFileName(theImage.Name)), 
+				it.Filename == Path.GetFileName(theImage.FileInfo.Name)), 
+				"The design image was not added"
+			);
+		}
+
+		[Test]
+		public void you_can_add_multiple_design_images_to_a_product() {
+			given_at_least_one_product();
+
+			var id = FindFirstProductKey();
+
+			var theImage = new DesignImage(new FileInfo("res\\ponoko_logo_text_page.gif"), "image/gif");
+
+			var theProduct = new AddDesignImageCommand(Internet, Settings.BaseUrl).Add(id, theImage);
+
+			Assert.That(theProduct.DesignImages.Count, Is.GreaterThan(0), "Expected at least one design image");
+
+			Assert.IsTrue(theProduct.DesignImages.Exists(it =>
+				it.Filename == Path.GetFileName(theImage.FileInfo.Name)), 
 				"The design image was not added"
 			);
 		}
@@ -33,11 +50,10 @@ namespace Ponoko.Api.Acceptance.Tests.Examples.Products {
 
 			var id = FindFirstProductKey();
 
-			var theImage = new FileInfo("res\\ponoko_logo_text_page.gif");
-			var bungContentType = "xxx_clearly_invalid";
+			var theImage = new DesignImage(new FileInfo("res\\ponoko_logo_text_page.gif"), "xxx_clearly_invalid");
 
 			var theError = Assert.Throws<Exception>(() => 
-				new AddDesignImageCommand(Internet, Settings.BaseUrl).Add(id, theImage, bungContentType)
+				new AddDesignImageCommand(Internet, Settings.BaseUrl).Add(id, theImage)
 			);
 
 			Assert.That(theError.Message, Is.StringEnding("\"Bad Request. Error adding image\""), 
@@ -50,11 +66,10 @@ namespace Ponoko.Api.Acceptance.Tests.Examples.Products {
 			given_at_least_one_product();
 
 			var id = FindFirstProductKey();
+			
+			var theImage = new DesignImage(new FileInfo("res\\example image with spaces.gif"), "image/gif");
 
-			var theImage = new FileInfo("res\\example image with spaces.gif");
-			var theContentType = "image/gif";
-
-			var theProduct = new AddDesignImageCommand(Internet, Settings.BaseUrl).Add(id, theImage, theContentType);
+			var theProduct = new AddDesignImageCommand(Internet, Settings.BaseUrl).Add(id, theImage);
 			
 			Assert.IsTrue(theProduct.DesignImages.Exists(it =>
 				it.Filename == Path.GetFileName("example_image_with_spaces.gif")), 
@@ -68,19 +83,19 @@ namespace Ponoko.Api.Acceptance.Tests.Examples.Products {
 
 			var id = FindFirstProductKey();
 
-			var theImage = new FileInfo("res\\ponoko_logo_text_page.gif");
-			var theContentType = "image/gif";
+			var theImage = new DesignImage(new FileInfo("res\\ponoko_logo_text_page.gif"), "image/gif");
+
 			var command = new AddDesignImageCommand(Internet, Settings.BaseUrl);
 
-			command.Add(id, theImage, theContentType);
+			command.Add(id, theImage);
 
-			var result = ReadAll(command.Get(id, theImage.Name));
+			var result = ReadAll(command.Get(id, theImage.FileInfo.Name));
 
-			Assert.AreEqual(theImage.Length, result.Length,
+			Assert.AreEqual(theImage.FileInfo.Length, result.Length,
 				"Expected the returned file to have exactly the same size as the one we uploaded"
 			);
 
-			var expectedChecksum = Checksum(File.ReadAllBytes(theImage.FullName));
+			var expectedChecksum = Checksum(File.ReadAllBytes(theImage.FileInfo.FullName));
 			var actualChecksum = Checksum(result);
 
 			Assert.AreEqual(expectedChecksum, actualChecksum, 
@@ -94,21 +109,20 @@ namespace Ponoko.Api.Acceptance.Tests.Examples.Products {
 
 			var id = FindFirstProductKey();
 
-			var theImage = new FileInfo("res\\ponoko_logo_text_page.gif");
-			var theContentType = "image/gif";
+				var theImage = new DesignImage(new FileInfo("res\\ponoko_logo_text_page.gif"), "image/gif");
 
 			var command = new AddDesignImageCommand(Internet, Settings.BaseUrl);
-			var theProduct = command.Add(id, theImage, theContentType);
+			var theProduct = command.Add(id, theImage);
 
 			Assert.IsTrue(theProduct.DesignImages.Exists(it =>
-				it.Filename == Path.GetFileName(theImage.Name)),
+				it.Filename == Path.GetFileName(theImage.FileInfo.Name)),
 				"The design image was not added"
 			);
 
-			theProduct = command.Remove(id, theImage.Name);
+			theProduct = command.Remove(id, theImage.FileInfo.Name);
 
 			Assert.IsFalse(theProduct.DesignImages.Exists(it =>
-				it.Filename == Path.GetFileName(theImage.Name)), 
+				it.Filename == Path.GetFileName(theImage.FileInfo.Name)), 
 				"Expected the design image to hav been deleted"
 			);
 		}
