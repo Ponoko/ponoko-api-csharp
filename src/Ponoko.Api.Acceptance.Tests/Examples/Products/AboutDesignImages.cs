@@ -27,6 +27,24 @@ namespace Ponoko.Api.Acceptance.Tests.Examples.Products {
 			);
 		}
 
+		[Test] 
+		public void you_get_an_error_if_you_supply_incorrect_content_type() {
+			given_at_least_one_product();
+
+			var id = FindFirstProductKey();
+
+			var theImage = new FileInfo("res\\ponoko_logo_text_page.gif");
+			var bungContentType = "xxx_clearly_invalid";
+
+			var theError = Assert.Throws<Exception>(() => 
+				new AddDesignImageCommand(Internet, Settings.BaseUrl).Add(id, theImage, bungContentType)
+			);
+
+			Assert.That(theError.Message, Is.StringEnding("\"Bad Request. Error adding image\""), 
+				"Unexpected error message returned"
+			);
+		}
+
 		[Test]
 		public void when_you_add_file_with_a_name_containing_spaces_they_are_replaced_with_underscores() {
 			given_at_least_one_product();
