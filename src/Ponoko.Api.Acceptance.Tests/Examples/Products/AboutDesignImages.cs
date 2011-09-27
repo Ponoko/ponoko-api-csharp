@@ -3,20 +3,30 @@ using System.IO;
 using System.Security.Cryptography;
 using System.Text;
 using NUnit.Framework;
+using Ponoko.Api.Core.Product;
 using Ponoko.Api.Core.Product.Commands;
+using DesignImage = Ponoko.Api.Core.Product.Commands.DesignImage;
 
 namespace Ponoko.Api.Acceptance.Tests.Examples.Products {
 	[TestFixture]
 	public class AboutDesignImages : ProductAcceptanceTest {
+		[TearDown]
+		public void AfterEach() {
+			new DeleteCommand(Internet, Settings.BaseUrl).Delete(AnyProduct.Key);
+		}
+
+		[SetUp]
+		new public void BeforeEach() {
+			AnyProduct = NewProduct("Example for testing design images");
+		}
+
+		private Product AnyProduct;
+
 		[Test]
 		public void you_can_add_a_design_image_to_a_product() {
-			given_at_least_one_product();
-
-			var id = FindFirstProductKey();
-
 			var theImage = new DesignImage(new FileInfo("res\\ponoko_logo_text_page.gif"), "image/gif");
 
-			var theProduct = new AddDesignImageCommand(Internet, Settings.BaseUrl).Add(id, theImage);
+			var theProduct = new AddDesignImageCommand(Internet, Settings.BaseUrl).Add(AnyProduct.Key, theImage);
 
 			Assert.That(theProduct.DesignImages.Count, Is.GreaterThan(0), "Expected at least one design image");
 
@@ -28,14 +38,10 @@ namespace Ponoko.Api.Acceptance.Tests.Examples.Products {
 
 		[Test]
 		public void you_can_add_multiple_design_images_to_a_product() {
-			given_at_least_one_product();
-
-			var id = FindFirstProductKey();
-			
 			var theImage = new DesignImage(new FileInfo("res\\ponoko_logo_text_page.gif"), "image/gif");
 			var anotherImage = new DesignImage(new FileInfo("res\\example image with spaces.gif"), "image/gif");
 			
-			var theProduct = new AddDesignImageCommand(Internet, Settings.BaseUrl).Add(id, theImage, anotherImage);
+			var theProduct = new AddDesignImageCommand(Internet, Settings.BaseUrl).Add(AnyProduct.Key, theImage, anotherImage);
 
 			Assert.That(theProduct.DesignImages.Count, Is.GreaterThan(0), "Expected at least one design image");
 
@@ -52,14 +58,10 @@ namespace Ponoko.Api.Acceptance.Tests.Examples.Products {
 
 		[Test] 
 		public void you_get_an_error_if_you_supply_incorrect_content_type() {
-			given_at_least_one_product();
-
-			var id = FindFirstProductKey();
-
 			var theImage = new DesignImage(new FileInfo("res\\ponoko_logo_text_page.gif"), "xxx_clearly_invalid_content_type_xxx");
 
 			var theError = Assert.Throws<Exception>(() => 
-				new AddDesignImageCommand(Internet, Settings.BaseUrl).Add(id, theImage)
+				new AddDesignImageCommand(Internet, Settings.BaseUrl).Add(AnyProduct.Key, theImage)
 			);
 
 			Assert.That(theError.Message, Is.StringEnding("\"Bad Request. Error adding image\""), 
@@ -69,13 +71,9 @@ namespace Ponoko.Api.Acceptance.Tests.Examples.Products {
 
 		[Test]
 		public void when_you_add_file_with_a_name_containing_spaces_they_are_replaced_with_underscores() {
-			given_at_least_one_product();
-
-			var id = FindFirstProductKey();
-			
 			var theImage = new DesignImage(new FileInfo("res\\example image with spaces.gif"), "image/gif");
 
-			var theProduct = new AddDesignImageCommand(Internet, Settings.BaseUrl).Add(id, theImage);
+			var theProduct = new AddDesignImageCommand(Internet, Settings.BaseUrl).Add(AnyProduct.Key, theImage);
 			
 			Assert.IsTrue(theProduct.DesignImages.Exists(it =>
 				it.Filename == Path.GetFileName("example_image_with_spaces.gif")), 
@@ -85,17 +83,13 @@ namespace Ponoko.Api.Acceptance.Tests.Examples.Products {
 
 		[Test]
 		public void you_can_get_a_design_image_for_a_product() {
-			given_at_least_one_product();
-
-			var id = FindFirstProductKey();
-
 			var theImage = new DesignImage(new FileInfo("res\\ponoko_logo_text_page.gif"), "image/gif");
 
 			var command = new AddDesignImageCommand(Internet, Settings.BaseUrl);
 
-			command.Add(id, theImage);
+			command.Add(AnyProduct.Key, theImage);
 
-			var result = ReadAll(command.Get(id, theImage.FileInfo.Name));
+			var result = ReadAll(command.Get(AnyProduct.Key, theImage.FileInfo.Name));
 
 			Assert.AreEqual(theImage.FileInfo.Length, result.Length,
 				"Expected the returned file to have exactly the same size as the one we uploaded"
@@ -111,21 +105,17 @@ namespace Ponoko.Api.Acceptance.Tests.Examples.Products {
 
 		[Test]
 		public void you_can_remove_a_design_image_from_a_product() {
-			given_at_least_one_product();
-
-			var id = FindFirstProductKey();
-
 			var theImage = new DesignImage(new FileInfo("res\\ponoko_logo_text_page.gif"), "image/gif");
 
 			var command = new AddDesignImageCommand(Internet, Settings.BaseUrl);
-			var theProduct = command.Add(id, theImage);
+			var theProduct = command.Add(AnyProduct.Key, theImage);
 
 			Assert.IsTrue(theProduct.DesignImages.Exists(it =>
 				it.Filename == Path.GetFileName(theImage.FileInfo.Name)),
 				"The design image was not added"
 			);
 
-			theProduct = command.Remove(id, theImage.FileInfo.Name);
+			theProduct = command.Remove(AnyProduct.Key, theImage.FileInfo.Name);
 
 			Assert.IsFalse(theProduct.DesignImages.Exists(it =>
 				it.Filename == Path.GetFileName(theImage.FileInfo.Name)), 
