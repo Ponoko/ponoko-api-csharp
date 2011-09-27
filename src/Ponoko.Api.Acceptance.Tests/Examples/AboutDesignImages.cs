@@ -56,7 +56,7 @@ namespace Ponoko.Api.Acceptance.Tests.Examples {
 
 			command.Add(id, theImage);
 
-			var result = command.Get(id, theImage.Name);
+			var result = ReadAll(command.Get(id, theImage.Name));
 
 			Assert.AreEqual(theImage.Length, result.Length,
 				"Expected the returned file to have exactly the same size as the one we uploaded"
@@ -65,9 +65,31 @@ namespace Ponoko.Api.Acceptance.Tests.Examples {
 			var expectedChecksum = Checksum(File.ReadAllBytes(theImage.FullName));
 			var actualChecksum = Checksum(result);
 
-			Assert.AreEqual(expectedChecksum, actualChecksum, "The file returned is not identical to the one uploaded");
+			Assert.AreEqual(expectedChecksum, actualChecksum, 
+				"Expected the file returned to be identical to the one uploaded"
+			);
 		}
 		
+		private Byte[] ReadAll(Stream input) {
+			const Int32 BUFFER_SIZE = 1024 * 10;
+
+			using (var output = new MemoryStream()) {
+				var buffer = new Byte[BUFFER_SIZE];
+				var bytesRead = 0;
+				var totalBytesRead = 0;
+				while ((bytesRead = input.Read(buffer, 0, buffer.Length)) > 0) {
+					output.Write(buffer, 0, bytesRead);
+					totalBytesRead += bytesRead;
+				}
+
+				var result = new Byte[totalBytesRead];
+
+				Buffer.BlockCopy(output.GetBuffer(), 0, result, 0, totalBytesRead);
+
+				return result;
+			}
+		}
+
 		[Test]
 		public void you_can_remove_a_design_image_from_a_product() {
 			given_at_least_one_product();

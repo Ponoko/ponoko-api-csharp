@@ -8,8 +8,8 @@ namespace Ponoko.Api.Core.Product.Commands {
 	public class AddDesignImageCommand : Domain {
 		public AddDesignImageCommand(TheInternet internet, String baseUrl) : base(internet, baseUrl) { }
 
-		public Product Add(String product, FileInfo file) {
-			var uri = Map("/products/{0}/design-images", product);
+		public Product Add(String productKey, FileInfo file) {
+			var uri = Map("/products/{0}/design-images", productKey);
 
 			var payload = new Payload { { "design_images[][uploaded_data]", new DataItem(file, "image/gif") } };
 
@@ -18,17 +18,14 @@ namespace Ponoko.Api.Core.Product.Commands {
 			}
 		}
 
-		public Byte[] Get(String product, String filename) {
-			var uri = Map("/products/{0}/design-images/download?filename={1}", product, filename);
+		public Stream Get(String productKey, String filename) {
+			var uri = Map("/products/{0}/design-images/download?filename={1}", productKey, filename);
 
-			using (var response = Get(uri)) {
-				var length = Int32.Parse(response.Header("Content-length"));
-				return ReadAll(response.Open(), length);
-			}
+			return Get(uri).Open(); 
 		}
 
-		public Product Remove(String product, String filename) {
-			var uri = Map("/products/{0}/design-images/destroy?filename={1}", product, filename);
+		public Product Remove(String productKey, String filename) {
+			var uri = Map("/products/{0}/design-images/destroy?filename={1}", productKey, filename);
 
 			using (var response = Get(uri)) {
 				return Deserialize(response);
@@ -43,21 +40,6 @@ namespace Ponoko.Api.Core.Product.Commands {
 
 			var productJson = new Deserializer().Deserialize(json)["product"];
 			return ProductDeserializer.Deserialize(productJson.ToString());
-		}
-
-		private byte[] ReadAll(Stream input, Int32 length) {
-			const Int32 BUFFER_SIZE = 1024 * 10;
-
-			using (var output = new MemoryStream(length)) {
-				var buffer = new Byte[BUFFER_SIZE];
-				var bytesRead = 0;
-
-				while ((bytesRead = input.Read(buffer, 0, buffer.Length)) > 0) {
-					output.Write(buffer, 0, bytesRead);
-				}
-
-				return output.GetBuffer();
-			}
 		}
 	}
 }
