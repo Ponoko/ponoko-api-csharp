@@ -8,10 +8,10 @@ namespace Ponoko.Api.Core.Product.Commands {
 	public class AddDesignImageCommand : Domain {
 		public AddDesignImageCommand(TheInternet internet, String baseUrl) : base(internet, baseUrl) { }
 
-		public Product Add(String productKey, FileInfo file) {
+		public Product Add(String productKey, FileInfo file, String contentType) {
 			var uri = Map("/products/{0}/design-images", productKey);
 
-			var payload = new Payload { { "design_images[][uploaded_data]", new DataItem(file, "image/gif") } };
+			var payload = new Payload { { "design_images[][uploaded_data]", new DataItem(file, contentType) } };
 
 			using (var response = MultipartPost(uri, payload)) {
 				return Deserialize(response);
@@ -34,7 +34,7 @@ namespace Ponoko.Api.Core.Product.Commands {
 
 		private Product Deserialize(Response response) {
 			if (response.StatusCode != HttpStatusCode.OK)
-				throw new Exception("Invalid status returned");
+				throw Error("Invalid status returned", response);
 
 			var json = ReadAll(response);
 

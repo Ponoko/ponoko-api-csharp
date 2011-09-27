@@ -15,8 +15,9 @@ namespace Ponoko.Api.Acceptance.Tests.Examples.Products {
 			var id = FindFirstProductKey();
 
 			var theImage = new FileInfo("res\\ponoko_logo_text_page.gif");
+			var theContentType = "image/gif";
 
-			var theProduct = new AddDesignImageCommand(Internet, Settings.BaseUrl).Add(id, theImage);
+			var theProduct = new AddDesignImageCommand(Internet, Settings.BaseUrl).Add(id, theImage, theContentType);
 
 			Assert.That(theProduct.DesignImages.Count, Is.GreaterThan(0), "Expected at least one design image");
 
@@ -33,8 +34,9 @@ namespace Ponoko.Api.Acceptance.Tests.Examples.Products {
 			var id = FindFirstProductKey();
 
 			var theImage = new FileInfo("res\\example image with spaces.gif");
+			var theContentType = "image/gif";
 
-			var theProduct = new AddDesignImageCommand(Internet, Settings.BaseUrl).Add(id, theImage);
+			var theProduct = new AddDesignImageCommand(Internet, Settings.BaseUrl).Add(id, theImage, theContentType);
 			
 			Assert.IsTrue(theProduct.DesignImages.Exists(it =>
 				it.Filename == Path.GetFileName("example_image_with_spaces.gif")), 
@@ -49,10 +51,10 @@ namespace Ponoko.Api.Acceptance.Tests.Examples.Products {
 			var id = FindFirstProductKey();
 
 			var theImage = new FileInfo("res\\ponoko_logo_text_page.gif");
-
+			var theContentType = "image/gif";
 			var command = new AddDesignImageCommand(Internet, Settings.BaseUrl);
 
-			command.Add(id, theImage);
+			command.Add(id, theImage, theContentType);
 
 			var result = ReadAll(command.Get(id, theImage.Name));
 
@@ -75,9 +77,10 @@ namespace Ponoko.Api.Acceptance.Tests.Examples.Products {
 			var id = FindFirstProductKey();
 
 			var theImage = new FileInfo("res\\ponoko_logo_text_page.gif");
+			var theContentType = "image/gif";
 
 			var command = new AddDesignImageCommand(Internet, Settings.BaseUrl);
-			var theProduct = command.Add(id, theImage);
+			var theProduct = command.Add(id, theImage, theContentType);
 
 			Assert.IsTrue(theProduct.DesignImages.Exists(it =>
 				it.Filename == Path.GetFileName(theImage.Name)),

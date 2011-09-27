@@ -18,6 +18,8 @@ namespace Ponoko.Api.Rest {
 			get { return _data ?? (_data = File.ReadAllBytes(_file.FullName)); }
 		}
 
+		public DataItem(FileInfo file) : this(file, String.Empty) {}
+
 		public DataItem(FileInfo file, String contentType) {
 			_file = file;
 			ContentType = contentType;
