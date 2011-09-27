@@ -8,7 +8,7 @@ using Ponoko.Api.Core.Product.Commands;
 
 namespace Ponoko.Api.Acceptance.Tests.Examples {
 	[TestFixture]
-	public class About_design_images : ProductAcceptanceTest {
+	public class AboutDesignImages : ProductAcceptanceTest {
 		// TODO: Are these methods poorly-hung? Passing Product seems to smell somehow.
 		[Test]
 		public void you_can_add_a_design_image_to_a_product() {

@@ -69,9 +69,9 @@
   <ItemGroup>
     <Compile Include="AcceptanceTest.cs" />
     <Compile Include="Examples\AboutAuthorization.cs" />
+    <Compile Include="Examples\AboutDesignImages.cs" />
     <Compile Include="Examples\AboutMaterials.cs" />
     <Compile Include="Examples\AboutNodes.cs" />
-    <Compile Include="Examples\About_design_images.cs" />
     <Compile Include="Examples\Products\AboutCreatingProducts.cs" />
     <Compile Include="Examples\Products\AboutFetchingProducts.cs" />
     <Compile Include="Examples\Products\AboutDeletingProducts.cs" />
