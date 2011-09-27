@@ -113,6 +113,7 @@ namespace Ponoko.Api.Acceptance.Tests.Examples.Products {
 			ExampleProduct = addNewDesign.Add(ExampleProduct.Key, NewDesign());
 
 			Assert.AreEqual(2, ExampleProduct.Designs.Count, 
+				"Invalid test data" + 
 				"In order for this test to be valid, the product needs to have " + 
 				"more than one design (since you can't delete the last one)"
 			);
@@ -130,14 +131,19 @@ namespace Ponoko.Api.Acceptance.Tests.Examples.Products {
 			var command = new DeleteDesignCommand(Internet, Settings.BaseUrl);
 
 			Assert.AreEqual(1, ExampleProduct.Designs.Count, 
-				"Invalid test data. Test expects there to be exactly one design in order to prove that it cannot be deleted."
+				"Invalid test data. " + 
+				"Test expects there to be exactly one design in order to prove that it cannot be deleted."
 			);
 
-			var result = command.Delete(ExampleProduct.Key, ExampleProduct.Designs[0].Key);
+			var theError = Assert.Throws<Exception>(() => 
+				command.Delete(ExampleProduct.Key, ExampleProduct.Designs[0].Key
+			));
+			
+			Assert.That(theError.Message, Is.StringEnding("\"Bad Request. Error deleting design.Product must have at least one design\""));
 
-			Assert.AreEqual(1, result.Designs.Count, 
-				"Expected there to be exactly once design because the last one cannot be deleted."
-			);
+			var theRefreshedProduct = new FindCommand(Internet, Settings.BaseUrl).Find(ExampleProduct.Key);
+
+			Assert.AreEqual(1, theRefreshedProduct.Designs.Count, "Expected the product to still have its last design");
 		}
 
 		private Product ExampleProduct { get; set; }

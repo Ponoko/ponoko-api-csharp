@@ -49,14 +49,6 @@ For example, here is how to get the materials catalogue:
 	var catalogue = new MaterialsCatalogue(theInternet, baseUrl);
 	var allMaterials = catalogue.FindAll(firstNode);			      
 
-## Known issues
-
-### One failing test
-
-These are related to deletes not returning the correct result:
-
-1. AboutUpdatingProducts you_cannot_delete_the_last_design  
-
 ## Previewing readme
 
     $ rake -s preview_github_readme[README.md] > readme.html
