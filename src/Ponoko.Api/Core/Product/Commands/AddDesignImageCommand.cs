@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Net;
 using Ponoko.Api.Json;
@@ -21,11 +22,24 @@ namespace Ponoko.Api.Core.Product.Commands {
 		public Product Add(String productKey, params DesignImage[] designImages) {
 			var uri = Map("/products/{0}/design-images", productKey);
 
-			var payload = new Payload { { "design_images[][uploaded_data]", new DataItem(designImages[0].FileInfo, designImages[0].ContentType) } };
+			var payload = ToPayload(designImages);
 
 			using (var response = MultipartPost(uri, payload)) {
 				return Deserialize(response);
 			}
+		}
+
+		private Payload ToPayload(IEnumerable<DesignImage> designImages) {
+			var payload = new Payload();
+
+			foreach (var designImage in designImages) {
+				payload.Add(
+					"design_images[][uploaded_data]", 
+					new DataItem(designImage.FileInfo, designImage.ContentType)
+				);
+			}
+
+			return payload;
 		}
 
 		public Stream Get(String productKey, String filename) {

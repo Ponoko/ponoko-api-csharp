@@ -22,7 +22,7 @@ namespace Ponoko.Api.Acceptance.Tests.Examples.Products {
 
 			Assert.IsTrue(theProduct.DesignImages.Exists(it =>
 				it.Filename == Path.GetFileName(theImage.FileInfo.Name)), 
-				"The design image was not added"
+				"The design image <{0}> was not added", theImage.FileInfo.Name
 			);
 		}
 
@@ -31,16 +31,22 @@ namespace Ponoko.Api.Acceptance.Tests.Examples.Products {
 			given_at_least_one_product();
 
 			var id = FindFirstProductKey();
-
+			
 			var theImage = new DesignImage(new FileInfo("res\\ponoko_logo_text_page.gif"), "image/gif");
-
-			var theProduct = new AddDesignImageCommand(Internet, Settings.BaseUrl).Add(id, theImage);
+			var anotherImage = new DesignImage(new FileInfo("res\\example image with spaces.gif"), "image/gif");
+			
+			var theProduct = new AddDesignImageCommand(Internet, Settings.BaseUrl).Add(id, theImage, anotherImage);
 
 			Assert.That(theProduct.DesignImages.Count, Is.GreaterThan(0), "Expected at least one design image");
 
 			Assert.IsTrue(theProduct.DesignImages.Exists(it =>
 				it.Filename == Path.GetFileName(theImage.FileInfo.Name)), 
-				"The design image was not added"
+				"The design image <{0}> was not added", theImage.FileInfo.Name
+			);
+
+			Assert.IsTrue(theProduct.DesignImages.Exists(it =>
+				it.Filename == Path.GetFileName("example_image_with_spaces.gif")), 
+				"The design image <example_image_with_spaces.gif> was not added"
 			);
 		}
 
@@ -50,7 +56,7 @@ namespace Ponoko.Api.Acceptance.Tests.Examples.Products {
 
 			var id = FindFirstProductKey();
 
-			var theImage = new DesignImage(new FileInfo("res\\ponoko_logo_text_page.gif"), "xxx_clearly_invalid");
+			var theImage = new DesignImage(new FileInfo("res\\ponoko_logo_text_page.gif"), "xxx_clearly_invalid_content_type_xxx");
 
 			var theError = Assert.Throws<Exception>(() => 
 				new AddDesignImageCommand(Internet, Settings.BaseUrl).Add(id, theImage)
@@ -73,7 +79,7 @@ namespace Ponoko.Api.Acceptance.Tests.Examples.Products {
 			
 			Assert.IsTrue(theProduct.DesignImages.Exists(it =>
 				it.Filename == Path.GetFileName("example_image_with_spaces.gif")), 
-				"The design image was not added"
+				"The design image <example_image_with_spaces.gif> was not added"
 			);
 		}
 
@@ -109,7 +115,7 @@ namespace Ponoko.Api.Acceptance.Tests.Examples.Products {
 
 			var id = FindFirstProductKey();
 
-				var theImage = new DesignImage(new FileInfo("res\\ponoko_logo_text_page.gif"), "image/gif");
+			var theImage = new DesignImage(new FileInfo("res\\ponoko_logo_text_page.gif"), "image/gif");
 
 			var command = new AddDesignImageCommand(Internet, Settings.BaseUrl);
 			var theProduct = command.Add(id, theImage);
