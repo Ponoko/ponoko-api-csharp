@@ -3,10 +3,9 @@ using System.IO;
 using System.Security.Cryptography;
 using System.Text;
 using NUnit.Framework;
-using Ponoko.Api.Acceptance.Tests.Examples.Products;
 using Ponoko.Api.Core.Product.Commands;
 
-namespace Ponoko.Api.Acceptance.Tests.Examples {
+namespace Ponoko.Api.Acceptance.Tests.Examples.Products {
 	[TestFixture]
 	public class AboutDesignImages : ProductAcceptanceTest {
 		[Test]
