@@ -61,17 +61,6 @@ namespace Ponoko.Api.Core {
 			}
 		}
 
-		protected Error TryDeserialize(String json) {
-			try {
-				return ErrorDeserializer.Deserialize(json);
-			} catch (Exception e) {
-				throw new Exception(String.Format(
-					"There was a problem deserializing the error message. The body of the response is: {0}", json), 
-				    e
-				);
-			}
-		}
-
 		protected Exception Error(String message, Response response) {
 			var json = ReadAll(response);
 			var theError = TryDeserialize(json);
@@ -83,6 +72,17 @@ namespace Ponoko.Api.Core {
 				(Int32)response.StatusCode, 
 				theError
 			));
+		}
+
+		protected Error TryDeserialize(String json) {
+			try {
+				return ErrorDeserializer.Deserialize(json);
+			} catch (Exception e) {
+				throw new Exception(String.Format(
+					"There was a problem deserializing the error message. The body of the response is: {0}", json), 
+				     e
+				);
+			}
 		}
 	}
 }
