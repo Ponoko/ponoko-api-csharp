@@ -6,16 +6,6 @@ using Ponoko.Api.Json;
 using Ponoko.Api.Rest;
 
 namespace Ponoko.Api.Core.Product.Commands {
-	public class DesignImage {
-		public FileInfo FileInfo { get; private set; }
-		public string ContentType { get; private set; }
-
-		public DesignImage(FileInfo fileInfo, String contentType) {
-			FileInfo = fileInfo;
-			ContentType = contentType;
-		}
-	}
-	
 	public class DesignImagesRepository : Domain {
 		public DesignImagesRepository(TheInternet internet, String baseUrl) : base(internet, baseUrl) { }
 
@@ -35,7 +25,7 @@ namespace Ponoko.Api.Core.Product.Commands {
 			foreach (var designImage in designImages) {
 				payload.Add(
 					"design_images[][uploaded_data]", 
-					new DataItem(designImage.FileInfo, designImage.ContentType)
+					new DataItem(new FileInfo(designImage.FullName), designImage.ContentType)
 				);
 			}
 

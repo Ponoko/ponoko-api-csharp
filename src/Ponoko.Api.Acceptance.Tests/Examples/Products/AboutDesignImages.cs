@@ -5,7 +5,6 @@ using System.Text;
 using NUnit.Framework;
 using Ponoko.Api.Core.Product;
 using Ponoko.Api.Core.Product.Commands;
-using DesignImage = Ponoko.Api.Core.Product.Commands.DesignImage;
 
 namespace Ponoko.Api.Acceptance.Tests.Examples.Products {
 	[TestFixture]
@@ -35,9 +34,8 @@ namespace Ponoko.Api.Acceptance.Tests.Examples.Products {
 
 			Assert.That(theProduct.DesignImages.Count, Is.GreaterThan(0), "Expected at least one design image");
 
-			Assert.IsTrue(theProduct.DesignImages.Exists(it =>
-				it.Filename == Path.GetFileName(theImage.FileInfo.Name)), 
-				"The design image <{0}> was not added", theImage.FileInfo.Name
+			Assert.IsTrue(theProduct.DesignImages.Exists(it => it.Filename == theImage.Filename), 
+				"The design image <{0}> was not added", theImage.Filename
 			);
 		}
 
@@ -50,13 +48,11 @@ namespace Ponoko.Api.Acceptance.Tests.Examples.Products {
 
 			Assert.That(theProduct.DesignImages.Count, Is.GreaterThan(0), "Expected at least one design image");
 
-			Assert.IsTrue(theProduct.DesignImages.Exists(it =>
-				it.Filename == Path.GetFileName(theImage.FileInfo.Name)), 
-				"The design image <{0}> was not added", theImage.FileInfo.Name
+			Assert.IsTrue(theProduct.DesignImages.Exists(it => it.Filename == theImage.Filename), 
+				"The design image <{0}> was not added", theImage.Filename
 			);
 
-			Assert.IsTrue(theProduct.DesignImages.Exists(it =>
-				it.Filename == Path.GetFileName("example_image_with_spaces.gif")), 
+			Assert.IsTrue(theProduct.DesignImages.Exists(it => it.Filename == "example_image_with_spaces.gif"), 
 				"The design image <example_image_with_spaces.gif> was not added"
 			);
 		}
@@ -80,25 +76,26 @@ namespace Ponoko.Api.Acceptance.Tests.Examples.Products {
 
 			var theProduct = DesignImagesRepository.Add(AnyProduct.Key, theImage);
 			
-			Assert.IsTrue(theProduct.DesignImages.Exists(it =>
-				it.Filename == Path.GetFileName("example_image_with_spaces.gif")), 
+			Assert.IsTrue(theProduct.DesignImages.Exists(it => it.Filename == "example_image_with_spaces.gif"), 
 				"The design image <example_image_with_spaces.gif> was not added"
 			);
 		}
 
 		[Test]
 		public void you_can_get_a_design_image_for_a_product() {
-			var theImage = new DesignImage(new FileInfo("res\\ponoko_logo_text_page.gif"), "image/gif");
+			var theFileOnDisk = new FileInfo("res\\ponoko_logo_text_page.gif");
+
+			var theImage = new DesignImage(theFileOnDisk, "image/gif");
 
 			DesignImagesRepository.Add(AnyProduct.Key, theImage);
 
-			var result = ReadAll(DesignImagesRepository.Get(AnyProduct.Key, theImage.FileInfo.Name));
+			var result = ReadAll(DesignImagesRepository.Get(AnyProduct.Key, theImage.Filename));
 
-			Assert.AreEqual(theImage.FileInfo.Length, result.Length,
+			Assert.AreEqual(theFileOnDisk.Length, result.Length,
 				"Expected the returned file to have exactly the same size as the one we uploaded"
 			);
 
-			var expectedChecksum = Checksum(File.ReadAllBytes(theImage.FileInfo.FullName));
+			var expectedChecksum = Checksum(File.ReadAllBytes(theFileOnDisk.FullName));
 			var actualChecksum = Checksum(result);
 
 			Assert.AreEqual(expectedChecksum, actualChecksum, 
@@ -112,15 +109,13 @@ namespace Ponoko.Api.Acceptance.Tests.Examples.Products {
 
 			var theProduct = DesignImagesRepository.Add(AnyProduct.Key, theImage);
 
-			Assert.IsTrue(theProduct.DesignImages.Exists(it =>
-				it.Filename == Path.GetFileName(theImage.FileInfo.Name)),
+			Assert.IsTrue(theProduct.DesignImages.Exists(it => it.Filename == theImage.Filename),
 				"The design image was not added"
 			);
 
-			theProduct = DesignImagesRepository.Remove(AnyProduct.Key, theImage.FileInfo.Name);
+			theProduct = DesignImagesRepository.Remove(AnyProduct.Key, theImage.Filename);
 
-			Assert.IsFalse(theProduct.DesignImages.Exists(it =>
-				it.Filename == Path.GetFileName(theImage.FileInfo.Name)), 
+			Assert.IsFalse(theProduct.DesignImages.Exists(it => it.Filename == theImage.Filename), 
 				"Expected the design image to hav been deleted"
 			);
 		}
