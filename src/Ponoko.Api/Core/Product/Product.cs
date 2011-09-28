@@ -39,8 +39,4 @@ namespace Ponoko.Api.Core.Product {
 		[JsonProperty(PropertyName = "total_make_cost")]
 		public MakeCost TotalMakeCost { get; set; }
 	}
-
-	public class DesignImage {
-		public String Filename { get; set; }
-	}
 }
