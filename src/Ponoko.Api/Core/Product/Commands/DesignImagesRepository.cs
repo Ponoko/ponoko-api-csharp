@@ -16,8 +16,8 @@ namespace Ponoko.Api.Core.Product.Commands {
 		}
 	}
 	
-	public class DesignImages : Domain {
-		public DesignImages(TheInternet internet, String baseUrl) : base(internet, baseUrl) { }
+	public class DesignImagesRepository : Domain {
+		public DesignImagesRepository(TheInternet internet, String baseUrl) : base(internet, baseUrl) { }
 
 		public Product Add(String productKey, params DesignImage[] designImages) {
 			var uri = Map("/products/{0}/design-images", productKey);

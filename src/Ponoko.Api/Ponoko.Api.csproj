@@ -90,7 +90,7 @@
     <Compile Include="Core\Product\Commands\DeleteCommand.cs" />
     <Compile Include="Core\Product\Commands\DeleteDesignCommand.cs" />
     <Compile Include="Core\Product\Commands\DeleteResourceCommand.cs" />
-    <Compile Include="Core\Product\Commands\DesignImages.cs" />
+    <Compile Include="Core\Product\Commands\DesignImagesRepository.cs" />
     <Compile Include="Core\Product\ProductValidator.cs" />
     <Compile Include="Core\Product\Commands\UpdateCommand.cs" />
     <Compile Include="Core\Shipping\Address.cs" />
