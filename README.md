@@ -49,6 +49,12 @@ For example, here is how to get the materials catalogue:
 	var catalogue = new MaterialsCatalogue(theInternet, baseUrl);
 	var allMaterials = catalogue.FindAll(firstNode);			      
 
+## Known issues
+
+### One failing test
+
+-1. AboutDesignImages you_get_an_error_if_you_supply_incorrect_content_type
+
 ## Previewing readme
 
     $ rake -s preview_github_readme[README.md] > readme.html
