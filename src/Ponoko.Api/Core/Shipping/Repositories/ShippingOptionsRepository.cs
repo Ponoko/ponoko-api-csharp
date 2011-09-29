@@ -4,7 +4,7 @@ using System.Text;
 using Ponoko.Api.Json;
 using Ponoko.Api.Rest;
 
-namespace Ponoko.Api.Core.Shipping.Commands {
+namespace Ponoko.Api.Core.Shipping.Repositories {
 	public class ShippingOptionsRepository : Domain {
 		public ShippingOptionsRepository(TheInternet internet, String baseUrl) : base(internet, baseUrl) {}
 

@@ -80,7 +80,6 @@
     <Compile Include="Core\Nodes.cs" />
     <Compile Include="Core\Orders\Commands\OrderHistory.cs" />
     <Compile Include="Core\Orders\Event.cs" />
-    <Compile Include="Core\Orders\Commands\FindCommand.cs" />
     <Compile Include="Core\Orders\MadeProduct.cs" />
     <Compile Include="Core\Orders\Order.cs" />
     <Compile Include="Core\Orders\ShippingCost.cs" />
@@ -95,11 +94,10 @@
     <Compile Include="Core\Product\Commands\UpdateCommand.cs" />
     <Compile Include="Core\Shipping\Address.cs" />
     <Compile Include="Core\Shipping\Option.cs" />
-    <Compile Include="Core\Orders\Commands\OrderCreateCommand.cs" />
     <Compile Include="Core\Shipping\NameAndAddress.cs" />
     <Compile Include="Core\Shipping\ProductShippingInfo.cs" />
     <Compile Include="Core\Shipping\ShippingOptions.cs" />
-    <Compile Include="Core\Shipping\Commands\ShippingOptionsRepository.cs" />
+    <Compile Include="Core\Shipping\Repositories\ShippingOptionsRepository.cs" />
     <Compile Include="Json\Generic\ListDeserializer.cs" />
     <Compile Include="Json\OrderDeserializer.cs" />
     <Compile Include="Json\OrderListDeserializer.cs" />

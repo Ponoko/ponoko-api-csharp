@@ -12,14 +12,16 @@ namespace Ponoko.Api.Acceptance.Tests.Examples.Products {
 		private Product AnyProduct;
 		private DesignImageRepository _designImageRepository;
 
-		[TearDown]
-		public void AfterEach() {
-			new DeleteCommand(Internet, Settings.BaseUrl).Delete(AnyProduct.Key);
-		}
-
 		[SetUp]
 		new public void BeforeEach() {
 			AnyProduct = NewProduct("Example for testing design images");
+		}
+
+		[TearDown]
+		public void AfterEach() {
+			if (AnyProduct != null) {
+				new DeleteCommand(Internet, Settings.BaseUrl).Delete(AnyProduct.Key);
+			}
 		}
 
 		private DesignImageRepository DesignImageRepository {

@@ -5,7 +5,7 @@ using Ponoko.Api.Core.Orders;
 using Ponoko.Api.Core.Orders.Commands;
 using Ponoko.Api.Core.Product.Commands;
 using Ponoko.Api.Core.Shipping;
-using Ponoko.Api.Core.Shipping.Commands;
+using Ponoko.Api.Core.Shipping.Repositories;
 using System.Linq;
 
 namespace Ponoko.Api.Acceptance.Tests.Examples.Products {
@@ -59,7 +59,7 @@ namespace Ponoko.Api.Acceptance.Tests.Examples.Products {
 		}
 
 		private Order CreateANewOrder() {
-			var command = new OrderCreateCommand(Internet, Settings.BaseUrl);
+			var command = new OrderHistory(Internet, Settings.BaseUrl);
 			
 			var reference = Guid.NewGuid().ToString();
 
