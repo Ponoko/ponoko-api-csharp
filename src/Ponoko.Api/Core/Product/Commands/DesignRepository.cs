@@ -6,8 +6,8 @@ using Ponoko.Api.Rest;
 using Ponoko.Api.Sugar;
 
 namespace Ponoko.Api.Core.Product.Commands {
-	public class AddDesignCommand : Domain {
-		public AddDesignCommand(TheInternet internet, string baseUrl) : base(internet, baseUrl) {}
+	public class DesignRepository : Domain {
+		public DesignRepository(TheInternet internet, string baseUrl) : base(internet, baseUrl) {}
 
 		public Product Add(String productKey, Design design) {
 			var uri = Map("/products/{0}/add-design", productKey);

@@ -60,7 +60,7 @@ namespace Ponoko.Api.Acceptance.Tests.Examples.Products {
 		public void you_can_add_a_new_design() {
 			var theInitialDesignCount = ExampleProduct.Designs.Count;
 
-			var command = new AddDesignCommand(Internet, Settings.BaseUrl);
+			var command = new DesignRepository(Internet, Settings.BaseUrl);
 			var theNewDesign = NewDesign();
 
 			var result = command.Add(ExampleProduct.Key, theNewDesign);
@@ -70,7 +70,7 @@ namespace Ponoko.Api.Acceptance.Tests.Examples.Products {
 
 		[Test]
 		public void you_can_update_an_existing_design_for_example_you_can_change_its_material() {
-			var command = new AddDesignCommand(Internet, Settings.BaseUrl);
+			var command = new DesignRepository(Internet, Settings.BaseUrl);
 			
 			var theDesign = ExampleProduct.Designs[0];
 			var theOriginalMaterial = theDesign.MaterialKey;
@@ -92,7 +92,7 @@ namespace Ponoko.Api.Acceptance.Tests.Examples.Products {
 
 		[Test] 
 		public void you_can_only_change_the_file_name_when_uploading_a_new_design_file() {
-			var command = new AddDesignCommand(Internet, Settings.BaseUrl);
+			var command = new DesignRepository(Internet, Settings.BaseUrl);
 			
 			var theDesign = ExampleProduct.Designs[0];
 
@@ -108,7 +108,7 @@ namespace Ponoko.Api.Acceptance.Tests.Examples.Products {
 		[Test]
 		public void you_can_delete_a_design() {
 			var theLastDesign = ExampleProduct.Designs[0];
-			var addNewDesign = new AddDesignCommand(Internet, Settings.BaseUrl);
+			var addNewDesign = new DesignRepository(Internet, Settings.BaseUrl);
 			
 			ExampleProduct = addNewDesign.Add(ExampleProduct.Key, NewDesign());
 
@@ -118,7 +118,7 @@ namespace Ponoko.Api.Acceptance.Tests.Examples.Products {
 				"more than one design (since you can't delete the last one)"
 			);
 
-			var command = new AddDesignCommand(Internet, Settings.BaseUrl);
+			var command = new DesignRepository(Internet, Settings.BaseUrl);
 
 			var theRefreshedProduct = command.Delete(ExampleProduct.Key, ExampleProduct.Designs[1].Key);
 
@@ -128,7 +128,7 @@ namespace Ponoko.Api.Acceptance.Tests.Examples.Products {
 
 		[Test]
 		public void you_cannot_delete_the_last_design() {
-			var command = new DeleteDesignCommand(Internet, Settings.BaseUrl);
+			var command = new DesignRepository(Internet, Settings.BaseUrl);
 
 			Assert.AreEqual(1, ExampleProduct.Designs.Count, 
 				"Invalid test data. " + 
