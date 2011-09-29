@@ -32,11 +32,7 @@ namespace Ponoko.Api.Acceptance.Tests.Examples.Products {
 
 			var theProduct = DesignImagesRepository.Add(AnyProduct.Key, theImage);
 
-			Assert.That(theProduct.DesignImages.Count, Is.GreaterThan(0), "Expected at least one design image");
-
-			Assert.IsTrue(theProduct.DesignImages.Exists(it => it.Filename == theImage.Filename), 
-				"The design image <{0}> was not added", theImage.Filename
-			);
+			AssertIncludes(theProduct, theImage);
 		}
 
 		[Test]
@@ -46,11 +42,7 @@ namespace Ponoko.Api.Acceptance.Tests.Examples.Products {
 			
 			var theProduct = DesignImagesRepository.Add(AnyProduct.Key, theImage, anotherImage);
 
-			Assert.That(theProduct.DesignImages.Count, Is.GreaterThan(0), "Expected at least one design image");
-
-			Assert.IsTrue(theProduct.DesignImages.Exists(it => it.Filename == theImage.Filename), 
-				"The design image <{0}> was not added", theImage.Filename
-			);
+			AssertIncludes(theProduct, theImage);
 
 			Assert.IsTrue(theProduct.DesignImages.Exists(it => it.Filename == "example_image_with_spaces.gif"), 
 				"The design image <example_image_with_spaces.gif> was not added"
@@ -68,6 +60,15 @@ namespace Ponoko.Api.Acceptance.Tests.Examples.Products {
 			Assert.That(theError.Message, Is.StringEnding("\"Bad Request. Error adding image\""), 
 				"Unexpected error message returned"
 			);
+		}
+
+		[Test] 
+		public void you_do_not_get_an_error_if_you_supply_a_content_type_that_does_not_match_the_file() {
+			var fileInfo = new FileInfo("res\\ponoko_logo_text_page.gif");
+
+			var theImage = new DesignImage(fileInfo, "image/png");
+			var theProduct  = DesignImagesRepository.Add(AnyProduct.Key, theImage);
+			AssertIncludes(theProduct, theImage);
 		}
 
 		[Test]
@@ -116,7 +117,7 @@ namespace Ponoko.Api.Acceptance.Tests.Examples.Products {
 			theProduct = DesignImagesRepository.Remove(AnyProduct.Key, theImage.Filename);
 
 			Assert.IsFalse(theProduct.DesignImages.Exists(it => it.Filename == theImage.Filename), 
-				"Expected the design image to hav been deleted"
+				"Expected the design image to have been deleted, but it's still there"
 			);
 		}
 
@@ -125,6 +126,12 @@ namespace Ponoko.Api.Acceptance.Tests.Examples.Products {
 
 		[Test, Ignore("PENDING")]
 		public void you_may_get_an_auto_generated_image() { }
+
+		private void AssertIncludes(Product product, DesignImage designImage) {
+			Assert.IsTrue(product.DesignImages.Exists(it => it.Filename == designImage.Filename), 
+				"The design image <{0}> is not present", designImage.Filename
+			);
+		}
 
 		private String Checksum(Byte[] file) {
 			var checksum = new MD5CryptoServiceProvider().ComputeHash(file);
