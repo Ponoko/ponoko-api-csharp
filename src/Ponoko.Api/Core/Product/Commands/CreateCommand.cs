@@ -17,11 +17,9 @@ namespace Ponoko.Api.Core.Product.Commands {
 			Validate(seed);	
 			Validate(designs);
 
-			var payload = ToPayload(seed, designs);
-
 			var uri = Map("/products");
 
-			using (var response = MultipartPost(uri, payload)) {
+			using (var response = MultipartPost(uri, ToPayload(seed, designs))) {
 				if (response.StatusCode == HttpStatusCode.OK)
 					return Deserialize(response);
 
