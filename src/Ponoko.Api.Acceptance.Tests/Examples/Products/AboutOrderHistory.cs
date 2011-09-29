@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using NUnit.Framework;
 using Ponoko.Api.Core.Orders;
-using Ponoko.Api.Core.Orders.Commands;
+using Ponoko.Api.Core.Orders.Repositories;
 using Ponoko.Api.Core.Product.Commands;
 using Ponoko.Api.Core.Shipping;
 using Ponoko.Api.Core.Shipping.Repositories;
@@ -20,7 +20,7 @@ namespace Ponoko.Api.Acceptance.Tests.Examples.Products {
 
 		[Test]
 		public void you_can_get_the_list_of_orders() {
-			var result = new OrderHistory(Internet, Settings.BaseUrl).FindAll();
+			var result = new OrderRepository(Internet, Settings.BaseUrl).FindAll();
 
 			AssertTheOrderIsReturned(result, NewOrder.Reference);
 		}
@@ -38,14 +38,14 @@ namespace Ponoko.Api.Acceptance.Tests.Examples.Products {
 
 		[Test]
 		public void you_can_get_a_single_order() {
-			var result = new OrderHistory(Internet, Settings.BaseUrl).Find(NewOrder.Key);
+			var result = new OrderRepository(Internet, Settings.BaseUrl).Find(NewOrder.Key);
 
 			Assert.AreEqual(NewOrder.Key, result.Key, "Unexpected key returned");
 		}
 
 		[Test]
 		public void you_can_check_order_status() {
-			var result = new OrderHistory(Internet, Settings.BaseUrl).Status(NewOrder.Key);
+			var result = new OrderRepository(Internet, Settings.BaseUrl).Status(NewOrder.Key);
 
 			Assert.AreEqual(NewOrder.Key, result.Key, "Unexpected key returned");
 			Assert.AreEqual(NewOrder.HasShipped, result.HasShipped, "Unexpected value for whether or not it has shipped");
@@ -59,7 +59,7 @@ namespace Ponoko.Api.Acceptance.Tests.Examples.Products {
 		}
 
 		private Order CreateANewOrder() {
-			var command = new OrderHistory(Internet, Settings.BaseUrl);
+			var command = new OrderRepository(Internet, Settings.BaseUrl);
 			
 			var reference = Guid.NewGuid().ToString();
 

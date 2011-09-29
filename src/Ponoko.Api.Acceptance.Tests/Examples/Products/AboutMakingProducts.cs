@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq;
 using NUnit.Framework;
-using Ponoko.Api.Core.Orders.Commands;
+using Ponoko.Api.Core.Orders.Repositories;
 using Ponoko.Api.Core.Shipping.Repositories;
 
 namespace Ponoko.Api.Acceptance.Tests.Examples.Products {
@@ -40,7 +40,7 @@ namespace Ponoko.Api.Acceptance.Tests.Examples.Products {
 		[Test]
 		public void you_can_get_a_product_made() {
 			var shippingOptions = new ShippingOptionsRepository(Internet, Settings.BaseUrl).For(ExampleAddress, ExampleShippingInfo);
-			var command = new OrderHistory(Internet, Settings.BaseUrl);
+			var command = new OrderRepository(Internet, Settings.BaseUrl);
 			
 			var theFirstShippingOption = shippingOptions.Options[0];
 			var reference = Guid.NewGuid().ToString();
@@ -54,7 +54,7 @@ namespace Ponoko.Api.Acceptance.Tests.Examples.Products {
 		[Test]
 		public void to_get_a_product_made_you_must_supply_a_unique_reference() {
 			var shippingOptions = new ShippingOptionsRepository(Internet, Settings.BaseUrl).For(ExampleAddress, ExampleShippingInfo);
-			var command = new OrderHistory(Internet, Settings.BaseUrl);
+			var command = new OrderRepository(Internet, Settings.BaseUrl);
 			
 			var theFirstShippingOption = shippingOptions.Options[0];
 			var duplicateReference = Guid.NewGuid().ToString();

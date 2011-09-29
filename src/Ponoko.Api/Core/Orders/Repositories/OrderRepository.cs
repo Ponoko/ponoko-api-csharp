@@ -5,9 +5,9 @@ using Ponoko.Api.Core.Shipping;
 using Ponoko.Api.Json;
 using Ponoko.Api.Rest;
 
-namespace Ponoko.Api.Core.Orders.Commands {
-	public class OrderHistory : Domain {
-		public OrderHistory(TheInternet internet, String baseUrl) : base(internet, baseUrl) {}
+namespace Ponoko.Api.Core.Orders.Repositories {
+	public class OrderRepository : Domain {
+		public OrderRepository(TheInternet internet, String baseUrl) : base(internet, baseUrl) {}
 
 		public Order[] FindAll() {
 			var response = _internet.Get(Map("/orders"));
