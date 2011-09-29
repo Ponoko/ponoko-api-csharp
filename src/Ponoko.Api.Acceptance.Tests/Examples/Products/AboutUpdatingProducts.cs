@@ -118,7 +118,7 @@ namespace Ponoko.Api.Acceptance.Tests.Examples.Products {
 				"more than one design (since you can't delete the last one)"
 			);
 
-			var command = new DeleteDesignCommand(Internet, Settings.BaseUrl);
+			var command = new AddDesignCommand(Internet, Settings.BaseUrl);
 
 			var theRefreshedProduct = command.Delete(ExampleProduct.Key, ExampleProduct.Designs[1].Key);
 
