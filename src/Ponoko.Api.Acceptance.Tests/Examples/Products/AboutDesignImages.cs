@@ -10,7 +10,7 @@ namespace Ponoko.Api.Acceptance.Tests.Examples.Products {
 	[TestFixture]
 	public class AboutDesignImages : ProductAcceptanceTest {
 		private Product AnyProduct;
-		private DesignImagesRepository _designImagesRepository;
+		private DesignImageRepository _designImageRepository;
 
 		[TearDown]
 		public void AfterEach() {
@@ -22,15 +22,15 @@ namespace Ponoko.Api.Acceptance.Tests.Examples.Products {
 			AnyProduct = NewProduct("Example for testing design images");
 		}
 
-		private DesignImagesRepository DesignImagesRepository {
-			get { return _designImagesRepository ?? (_designImagesRepository = new DesignImagesRepository(Internet, Settings.BaseUrl)); }
+		private DesignImageRepository DesignImageRepository {
+			get { return _designImageRepository ?? (_designImageRepository = new DesignImageRepository(Internet, Settings.BaseUrl)); }
 		}
 
 		[Test]
 		public void you_can_add_a_design_image_to_a_product() {
 			var theImage = new DesignImage(new FileInfo("res\\ponoko_logo_text_page.gif"), "image/gif");
 
-			var theProduct = DesignImagesRepository.Add(AnyProduct.Key, theImage);
+			var theProduct = DesignImageRepository.Add(AnyProduct.Key, theImage);
 
 			AssertIncludes(theProduct, theImage);
 		}
@@ -40,7 +40,7 @@ namespace Ponoko.Api.Acceptance.Tests.Examples.Products {
 			var theImage = new DesignImage(new FileInfo("res\\ponoko_logo_text_page.gif"), "image/gif");
 			var anotherImage = new DesignImage(new FileInfo("res\\example image with spaces.gif"), "image/gif");
 			
-			var theProduct = DesignImagesRepository.Add(AnyProduct.Key, theImage, anotherImage);
+			var theProduct = DesignImageRepository.Add(AnyProduct.Key, theImage, anotherImage);
 
 			AssertIncludes(theProduct, theImage);
 
@@ -54,7 +54,7 @@ namespace Ponoko.Api.Acceptance.Tests.Examples.Products {
 			var theImage = new DesignImage(new FileInfo("res\\ponoko_logo_text_page.gif"), "xxx_clearly_invalid_content_type_xxx");
 
 			var theError = Assert.Throws<Exception>(() => 
-				DesignImagesRepository.Add(AnyProduct.Key, theImage)
+				DesignImageRepository.Add(AnyProduct.Key, theImage)
 			);
 
 			Assert.That(theError.Message, Is.StringEnding("\"Bad Request. Error adding image\""), 
@@ -67,7 +67,7 @@ namespace Ponoko.Api.Acceptance.Tests.Examples.Products {
 			var fileInfo = new FileInfo("res\\ponoko_logo_text_page.gif");
 
 			var theImage = new DesignImage(fileInfo, "image/png");
-			var theProduct  = DesignImagesRepository.Add(AnyProduct.Key, theImage);
+			var theProduct  = DesignImageRepository.Add(AnyProduct.Key, theImage);
 			AssertIncludes(theProduct, theImage);
 		}
 
@@ -75,7 +75,7 @@ namespace Ponoko.Api.Acceptance.Tests.Examples.Products {
 		public void when_you_add_file_with_a_name_containing_spaces_they_are_replaced_with_underscores() {
 			var theImage = new DesignImage(new FileInfo("res\\example image with spaces.gif"), "image/gif");
 
-			var theProduct = DesignImagesRepository.Add(AnyProduct.Key, theImage);
+			var theProduct = DesignImageRepository.Add(AnyProduct.Key, theImage);
 			
 			Assert.IsTrue(theProduct.DesignImages.Exists(it => it.Filename == "example_image_with_spaces.gif"), 
 				"The design image <example_image_with_spaces.gif> was not added"
@@ -88,9 +88,9 @@ namespace Ponoko.Api.Acceptance.Tests.Examples.Products {
 
 			var theImage = new DesignImage(theFileOnDisk, "image/gif");
 
-			DesignImagesRepository.Add(AnyProduct.Key, theImage);
+			DesignImageRepository.Add(AnyProduct.Key, theImage);
 
-			var result = ReadAll(DesignImagesRepository.Get(AnyProduct.Key, theImage.Filename));
+			var result = ReadAll(DesignImageRepository.Get(AnyProduct.Key, theImage.Filename));
 
 			Assert.AreEqual(theFileOnDisk.Length, result.Length,
 				"Expected the returned file to have exactly the same size as the one we uploaded"
@@ -108,13 +108,13 @@ namespace Ponoko.Api.Acceptance.Tests.Examples.Products {
 		public void you_can_remove_a_design_image_from_a_product() {
 			var theImage = new DesignImage(new FileInfo("res\\ponoko_logo_text_page.gif"), "image/gif");
 
-			var theProduct = DesignImagesRepository.Add(AnyProduct.Key, theImage);
+			var theProduct = DesignImageRepository.Add(AnyProduct.Key, theImage);
 
 			Assert.IsTrue(theProduct.DesignImages.Exists(it => it.Filename == theImage.Filename),
 				"The design image was not added"
 			);
 
-			theProduct = DesignImagesRepository.Remove(AnyProduct.Key, theImage.Filename);
+			theProduct = DesignImageRepository.Remove(AnyProduct.Key, theImage.Filename);
 
 			Assert.IsFalse(theProduct.DesignImages.Exists(it => it.Filename == theImage.Filename), 
 				"Expected the design image to have been deleted, but it's still there"
