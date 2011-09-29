@@ -5,8 +5,8 @@ using Ponoko.Api.Json;
 using Ponoko.Api.Rest;
 
 namespace Ponoko.Api.Core.Shipping.Commands {
-	public class FindShippingOptionsCommand : Domain {
-		public FindShippingOptionsCommand(TheInternet internet, String baseUrl) : base(internet, baseUrl) {}
+	public class ShippingOptionsRepository : Domain {
+		public ShippingOptionsRepository(TheInternet internet, String baseUrl) : base(internet, baseUrl) {}
 
 		public ShippingOptions For(Address to, params ProductShippingInfo[] products) {
 			var uri = Map(

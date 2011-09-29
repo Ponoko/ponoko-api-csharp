@@ -67,7 +67,7 @@ namespace Ponoko.Api.Acceptance.Tests.Examples.Products {
 		}
 
 		private Option AnyShippingOption() {
-			var allOptions = new FindShippingOptionsCommand(Internet, Settings.BaseUrl).
+			var allOptions = new ShippingOptionsRepository(Internet, Settings.BaseUrl).
 				For(ExampleAddress, ExampleShippingInfo);
 
 			return allOptions.Options.First();

@@ -99,7 +99,7 @@
     <Compile Include="Core\Shipping\NameAndAddress.cs" />
     <Compile Include="Core\Shipping\ProductShippingInfo.cs" />
     <Compile Include="Core\Shipping\ShippingOptions.cs" />
-    <Compile Include="Core\Shipping\Commands\FindShippingOptionsCommand.cs" />
+    <Compile Include="Core\Shipping\Commands\ShippingOptionsRepository.cs" />
     <Compile Include="Json\Generic\ListDeserializer.cs" />
     <Compile Include="Json\OrderDeserializer.cs" />
     <Compile Include="Json\OrderListDeserializer.cs" />
