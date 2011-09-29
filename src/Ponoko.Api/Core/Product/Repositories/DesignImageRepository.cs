@@ -5,7 +5,7 @@ using System.Net;
 using Ponoko.Api.Json;
 using Ponoko.Api.Rest;
 
-namespace Ponoko.Api.Core.Product.Commands {
+namespace Ponoko.Api.Core.Product.Repositories {
 	public class DesignImageRepository : Domain {
 		public DesignImageRepository(TheInternet internet, String baseUrl) : base(internet, baseUrl) { }
 

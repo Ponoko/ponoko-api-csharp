@@ -5,7 +5,7 @@ using Ponoko.Api.Json;
 using Ponoko.Api.Rest;
 using Ponoko.Api.Sugar;
 
-namespace Ponoko.Api.Core.Product.Commands {
+namespace Ponoko.Api.Core.Product.Repositories {
 	public class DesignRepository : Domain {
 		public DesignRepository(TheInternet internet, string baseUrl) : base(internet, baseUrl) {}
 

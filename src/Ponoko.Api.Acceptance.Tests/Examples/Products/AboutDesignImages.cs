@@ -5,6 +5,7 @@ using System.Text;
 using NUnit.Framework;
 using Ponoko.Api.Core.Product;
 using Ponoko.Api.Core.Product.Commands;
+using Ponoko.Api.Core.Product.Repositories;
 
 namespace Ponoko.Api.Acceptance.Tests.Examples.Products {
 	[TestFixture]
