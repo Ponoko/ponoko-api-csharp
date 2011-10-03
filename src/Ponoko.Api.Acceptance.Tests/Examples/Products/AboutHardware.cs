@@ -42,7 +42,7 @@ namespace Ponoko.Api.Acceptance.Tests.Examples.Products {
 		}
 
 		[Test]
-		public void you_can_update_hardware() {
+		public void you_can_update_hardware_quantity() {
 			var result = HardwareRepository.Add(AnyProduct.Key, VALID_SKU, 1);
 			
 			Assert.AreEqual(1, result.Hardware.Count, "Expected one hardware item");
@@ -57,6 +57,15 @@ namespace Ponoko.Api.Acceptance.Tests.Examples.Products {
 			);
 			Assert.AreEqual(1337, result.Hardware.First().Quantity, "Expected the count to have been updated");
 		}
+
+		[Test]
+		public void you_can_remove_hardware() {
+			var result = HardwareRepository.Add(AnyProduct.Key, VALID_SKU, 1);
+			Assert.AreEqual(1, result.Hardware.Count, "Expected one hardware item");
+
+			HardwareRepository.Remove(AnyProduct.Key, VALID_SKU);
+			Assert.AreEqual(0, result.Hardware.Count, "Expected the hardware item to have been removed, but it's still there");
+		}
 	}
 
 	public class HardwareRepository : Domain {
@@ -69,6 +78,16 @@ namespace Ponoko.Api.Acceptance.Tests.Examples.Products {
 				{"sku", sku},
 			    {"quantity", quantity}
 			};
+
+			using (var response = Post(uri, payload)) {
+				return Deserialize(response);
+			}
+		}
+
+		public Product Remove(String productKey, String sku) {
+			var uri = Map("/products/{0}/hardware", productKey);
+
+			var payload = new Payload { {"sku", sku} };
 
 			using (var response = Post(uri, payload)) {
 				return Deserialize(response);
