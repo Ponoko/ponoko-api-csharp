@@ -9,6 +9,8 @@ namespace Ponoko.Api.Core.Product.Commands {
 	public class CreateCommand : Domain {
 		private readonly ProductValidator _validator;
 
+		public CreateCommand(TheInternet internet, String baseUrl) : this(internet, baseUrl, new DefaultProductValidator()) {}
+
 		public CreateCommand(TheInternet internet, String baseUrl, ProductValidator validator) : base(internet, baseUrl) {
 			_validator = validator;
 		}

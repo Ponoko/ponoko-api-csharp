@@ -19,7 +19,7 @@ namespace Ponoko.Api.Acceptance.Tests.Examples.Products {
 
 		[SetUp]
 		public void BeforeEach() {
-			CreateCommand = new CreateCommand(Internet, Settings.BaseUrl, new DefaultProductValidator());
+			CreateCommand = new CreateCommand(Internet, Settings.BaseUrl);
 		}
 
 		protected void given_at_least_one_product() {
