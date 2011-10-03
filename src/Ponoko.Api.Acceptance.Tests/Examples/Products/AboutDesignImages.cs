@@ -10,7 +10,7 @@ using File = Ponoko.Api.Core.Product.File;
 
 namespace Ponoko.Api.Acceptance.Tests.Examples.Products {
 	[TestFixture]
-	public class AboutDesignImages : ProductAcceptanceTest {
+	public class AboutDesignImages : ProductFileRepositoryAcceptanceTest {
 		private Product AnyProduct;
 		private DesignImageRepository _designImageRepository;
 
@@ -36,7 +36,7 @@ namespace Ponoko.Api.Acceptance.Tests.Examples.Products {
 
 			var theProduct = DesignImageRepository.Add(AnyProduct.Key, theImage);
 
-			AssertIncludes(theProduct, theImage);
+			AssertIncludesDesignImage(theProduct, theImage);
 		}
 
 		[Test]
@@ -46,7 +46,7 @@ namespace Ponoko.Api.Acceptance.Tests.Examples.Products {
 			
 			var theProduct = DesignImageRepository.Add(AnyProduct.Key, theImage, anotherImage);
 
-			AssertIncludes(theProduct, theImage);
+			AssertIncludesDesignImage(theProduct, theImage);
 
 			Assert.IsTrue(theProduct.DesignImages.Exists(it => it.Filename == "example_image_with_spaces.gif"), 
 				"The design image <example_image_with_spaces.gif> was not added"
@@ -72,7 +72,7 @@ namespace Ponoko.Api.Acceptance.Tests.Examples.Products {
 
 			var theImage = new File(fileInfo, "image/png");
 			var theProduct  = DesignImageRepository.Add(AnyProduct.Key, theImage);
-			AssertIncludes(theProduct, theImage);
+			AssertIncludesDesignImage(theProduct, theImage);
 		}
 
 		[Test]
@@ -130,42 +130,5 @@ namespace Ponoko.Api.Acceptance.Tests.Examples.Products {
 
 		[Test, Ignore("PENDING")]
 		public void you_may_get_an_auto_generated_image() { }
-
-		private void AssertIncludes(Product product, File file) {
-			Assert.IsTrue(product.DesignImages.Exists(it => it.Filename == file.Filename), 
-				"The design image <{0}> is not present", file.Filename
-			);
-		}
-
-		private String Checksum(Byte[] file) {
-			var checksum = new MD5CryptoServiceProvider().ComputeHash(file);
-			var buffer = new StringBuilder();
-
-			for (var i = 0; i < checksum.Length; i++) {
-				buffer.Append(checksum[i].ToString("x2"));
-			}
-
-			return buffer.ToString();
-		}
-
-		private Byte[] ReadAll(Stream input) {
-			const Int32 BUFFER_SIZE = 1024 * 10;
-
-			using (var output = new MemoryStream()) {
-				var buffer = new Byte[BUFFER_SIZE];
-				var bytesRead = 0;
-				var totalBytesRead = 0;
-				while ((bytesRead = input.Read(buffer, 0, buffer.Length)) > 0) {
-					output.Write(buffer, 0, bytesRead);
-					totalBytesRead += bytesRead;
-				}
-
-				var result = new Byte[totalBytesRead];
-
-				Buffer.BlockCopy(output.GetBuffer(), 0, result, 0, totalBytesRead);
-
-				return result;
-			}
-		}
 	}
 }
