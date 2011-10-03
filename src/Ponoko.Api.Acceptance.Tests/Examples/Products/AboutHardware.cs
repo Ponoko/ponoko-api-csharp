@@ -13,8 +13,11 @@ namespace Ponoko.Api.Acceptance.Tests.Examples.Products {
 	public class AboutHardware : ProductAcceptanceTest {
 		private Product AnyProduct;
 		private HardwareRepository _hardwareRepository;
+
+		// See: http://www.ponoko.com/make-and-sell/show-hardware/489-a-antenna-gps-3v-magnetic-mount-mcx?source_node=ponoko_united_states
+		private const String VALID_SKU = "GPS-08254"; 
 		
-		private HardwareRepository DesignImageRepository {
+		private HardwareRepository HardwareRepository {
 			get { return _hardwareRepository ?? (_hardwareRepository = new HardwareRepository(Internet, Settings.BaseUrl)); }
 		}
 
@@ -32,17 +35,27 @@ namespace Ponoko.Api.Acceptance.Tests.Examples.Products {
 
 		[Test]
 		public void you_can_add_hardware_to_a_product() {
-			const String VALID_SKU = "GPS-08254";
-
-			var result = DesignImageRepository.Add(AnyProduct.Key, VALID_SKU, 1);
+			var result = HardwareRepository.Add(AnyProduct.Key, VALID_SKU, 1);
 			
 			Assert.AreEqual(1, result.Hardware.Count, "Expected one hardware item.");
 			Assert.AreEqual("GPS-08254", result.Hardware.First().Sku, "Unexpected hardware");
 		}
 
-		[Test, Ignore("PENDING")]
-		public void you_can_find_hardware_in_the_materials_catalogue() {
+		[Test]
+		public void you_can_update_hardware() {
+			var result = HardwareRepository.Add(AnyProduct.Key, VALID_SKU, 1);
 			
+			Assert.AreEqual(1, result.Hardware.Count, "Expected one hardware item");
+
+			Assert.AreEqual(1, result.Hardware.First().Quantity, "Unexpected quantity for the first hardware item");
+	
+			result = HardwareRepository.Add(AnyProduct.Key, VALID_SKU, 1337);
+			
+			Assert.AreEqual(1, result.Hardware.Count, 
+				"Unexpected number of hardware items returned. " + 
+				"Expected the count to remain the same because we are updating."
+			);
+			Assert.AreEqual(1337, result.Hardware.First().Quantity, "Expected the count to have been updated");
 		}
 	}
 
