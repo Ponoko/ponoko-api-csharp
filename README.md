@@ -8,21 +8,21 @@ To get the acceptance tests to pass, you will need:
 
 Place them in the spaces provided in __Ponoko.Api.Acceptance.Tests/App.example.config__, and rename it to __App.config__.
 
+## Key Abstractions
+
+### Internet
+The domain repositories require access to the internet. 
+There is a default implementation (SystemInternet) which uses System.Net classes.
+
+### AuthorizationPolicy
+SystemInternet requires an AuthorizationPolicy, and there is a default one of those too (OAuthAuthorizationPolicy), 
+see below for how to create one.
+
 ## Examples/How-to
 
 There is a fully-executable specification in __Ponoko.Api.Acceptance.Tests.Examples__.
 
-### Key Abstractions
-
-#### Internet
-The domain repositories require access to the internet. 
-There is a default implementation (SystemInternet) which uses System.Net classes.
-
-#### AuthorizationPolicy
-SystemInternet requires an AuthorizationPolicy, and there is a default one of those too (OAuthAuthorizationPolicy), 
-see below for how to create one.
-
-For example, here is how to get the materials catalogue:
+First you will need to satisfy some dependencies: 
 
 	// You need some credentials 
 	var consumer = new Credential("your_consumer_key", "your_consumer_secret");
@@ -31,14 +31,18 @@ For example, here is how to get the materials catalogue:
 	
 	// and an authorization policy
 	var authPolicy = new OAuthAuthorizationPolicy(
-		new MadgexOAuthHeader(new SystemClock(), new SystemNonceFactory()),
-		credentials
+	  new MadgexOAuthHeader(new SystemClock(), new SystemNonceFactory()),
+	  credentials
 	);
 
 	// which is used by the Internet
 	var theInternet = new SystemInternet(authPolicy);
 	
 	var baseUrl = "https://sandbox.ponoko.com/services/api/v2";
+	
+Once you have those, you're ready to go.
+
+### Getting the materials catalogue
 	
 	// To get a catalogue, first you need a Node			
 	var nodes = new Nodes(theInternet, baseUrl);
@@ -49,11 +53,31 @@ For example, here is how to get the materials catalogue:
 	var catalogue = new MaterialsCatalogue(theInternet, baseUrl);
 	var allMaterials = catalogue.FindAll(firstNode);			      
 
+### Creating a product
+
+	// Seealso: AboutCreatingProducts
+	var design = new Design {
+	  Filename	= new FileInfo(@"path\to\teapot.eps").FullName,
+	  MaterialKey = "2413",
+	  Quantity	= 1,
+	  Reference	= "42"
+	};
+	
+	var seed = new ProductSeed {
+	  Name		= "Any product name",
+	  Notes		= "some long notes about the design",
+	  Reference	= "2413"
+	};
+	
+	var createCommand = new CreateCommand(theInternet, baseUrl);
+	
+	var theNewProduct = CreateCommand.Create(seed, design);
+	
 ## Known issues
 
 ### One failing test
 
--1. AboutDesignImages you_get_an_error_if_you_supply_incorrect_content_type
+1. AboutDesignImages you_get_an_error_if_you_supply_incorrect_content_type
 
 ## Previewing readme
 
