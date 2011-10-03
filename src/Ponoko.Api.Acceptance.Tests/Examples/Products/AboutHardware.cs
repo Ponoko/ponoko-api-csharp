@@ -1,12 +1,9 @@
 ﻿using System;
 using System.Linq;
-using System.Net;
 using NUnit.Framework;
-using Ponoko.Api.Core;
 using Ponoko.Api.Core.Product;
 using Ponoko.Api.Core.Product.Commands;
-using Ponoko.Api.Json;
-using Ponoko.Api.Rest;
+using Ponoko.Api.Core.Product.Repositories;
 
 namespace Ponoko.Api.Acceptance.Tests.Examples.Products {
 	[TestFixture]
@@ -65,43 +62,6 @@ namespace Ponoko.Api.Acceptance.Tests.Examples.Products {
 
 			HardwareRepository.Remove(AnyProduct.Key, VALID_SKU);
 			Assert.AreEqual(0, result.Hardware.Count, "Expected the hardware item to have been removed, but it's still there");
-		}
-	}
-
-	public class HardwareRepository : Domain {
-		public HardwareRepository(TheInternet internet, String baseUrl) : base(internet, baseUrl) {}
-
-		public Product Add(String productKey, String sku, Int32 quantity) {
-			var uri = Map("/products/{0}/hardware", productKey);
-
-			var payload = new Payload {
-				{"sku", sku},
-			    {"quantity", quantity}
-			};
-
-			using (var response = Post(uri, payload)) {
-				return Deserialize(response);
-			}
-		}
-
-		public Product Remove(String productKey, String sku) {
-			var uri = Map("/products/{0}/hardware", productKey);
-
-			var payload = new Payload { {"sku", sku} };
-
-			using (var response = Post(uri, payload)) {
-				return Deserialize(response);
-			}
-		}
-
-		private Product Deserialize(Response response) {
-			if (response.StatusCode != HttpStatusCode.OK)
-				throw Error("Unexpected status returned.", response);
-
-			var json = ReadAll(response);
-
-			var productJson = new Deserializer().Deserialize(json)["product"];
-			return ProductDeserializer.Deserialize(productJson.ToString());
 		}
 	}
 }

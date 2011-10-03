@@ -94,6 +94,7 @@
     <Compile Include="Core\Product\File.cs" />
     <Compile Include="Core\Product\ProductValidator.cs" />
     <Compile Include="Core\Product\Commands\UpdateCommand.cs" />
+    <Compile Include="Core\Product\Repositories\HardwareRepository.cs" />
     <Compile Include="Core\Product\Repositories\ProductFileRepository.cs" />
     <Compile Include="Core\Shipping\Address.cs" />
     <Compile Include="Core\Shipping\Option.cs" />
