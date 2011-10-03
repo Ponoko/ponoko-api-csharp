@@ -9,7 +9,8 @@ namespace Ponoko.Api.Core.Product.Repositories {
 	public class ProductFileRepository : Domain {
 		private readonly string _resource;
 
-		public ProductFileRepository(TheInternet internet, String baseUrl, String resource) : base(internet, baseUrl) {
+		public ProductFileRepository(TheInternet internet, String baseUrl, String resource)
+			: base(internet, baseUrl) {
 			_resource = resource;
 		}
 
@@ -28,12 +29,18 @@ namespace Ponoko.Api.Core.Product.Repositories {
 
 			foreach (var designImage in designImages) {
 				payload.Add(
-					"assembly_instructions[][uploaded_data]", 
+					"assembly_instructions[][uploaded_data]",
 					new DataItem(new FileInfo(designImage.FullName), designImage.ContentType)
 				);
 			}
 
 			return payload;
+		}
+
+		public Stream Get(String productKey, String filename) {
+			var uri = Map("/products/{0}/{1}/download?filename={2}", productKey, _resource, filename);
+
+			return Get(uri).Open();
 		}
 
 		private Product Deserialize(Response response) {

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using Ponoko.Api.Rest;
 
 namespace Ponoko.Api.Core.Product.Repositories {
@@ -11,6 +12,10 @@ namespace Ponoko.Api.Core.Product.Repositories {
 		
 		public Product Add(String productKey, params File[] files) {
 			return _fileRepository.Add(productKey, files);
+		}
+
+		public Stream Get(String productKey, String filename) {
+			return _fileRepository.Get(productKey, filename);
 		}
 	}
 }

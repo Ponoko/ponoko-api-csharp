@@ -1,6 +1,7 @@
 ﻿using System.IO;
 using NUnit.Framework;
 using Ponoko.Api.Core.Product;
+using Ponoko.Api.Core.Product.Commands;
 using Ponoko.Api.Core.Product.Repositories;
 using File = Ponoko.Api.Core.Product.File;
 
@@ -20,6 +21,13 @@ namespace Ponoko.Api.Acceptance.Tests.Examples.Products {
 		[SetUp]
 		new public void BeforeEach() {
 			AnyProduct = NewProduct("Example for testing assembly instructions");
+		}
+
+		[TearDown]
+		public void AfterEach() {
+			if (AnyProduct != null) {
+				new DeleteCommand(Internet, Settings.BaseUrl).Delete(AnyProduct.Key);
+			}
 		}
 
 		[Test]
@@ -79,26 +87,26 @@ namespace Ponoko.Api.Acceptance.Tests.Examples.Products {
 			);
 		}
 
-		//[Test]
-		//public void you_can_get_a_design_image_for_a_product() {
-		//    var theFileOnDisk = new FileInfo("res\\ponoko_logo_text_page.gif");
+		[Test]
+		public void you_can_get_an_assembly_instructions_file_for_a_product() {
+		    var theFileOnDisk = new FileInfo("res\\ponoko_logo_text_page.gif");
 
-		//    var theImage = new File(theFileOnDisk, "image/gif");
+		    var theImage = new File(theFileOnDisk, "image/gif");
 
-		//    AssemblyInstructionRepository.Add(AnyProduct.Key, theImage);
+		    AssemblyInstructionRepository.Add(AnyProduct.Key, theImage);
 
-		//    var result = ReadAll(DesignImageRepository.Get(AnyProduct.Key, theImage.Filename));
+		    var result = ReadAll(AssemblyInstructionRepository.Get(AnyProduct.Key, theImage.Filename));
 
-		//    Assert.AreEqual(theFileOnDisk.Length, result.Length,
-		//        "Expected the returned file to have exactly the same size as the one we uploaded"
-		//    );
+		    Assert.AreEqual(theFileOnDisk.Length, result.Length,
+		        "Expected the returned file to have exactly the same size as the one we uploaded"
+		    );
 
-		//    var expectedChecksum = Checksum(System.IO.File.ReadAllBytes(theFileOnDisk.FullName));
-		//    var actualChecksum = Checksum(result);
+		    var expectedChecksum = Checksum(System.IO.File.ReadAllBytes(theFileOnDisk.FullName));
+		    var actualChecksum = Checksum(result);
 
-		//    Assert.AreEqual(expectedChecksum, actualChecksum, 
-		//        "Expected the file returned to be identical to the one uploaded"
-		//    );
-		//}
+		    Assert.AreEqual(expectedChecksum, actualChecksum, 
+		        "Expected the file returned to be identical to the one uploaded"
+		    );
+		}
 	}
 }
