@@ -1,12 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Net;
+﻿using System.IO;
 using NUnit.Framework;
-using Ponoko.Api.Core;
 using Ponoko.Api.Core.Product;
-using Ponoko.Api.Json;
-using Ponoko.Api.Rest;
+using Ponoko.Api.Core.Product.Repositories;
 using File = Ponoko.Api.Core.Product.File;
 
 namespace Ponoko.Api.Acceptance.Tests.Examples.Products {
@@ -105,58 +100,5 @@ namespace Ponoko.Api.Acceptance.Tests.Examples.Products {
 		//        "Expected the file returned to be identical to the one uploaded"
 		//    );
 		//}
-	}
-
-	public class AssemblyInstructionRepository : Domain {
-		private readonly ProductFileRepository _fileRepository;
-
-		public AssemblyInstructionRepository(TheInternet internet, String baseUrl) : base(internet, baseUrl) {
-			_fileRepository = new ProductFileRepository(internet, baseUrl, "assembly-instructions");
-		}
-		
-		public Product Add(String productKey, params File[] files) {
-			return _fileRepository.Add(productKey, files);
-		}
-	}
-
-	public class ProductFileRepository : Domain {
-		private readonly string _resource;
-
-		public ProductFileRepository(TheInternet internet, String baseUrl, String resource) : base(internet, baseUrl) {
-			_resource = resource;
-		}
-
-		public Product Add(String productKey, params File[] files) {
-			var uri = Map("/products/{0}/{1}", productKey, _resource);
-
-			var payload = ToPayload(files);
-
-			using (var response = MultipartPost(uri, payload)) {
-				return Deserialize(response);
-			}
-		}
-
-		private Payload ToPayload(IEnumerable<File> designImages) {
-			var payload = new Payload();
-
-			foreach (var designImage in designImages) {
-				payload.Add(
-					"assembly_instructions[][uploaded_data]", 
-					new DataItem(new FileInfo(designImage.FullName), designImage.ContentType)
-				);
-			}
-
-			return payload;
-		}
-
-		private Product Deserialize(Response response) {
-			if (response.StatusCode != HttpStatusCode.OK)
-				throw Error("Invalid status returned", response);
-
-			var json = ReadAll(response);
-
-			var productJson = new Deserializer().Deserialize(json)["product"];
-			return ProductDeserializer.Deserialize(productJson.ToString());
-		}
 	}
 }
