@@ -75,9 +75,11 @@ Once you have those, you're ready to go.
 	
 ## Known issues
 
-### One failing test
+### Failing tests
 
 1. AboutDesignImages you_get_an_error_if_you_supply_incorrect_content_type
+1. AboutHardware you_can_update_hardware_quantity
+1. AboutHardware you_can_remove_hardware
 
 ## Previewing readme
 
