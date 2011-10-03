@@ -6,6 +6,7 @@ namespace Ponoko.Api.Core.Product {
 	public class Product {
 		private readonly List<Design> _designs = new List<Design>();
 		private readonly List<DesignImage> _designImages = new List<DesignImage>();
+		private	readonly List<DesignImage> _assemblyInstructions = new List<DesignImage>();
 
 		[JsonProperty(PropertyName = "key")]
 		public String Key { get; set; }
@@ -36,6 +37,10 @@ namespace Ponoko.Api.Core.Product {
 
 		[JsonProperty(PropertyName = "design_images")]
 		public List<DesignImage> DesignImages { get { return _designImages; } }
+
+		[JsonProperty(PropertyName = "assembly_instructions")]
+		public List<DesignImage> AssemblyInstructions { get { return _assemblyInstructions; } }
+
 		[JsonProperty(PropertyName = "total_make_cost")]
 		public MakeCost TotalMakeCost { get; set; }
 	}

@@ -33,6 +33,7 @@ namespace Ponoko.Api.Integration.Tests.Json {
 				"		}" + 
 				"	], " +
 				"   'design_images': [{'filename': 'jazz_kang_is_now_swiss.stl.png'}], " +
+				"   'assembly_instructions': [{'filename': 'phil_murphy_bike_shorts.pdf'}], " +
 				"   'total_make_cost': {'currency': 'USD', 'making': '56.78', 'materials': '56.78', 'total': '56.78', 'hardware': '0.99'}" + 
 			"}";
 
@@ -58,8 +59,12 @@ namespace Ponoko.Api.Integration.Tests.Json {
 			Assert.AreEqual(56.78, result.TotalMakeCost.Materials, "Unexpected materials cost");
 			Assert.AreEqual(56.78, result.TotalMakeCost.Total, "Unexpected total cost");
 			Assert.AreEqual(0.99, result.TotalMakeCost.Hardware, "Unexpected hardware cost");
-			Assert.AreEqual(1, result.DesignImages.Count, "Unexpected number of desig images");
+			
+			Assert.AreEqual(1, result.DesignImages.Count, "Unexpected number of design images");
 			Assert.AreEqual(result.DesignImages.First().Filename, "jazz_kang_is_now_swiss.stl.png", "The first design image does not match");
+
+			Assert.AreEqual(1, result.AssemblyInstructions.Count, "Unexpected number of assembly instructions");
+			Assert.AreEqual(result.AssemblyInstructions.First().Filename, "phil_murphy_bike_shorts.pdf", "The first assembly instruction does not match");
 		}
 	}
 }
