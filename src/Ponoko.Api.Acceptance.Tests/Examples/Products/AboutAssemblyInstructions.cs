@@ -12,12 +12,12 @@ using File = Ponoko.Api.Core.Product.File;
 namespace Ponoko.Api.Acceptance.Tests.Examples.Products {
 	public class AboutAssemblyInstructions : ProductAcceptanceTest {
 		private Product AnyProduct;
-		private AssemblyInstructionRepository _assemblyInstructionRepository;
+		private ProductFileRepository _assemblyInstructionRepository;
 
-		public AssemblyInstructionRepository AssemblyInstructionRepository {
+		public ProductFileRepository AssemblyInstructionRepository {
 			get {
 				return _assemblyInstructionRepository ??(
-					_assemblyInstructionRepository = new AssemblyInstructionRepository(Internet, Settings.BaseUrl)
+					_assemblyInstructionRepository = new ProductFileRepository(Internet, Settings.BaseUrl, "assembly-instructions")
 				);
 			}
 		}
@@ -37,11 +37,15 @@ namespace Ponoko.Api.Acceptance.Tests.Examples.Products {
 		}
 	}
 
-	public class AssemblyInstructionRepository : Domain {
-		public AssemblyInstructionRepository(TheInternet internet, String baseUrl) : base(internet, baseUrl) {}
-		
+	public class ProductFileRepository : Domain {
+		private readonly string _resource;
+
+		public ProductFileRepository(TheInternet internet, String baseUrl, String resource) : base(internet, baseUrl) {
+			_resource = resource;
+		}
+
 		public Product Add(String productKey, params File[] files) {
-			var uri = Map("/products/{0}/assembly-instructions", productKey);
+			var uri = Map("/products/{0}/{1}", productKey, _resource);
 
 			var payload = ToPayload(files);
 
