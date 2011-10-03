@@ -1,12 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Net;
-using Ponoko.Api.Json;
 using Ponoko.Api.Rest;
 
 namespace Ponoko.Api.Core.Product.Repositories {
-	public class ProductFileRepository : Domain {
+	public class ProductFileRepository : ProductRepository {
 		private readonly string _resource;
 
 		public ProductFileRepository(TheInternet internet, String baseUrl, String resource)
@@ -24,13 +22,13 @@ namespace Ponoko.Api.Core.Product.Repositories {
 			}
 		}
 
-		private Payload ToPayload(IEnumerable<File> designImages) {
+		private Payload ToPayload(IEnumerable<File> files) {
 			var payload = new Payload();
 
-			foreach (var designImage in designImages) {
+			foreach (var file in files) {
 				payload.Add(
 					PayloadName,
-					new DataItem(new FileInfo(designImage.FullName), designImage.ContentType)
+					new DataItem(new FileInfo(file.FullName), file.ContentType)
 				);
 			}
 
@@ -53,16 +51,6 @@ namespace Ponoko.Api.Core.Product.Repositories {
 			using (var response = Get(uri)) {
 				return Deserialize(response);
 			}
-		}
-
-		private Product Deserialize(Response response) {
-			if (response.StatusCode != HttpStatusCode.OK)
-				throw Error("Unexpected status returned.", response);
-
-			var json = ReadAll(response);
-
-			var productJson = new Deserializer().Deserialize(json)["product"];
-			return ProductDeserializer.Deserialize(productJson.ToString());
 		}
 	}
 }

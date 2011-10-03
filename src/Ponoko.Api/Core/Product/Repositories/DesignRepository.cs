@@ -6,7 +6,7 @@ using Ponoko.Api.Rest;
 using Ponoko.Api.Sugar;
 
 namespace Ponoko.Api.Core.Product.Repositories {
-	public class DesignRepository : Domain {
+	public class DesignRepository : ProductRepository {
 		public DesignRepository(TheInternet internet, string baseUrl) : base(internet, baseUrl) {}
 
 		public Product Add(String productKey, Design design) {
@@ -61,16 +61,8 @@ namespace Ponoko.Api.Core.Product.Repositories {
 
 		private Product Run(Uri uri, Payload payload) {
 			using (var response = MultipartPost(uri, payload)) {
-				if (response.StatusCode == HttpStatusCode.OK)
-					return Deserialize(response);
-
-				throw Error("Failed to update or add design", response);
+				return Deserialize(response);
 			}
-		}
-
-		private Product Deserialize(Response response) {
-			var json = new Deserializer().Deserialize(ReadAll(response))["product"].ToString();
-			return ProductDeserializer.Deserialize(json);
 		}
 	}
 }
