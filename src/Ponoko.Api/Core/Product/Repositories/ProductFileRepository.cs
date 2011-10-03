@@ -29,12 +29,16 @@ namespace Ponoko.Api.Core.Product.Repositories {
 
 			foreach (var designImage in designImages) {
 				payload.Add(
-					"assembly_instructions[][uploaded_data]",
+					PayloadName,
 					new DataItem(new FileInfo(designImage.FullName), designImage.ContentType)
 				);
 			}
 
 			return payload;
+		}
+
+		private String PayloadName {
+			get { return String.Format("{0}[][uploaded_data]", _resource.Replace("-", "_")); }
 		}
 
 		public Stream Get(String productKey, String filename) {
@@ -53,7 +57,7 @@ namespace Ponoko.Api.Core.Product.Repositories {
 
 		private Product Deserialize(Response response) {
 			if (response.StatusCode != HttpStatusCode.OK)
-				throw Error("Invalid status returned", response);
+				throw Error("Unexpected status returned.", response);
 
 			var json = ReadAll(response);
 
