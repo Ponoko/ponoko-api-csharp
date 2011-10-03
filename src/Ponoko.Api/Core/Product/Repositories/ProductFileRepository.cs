@@ -43,6 +43,14 @@ namespace Ponoko.Api.Core.Product.Repositories {
 			return Get(uri).Open();
 		}
 
+		public Product Remove(String productKey, String filename) {
+			var uri = Map("/products/{0}/{1}/destroy?filename={2}", productKey, _resource, filename);
+
+			using (var response = Get(uri)) {
+				return Deserialize(response);
+			}
+		}
+
 		private Product Deserialize(Response response) {
 			if (response.StatusCode != HttpStatusCode.OK)
 				throw Error("Invalid status returned", response);

@@ -121,7 +121,7 @@ namespace Ponoko.Api.Acceptance.Tests.Examples.Products {
 			theProduct = DesignImageRepository.Remove(AnyProduct.Key, theImage.Filename);
 
 			Assert.IsFalse(theProduct.DesignImages.Exists(it => it.Filename == theImage.Filename), 
-				"Expected the design image to have been deleted, but it's still there"
+				"Expected the design image <{0}> to have been deleted, but it's still there", theImage.Filename
 			);
 		}
 

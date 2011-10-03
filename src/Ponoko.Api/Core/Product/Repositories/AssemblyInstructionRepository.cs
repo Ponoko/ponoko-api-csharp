@@ -17,5 +17,9 @@ namespace Ponoko.Api.Core.Product.Repositories {
 		public Stream Get(String productKey, String filename) {
 			return _fileRepository.Get(productKey, filename);
 		}
+
+		public Product Remove(String productKey, string filename) {
+			return _fileRepository.Remove(productKey, filename);
+		}
 	}
 }

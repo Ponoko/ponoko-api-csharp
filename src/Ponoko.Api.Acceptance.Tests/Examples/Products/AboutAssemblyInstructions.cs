@@ -108,5 +108,22 @@ namespace Ponoko.Api.Acceptance.Tests.Examples.Products {
 		        "Expected the file returned to be identical to the one uploaded"
 		    );
 		}
+
+		[Test]
+		public void you_can_remove_an_assembly_instructions_file_from_a_product() {
+			var theImage = new File(new FileInfo("res\\ponoko_logo_text_page.gif"), "image/gif");
+
+			var theProduct = AssemblyInstructionRepository.Add(AnyProduct.Key, theImage);
+
+			Assert.IsTrue(theProduct.AssemblyInstructions.Exists(it => it.Filename == theImage.Filename),
+				"The assembly instructions file was not added"
+			);
+
+			theProduct = AssemblyInstructionRepository.Remove(AnyProduct.Key, theImage.Filename);
+
+			Assert.IsFalse(theProduct.DesignImages.Exists(it => it.Filename == theImage.Filename), 
+				"Expected the assembly instructions file <{0}> to have been deleted, but it's still there", theImage.Filename
+			);
+		}
 	}
 }
