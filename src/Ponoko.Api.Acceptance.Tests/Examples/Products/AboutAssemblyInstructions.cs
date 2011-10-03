@@ -35,6 +35,24 @@ namespace Ponoko.Api.Acceptance.Tests.Examples.Products {
 
 			Assert.AreEqual(1, theProduct.AssemblyInstructions.Count, "Expected one assembly instructions file");
 		}
+
+		[Test]
+		public void you_can_add_multiple_design_images_to_a_product() {
+			var theImage = new File(new FileInfo("res\\ponoko_logo_text_page.gif"), "image/gif");
+			var anotherImage = new File(new FileInfo("res\\example image with spaces.gif"), "image/gif");
+			
+			var theProduct = AssemblyInstructionRepository.Add(AnyProduct.Key, theImage, anotherImage);
+
+			Assert.AreEqual(2, theProduct.AssemblyInstructions.Count, "Expected two assembly instructions files.");
+
+			Assert.IsTrue(theProduct.AssemblyInstructions.Exists(it => it.Filename == theImage.Filename), 
+				"The design image <example_image_with_spaces.gif> was not added"
+			);
+
+			Assert.IsTrue(theProduct.AssemblyInstructions.Exists(it => it.Filename == "example_image_with_spaces.gif"), 
+				"The design image <example_image_with_spaces.gif> was not added"
+			);
+		}
 	}
 
 	public class AssemblyInstructionRepository : Domain {
