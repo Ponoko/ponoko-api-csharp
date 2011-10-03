@@ -2,8 +2,8 @@
 using System.IO;
 
 namespace Ponoko.Api.Core.Product {
-	public class DesignImage {
-		private readonly string _contentType;
+	public class File {
+		private readonly String _contentType;
 		private String _fullName;
 		private String _fileName;
 
@@ -12,11 +12,11 @@ namespace Ponoko.Api.Core.Product {
 			set { _fileName = _fullName = value; }
 		}
 
-		public DesignImage() : this(null, null) {}
+		public File() : this(null, null) { }
 
-		public DesignImage(FileInfo fileInfo) : this(fileInfo, null) {}
+		public File(FileInfo fileInfo) : this(fileInfo, null) { }
 
-		public DesignImage(FileInfo fileInfo, String contentType) {
+		public File(FileInfo fileInfo, String contentType) {
 			_contentType = contentType;
 
 			if (fileInfo != null) {

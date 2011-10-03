@@ -6,6 +6,7 @@ using NUnit.Framework;
 using Ponoko.Api.Core.Product;
 using Ponoko.Api.Core.Product.Commands;
 using Ponoko.Api.Core.Product.Repositories;
+using File = Ponoko.Api.Core.Product.File;
 
 namespace Ponoko.Api.Acceptance.Tests.Examples.Products {
 	[TestFixture]
@@ -31,7 +32,7 @@ namespace Ponoko.Api.Acceptance.Tests.Examples.Products {
 
 		[Test]
 		public void you_can_add_a_design_image_to_a_product() {
-			var theImage = new DesignImage(new FileInfo("res\\ponoko_logo_text_page.gif"), "image/gif");
+			var theImage = new File(new FileInfo("res\\ponoko_logo_text_page.gif"), "image/gif");
 
 			var theProduct = DesignImageRepository.Add(AnyProduct.Key, theImage);
 
@@ -40,8 +41,8 @@ namespace Ponoko.Api.Acceptance.Tests.Examples.Products {
 
 		[Test]
 		public void you_can_add_multiple_design_images_to_a_product() {
-			var theImage = new DesignImage(new FileInfo("res\\ponoko_logo_text_page.gif"), "image/gif");
-			var anotherImage = new DesignImage(new FileInfo("res\\example image with spaces.gif"), "image/gif");
+			var theImage = new File(new FileInfo("res\\ponoko_logo_text_page.gif"), "image/gif");
+			var anotherImage = new File(new FileInfo("res\\example image with spaces.gif"), "image/gif");
 			
 			var theProduct = DesignImageRepository.Add(AnyProduct.Key, theImage, anotherImage);
 
@@ -54,7 +55,7 @@ namespace Ponoko.Api.Acceptance.Tests.Examples.Products {
 
 		[Test] 
 		public void you_get_an_error_if_you_supply_incorrect_content_type() {
-			var theImage = new DesignImage(new FileInfo("res\\ponoko_logo_text_page.gif"), "xxx_clearly_invalid_content_type_xxx");
+			var theImage = new File(new FileInfo("res\\ponoko_logo_text_page.gif"), "xxx_clearly_invalid_content_type_xxx");
 
 			var theError = Assert.Throws<Exception>(() => 
 				DesignImageRepository.Add(AnyProduct.Key, theImage)
@@ -69,14 +70,14 @@ namespace Ponoko.Api.Acceptance.Tests.Examples.Products {
 		public void you_do_not_get_an_error_if_you_supply_a_content_type_that_does_not_match_the_file() {
 			var fileInfo = new FileInfo("res\\ponoko_logo_text_page.gif");
 
-			var theImage = new DesignImage(fileInfo, "image/png");
+			var theImage = new File(fileInfo, "image/png");
 			var theProduct  = DesignImageRepository.Add(AnyProduct.Key, theImage);
 			AssertIncludes(theProduct, theImage);
 		}
 
 		[Test]
 		public void when_you_add_file_with_a_name_containing_spaces_they_are_replaced_with_underscores() {
-			var theImage = new DesignImage(new FileInfo("res\\example image with spaces.gif"), "image/gif");
+			var theImage = new File(new FileInfo("res\\example image with spaces.gif"), "image/gif");
 
 			var theProduct = DesignImageRepository.Add(AnyProduct.Key, theImage);
 			
@@ -89,7 +90,7 @@ namespace Ponoko.Api.Acceptance.Tests.Examples.Products {
 		public void you_can_get_a_design_image_for_a_product() {
 			var theFileOnDisk = new FileInfo("res\\ponoko_logo_text_page.gif");
 
-			var theImage = new DesignImage(theFileOnDisk, "image/gif");
+			var theImage = new File(theFileOnDisk, "image/gif");
 
 			DesignImageRepository.Add(AnyProduct.Key, theImage);
 
@@ -99,7 +100,7 @@ namespace Ponoko.Api.Acceptance.Tests.Examples.Products {
 				"Expected the returned file to have exactly the same size as the one we uploaded"
 			);
 
-			var expectedChecksum = Checksum(File.ReadAllBytes(theFileOnDisk.FullName));
+			var expectedChecksum = Checksum(System.IO.File.ReadAllBytes(theFileOnDisk.FullName));
 			var actualChecksum = Checksum(result);
 
 			Assert.AreEqual(expectedChecksum, actualChecksum, 
@@ -109,7 +110,7 @@ namespace Ponoko.Api.Acceptance.Tests.Examples.Products {
 
 		[Test]
 		public void you_can_remove_a_design_image_from_a_product() {
-			var theImage = new DesignImage(new FileInfo("res\\ponoko_logo_text_page.gif"), "image/gif");
+			var theImage = new File(new FileInfo("res\\ponoko_logo_text_page.gif"), "image/gif");
 
 			var theProduct = DesignImageRepository.Add(AnyProduct.Key, theImage);
 
@@ -130,9 +131,9 @@ namespace Ponoko.Api.Acceptance.Tests.Examples.Products {
 		[Test, Ignore("PENDING")]
 		public void you_may_get_an_auto_generated_image() { }
 
-		private void AssertIncludes(Product product, DesignImage designImage) {
-			Assert.IsTrue(product.DesignImages.Exists(it => it.Filename == designImage.Filename), 
-				"The design image <{0}> is not present", designImage.Filename
+		private void AssertIncludes(Product product, File file) {
+			Assert.IsTrue(product.DesignImages.Exists(it => it.Filename == file.Filename), 
+				"The design image <{0}> is not present", file.Filename
 			);
 		}
 

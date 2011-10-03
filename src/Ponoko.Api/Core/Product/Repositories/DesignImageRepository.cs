@@ -9,17 +9,17 @@ namespace Ponoko.Api.Core.Product.Repositories {
 	public class DesignImageRepository : Domain {
 		public DesignImageRepository(TheInternet internet, String baseUrl) : base(internet, baseUrl) { }
 
-		public Product Add(String productKey, params DesignImage[] designImages) {
+		public Product Add(String productKey, params File[] files) {
 			var uri = Map("/products/{0}/design-images", productKey);
 
-			var payload = ToPayload(designImages);
+			var payload = ToPayload(files);
 
 			using (var response = MultipartPost(uri, payload)) {
 				return Deserialize(response);
 			}
 		}
 
-		private Payload ToPayload(IEnumerable<DesignImage> designImages) {
+		private Payload ToPayload(IEnumerable<File> designImages) {
 			var payload = new Payload();
 
 			foreach (var designImage in designImages) {

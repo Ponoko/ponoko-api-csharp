@@ -89,7 +89,7 @@
     <Compile Include="Core\Product\Commands\DeleteCommand.cs" />
     <Compile Include="Core\Product\Commands\DeleteResourceCommand.cs" />
     <Compile Include="Core\Product\Repositories\DesignImageRepository.cs" />
-    <Compile Include="Core\Product\DesignImage.cs" />
+    <Compile Include="Core\Product\File.cs" />
     <Compile Include="Core\Product\ProductValidator.cs" />
     <Compile Include="Core\Product\Commands\UpdateCommand.cs" />
     <Compile Include="Core\Shipping\Address.cs" />

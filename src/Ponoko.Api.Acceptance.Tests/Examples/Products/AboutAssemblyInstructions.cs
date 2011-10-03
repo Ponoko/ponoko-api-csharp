@@ -7,6 +7,7 @@ using Ponoko.Api.Core;
 using Ponoko.Api.Core.Product;
 using Ponoko.Api.Json;
 using Ponoko.Api.Rest;
+using File = Ponoko.Api.Core.Product.File;
 
 namespace Ponoko.Api.Acceptance.Tests.Examples.Products {
 	public class AboutAssemblyInstructions : ProductAcceptanceTest {
@@ -28,7 +29,7 @@ namespace Ponoko.Api.Acceptance.Tests.Examples.Products {
 
 		[Test]
 		public void you_can_add_assembly_instructions_to_a_product() {
-			var theImage = new UploadedFile(new FileInfo("res\\ponoko_logo_text_page.gif"), "image/gif");
+			var theImage = new File(new FileInfo("res\\ponoko_logo_text_page.gif"), "image/gif");
 
 			var theProduct = AssemblyInstructionRepository.Add(AnyProduct.Key, theImage);
 
@@ -36,21 +37,10 @@ namespace Ponoko.Api.Acceptance.Tests.Examples.Products {
 		}
 	}
 
-	public class UploadedFile {
-		public FileInfo File { get; private set; }
-		public String ContentType { get; private set; }
-		public String FullName { get { return this.File.FullName; } }
-
-		public UploadedFile(FileInfo file, String contentType) {
-			File = file;
-			ContentType = contentType;
-		}
-	}
-
 	public class AssemblyInstructionRepository : Domain {
 		public AssemblyInstructionRepository(TheInternet internet, String baseUrl) : base(internet, baseUrl) {}
 		
-		public Product Add(String productKey, params UploadedFile[] files) {
+		public Product Add(String productKey, params File[] files) {
 			var uri = Map("/products/{0}/assembly-instructions", productKey);
 
 			var payload = ToPayload(files);
@@ -60,7 +50,7 @@ namespace Ponoko.Api.Acceptance.Tests.Examples.Products {
 			}
 		}
 
-		private Payload ToPayload(IEnumerable<UploadedFile> designImages) {
+		private Payload ToPayload(IEnumerable<File> designImages) {
 			var payload = new Payload();
 
 			foreach (var designImage in designImages) {
