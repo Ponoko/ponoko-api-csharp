@@ -12,12 +12,12 @@ using File = Ponoko.Api.Core.Product.File;
 namespace Ponoko.Api.Acceptance.Tests.Examples.Products {
 	public class AboutAssemblyInstructions : ProductAcceptanceTest {
 		private Product AnyProduct;
-		private ProductFileRepository _assemblyInstructionRepository;
+		private AssemblyInstructionRepository _assemblyInstructionRepository;
 
-		public ProductFileRepository AssemblyInstructionRepository {
+		public AssemblyInstructionRepository AssemblyInstructionRepository {
 			get {
 				return _assemblyInstructionRepository ??(
-					_assemblyInstructionRepository = new ProductFileRepository(Internet, Settings.BaseUrl, "assembly-instructions")
+					_assemblyInstructionRepository = new AssemblyInstructionRepository(Internet, Settings.BaseUrl)
 				);
 			}
 		}
@@ -34,6 +34,18 @@ namespace Ponoko.Api.Acceptance.Tests.Examples.Products {
 			var theProduct = AssemblyInstructionRepository.Add(AnyProduct.Key, theImage);
 
 			Assert.AreEqual(1, theProduct.AssemblyInstructions.Count, "Expected one assembly instructions file");
+		}
+	}
+
+	public class AssemblyInstructionRepository : Domain {
+		private readonly ProductFileRepository _fileRepository;
+
+		public AssemblyInstructionRepository(TheInternet internet, String baseUrl) : base(internet, baseUrl) {
+			_fileRepository = new ProductFileRepository(internet, baseUrl, "assembly-instructions");
+		}
+		
+		public Product Add(String productKey, params File[] files) {
+			return _fileRepository.Add(productKey, files);
 		}
 	}
 
