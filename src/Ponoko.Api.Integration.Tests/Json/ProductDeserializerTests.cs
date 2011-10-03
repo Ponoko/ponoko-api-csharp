@@ -34,6 +34,17 @@ namespace Ponoko.Api.Integration.Tests.Json {
 				"	], " +
 				"   'design_images': [{'filename': 'jazz_kang_is_now_swiss.stl.png'}], " +
 				"   'assembly_instructions': [{'filename': 'phil_murphy_bike_shorts.pdf'}], " +
+				"	'hardware': [ " +
+				"		{" + 
+				"			'sku': 'GPS-08254', " + 
+                "			'name': 'Widget', " +
+                "			'quantity': '3', " +
+                "			'weight': '0.1kg'," + 
+                "			'currency': 'USD', " +
+                "			'cost': '9.99', " +
+                "			'total_cost': '29.97'" + 
+				"		}" + 
+				"	], " +
 				"   'total_make_cost': {'currency': 'USD', 'making': '56.78', 'materials': '56.78', 'total': '56.78', 'hardware': '0.99'}" + 
 			"}";
 
@@ -65,6 +76,8 @@ namespace Ponoko.Api.Integration.Tests.Json {
 
 			Assert.AreEqual(1, result.AssemblyInstructions.Count, "Unexpected number of assembly instructions");
 			Assert.AreEqual(result.AssemblyInstructions.First().Filename, "phil_murphy_bike_shorts.pdf", "The first assembly instruction does not match");
+
+			Assert.AreEqual(1, result.Hardware.Count, "Expected one hardware");
 		}
 	}
 }

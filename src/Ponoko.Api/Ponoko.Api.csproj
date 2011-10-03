@@ -84,6 +84,7 @@
     <Compile Include="Core\Orders\Order.cs" />
     <Compile Include="Core\Orders\ShippingCost.cs" />
     <Compile Include="Core\Orders\TrackingNumber.cs" />
+    <Compile Include="Core\Product\Hardware.cs" />
     <Compile Include="Core\Product\Repositories\AssemblyInstructionRepository.cs" />
     <Compile Include="Core\Product\Repositories\DesignRepository.cs" />
     <Compile Include="Core\Product\DefaultProductValidator.cs" />

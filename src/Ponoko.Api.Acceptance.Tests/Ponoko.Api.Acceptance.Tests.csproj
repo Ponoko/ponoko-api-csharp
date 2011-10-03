@@ -76,6 +76,7 @@
     <Compile Include="Examples\Products\AboutCreatingProducts.cs" />
     <Compile Include="Examples\Products\AboutFetchingProducts.cs" />
     <Compile Include="Examples\Products\AboutDeletingProducts.cs" />
+    <Compile Include="Examples\Products\AboutHardware.cs" />
     <Compile Include="Examples\Products\AboutMakingProducts.cs" />
     <Compile Include="Examples\Products\AboutOrderHistory.cs" />
     <Compile Include="Examples\Products\AboutUpdatingProducts.cs" />
