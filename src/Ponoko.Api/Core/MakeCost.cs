@@ -2,10 +2,10 @@
 
 namespace Ponoko.Api.Core {
 	public class MakeCost {
-		public Decimal Total { get; set; }
-		public Decimal Making { get; set; }
-		public Decimal Materials { get; set; }
-		public Decimal Hardware { get; set; }
-		public String Currency { get; set; }
+		public Decimal Total;
+		public Decimal Making;
+		public Decimal Materials;
+		public Decimal Hardware;
+		public String Currency;
 	}
 }

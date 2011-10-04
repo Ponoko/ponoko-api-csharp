@@ -3,30 +3,30 @@ using Newtonsoft.Json;
 
 namespace Ponoko.Api.Core {
 	public class Design {
-		public Int64 Size{ get; set; }
+		public Int64 Size;
 
-		[JsonProperty(PropertyName = "created_at")]
-		public DateTime CreatedAt { get; set; }
+		[JsonProperty(PropertyName = "created_at")] 
+		public DateTime CreatedAt;
 
 		public Int32 Quantity { get; set; }
 
-		[JsonProperty(PropertyName = "content_type")]
-		public String ContentType { get; set; }
+		[JsonProperty(PropertyName = "content_type")] 
+		public String ContentType;
 
-		[JsonProperty(PropertyName = "updated_at")]
-		public DateTime UpdatedAt { get; set; }
+		[JsonProperty(PropertyName = "updated_at")] 
+		public DateTime UpdatedAt;
 
-		[JsonProperty(PropertyName = "material_key")]
-		public String MaterialKey { get; set; }
+		[JsonProperty(PropertyName = "material_key")] 
+		public String MaterialKey;
 
-		public String Filename { get; set; }
+		public String Filename;
 
-		[JsonProperty(PropertyName = "ref")]
-		public String Reference { get; set; }
+		[JsonProperty(PropertyName = "ref")] 
+		public String Reference;
 
-		public String Key { get; set; }
+		public String Key;
 
-		[JsonProperty(PropertyName = "make_cost")]
-		public MakeCost MakeCost { get; set; }
+		[JsonProperty(PropertyName = "make_cost")] 
+		public MakeCost MakeCost;
 	}
 }

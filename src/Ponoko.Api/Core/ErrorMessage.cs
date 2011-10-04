@@ -3,20 +3,20 @@ using Newtonsoft.Json;
 
 namespace Ponoko.Api.Core {
 	public class ErrorMessage {
-		public String Type { get; set; }
+		public String Type;
 
-		[JsonProperty(PropertyName = "node_key")]
-		public String NodeKey { get; set; }
-		
-		[JsonProperty(PropertyName = "error_code")]
-		public String ErrorCode { get; set; }
-		
-		[JsonProperty(PropertyName = "error_message")]
-		public String Value { get; set; }
+		[JsonProperty(PropertyName = "node_key")] 
+		public String NodeKey;
 
-		public String Name { get; set; }
+		[JsonProperty(PropertyName = "error_code")] 
+		public String ErrorCode;
 
-		[JsonProperty(PropertyName = "material_key")]
-		public String MaterialKey { get; set; }
+		[JsonProperty(PropertyName = "error_message")] 
+		public String Value;
+
+		public String Name;
+
+		[JsonProperty(PropertyName = "material_key")] 
+		public String MaterialKey;
 	}
 }

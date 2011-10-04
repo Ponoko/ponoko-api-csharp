@@ -4,14 +4,12 @@ using Newtonsoft.Json;
 
 namespace Ponoko.Api.Core {
 	public class Material {
-		private readonly NameValueCollection _attributes = new NameValueCollection();
+		public readonly NameValueCollection Attributes = new NameValueCollection();
 		public String Key;
 		public String Name;
 		public String Type;
 
-		[JsonProperty(PropertyName = "updated_at")]
-		public DateTime UpdatedAt { get; set; }
-
-		public NameValueCollection Attributes { get { return _attributes; } }
+		[JsonProperty(PropertyName = "updated_at")] 
+		public DateTime UpdatedAt;
 	}
 }
