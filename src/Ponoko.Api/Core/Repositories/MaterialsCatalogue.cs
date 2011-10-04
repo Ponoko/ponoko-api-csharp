@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Ponoko.Api.Json;
 using Ponoko.Api.Rest;
 
-namespace Ponoko.Api.Core {
+namespace Ponoko.Api.Core.Repositories {
 	public class MaterialsCatalogue : Domain {
 		public MaterialsCatalogue(TheInternet internet, String baseUrl) : base(internet, baseUrl) {}
 

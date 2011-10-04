@@ -4,7 +4,7 @@ using System.Net;
 using Ponoko.Api.Json;
 using Ponoko.Api.Rest;
 
-namespace Ponoko.Api.Core {
+namespace Ponoko.Api.Core.Repositories {
 	public class Nodes : Domain {
 		public Nodes(TheInternet internet, String baseUrl) : base(internet, baseUrl) { }
 		

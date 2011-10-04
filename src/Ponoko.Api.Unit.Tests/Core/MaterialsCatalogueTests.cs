@@ -4,6 +4,7 @@ using System.Net;
 using System.Text;
 using NUnit.Framework;
 using Ponoko.Api.Core;
+using Ponoko.Api.Core.Repositories;
 using Ponoko.Api.Rest;
 using Rhino.Mocks;
 

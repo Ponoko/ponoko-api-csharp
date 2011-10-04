@@ -75,9 +75,9 @@
     <Compile Include="Core\IO\TempFileStream.cs" />
     <Compile Include="Core\MakeCost.cs" />
     <Compile Include="Core\Material.cs" />
-    <Compile Include="Core\MaterialsCatalogue.cs" />
+    <Compile Include="Core\Repositories\MaterialsCatalogue.cs" />
     <Compile Include="Core\Node.cs" />
-    <Compile Include="Core\Nodes.cs" />
+    <Compile Include="Core\Repositories\Nodes.cs" />
     <Compile Include="Core\Orders\Repositories\OrderRepository.cs" />
     <Compile Include="Core\Orders\Event.cs" />
     <Compile Include="Core\Orders\MadeProduct.cs" />
