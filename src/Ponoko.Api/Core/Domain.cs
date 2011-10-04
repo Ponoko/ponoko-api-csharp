@@ -55,12 +55,6 @@ namespace Ponoko.Api.Core {
 			}
 		}
 
-		protected String ReadAll(Response response) {
-			using (var rdr = new StreamReader(response.Open())) {
-				return rdr.ReadToEnd();
-			}
-		}
-
 		protected Exception Error(String message, Response response) {
 			var json = ReadAll(response);
 			var theError = TryDeserialize(json);
@@ -72,6 +66,12 @@ namespace Ponoko.Api.Core {
 				(Int32)response.StatusCode, 
 				theError
 			));
+		}
+
+		protected String ReadAll(Response response) {
+			using (var rdr = new StreamReader(response.Open())) {
+				return rdr.ReadToEnd();
+			}
 		}
 
 		protected Error TryDeserialize(String json) {
