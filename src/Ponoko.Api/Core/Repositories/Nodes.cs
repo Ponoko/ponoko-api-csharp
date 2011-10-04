@@ -13,19 +13,8 @@ namespace Ponoko.Api.Core.Repositories {
 				if (response.StatusCode == HttpStatusCode.OK) 
 					return NodeListDeserializer.Deserialize(ReadAll(response));
 
-				throw Error(response);
+				throw Error("Failed to find nodes.", response);
 			}
-		}
-
-		private Exception Error(Response response) {
-			var theError = new Deserializer().Deserialize(ReadAll(response))["error"].Value<String>("message");
-
-			return new Exception(String.Format(
-				"{0}. The server returned status {1} ({2}).", 
-				theError, 
-				response.StatusCode, 
-				(Int32)response.StatusCode)
-			);
 		}
 	}
 }
