@@ -5,6 +5,7 @@ using Ponoko.Api.Core;
 using Ponoko.Api.Core.Product;
 using Ponoko.Api.Core.Product.Commands;
 using Ponoko.Api.Json;
+using Ponoko.Api.Sugar;
 
 namespace Ponoko.Api.Acceptance.Tests.Examples.Products {
 	public static class ExampleMaterials {
@@ -15,10 +16,10 @@ namespace Ponoko.Api.Acceptance.Tests.Examples.Products {
 	}
 
 	public class ProductAcceptanceTest : AcceptanceTest {
-		public CreateCommand CreateCommand { get; set; }
+		protected CreateCommand CreateCommand { get; set; }
 
-		[SetUp]
-		public void BeforeEach() {
+		[TestFixtureSetUp]
+		public void TestFixtureSetUp() {
 			CreateCommand = new CreateCommand(Internet, Settings.BaseUrl);
 		}
 
@@ -49,7 +50,7 @@ namespace Ponoko.Api.Acceptance.Tests.Examples.Products {
 		}
 
 		protected void Delete(Product product) {
-			new DeleteCommand(Internet, Settings.BaseUrl).Delete(product.Key);
+			un.less(null == product, () => new DeleteCommand(Internet, Settings.BaseUrl).Delete(product.Key));
 		}
 
 		protected Design NewDesign() {
