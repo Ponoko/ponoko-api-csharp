@@ -20,11 +20,11 @@ namespace Ponoko.Api.Acceptance.Tests.Examples.Products {
 
 		[SetUp]
 		new public void BeforeEach() {
-			AnyProduct = NewProduct("Example for testing hardware");
+			AnyProduct = AnyProduct  ?? (AnyProduct = NewProduct("Example for testing hardware"));
 		}
 
-		[TearDown]
-		public void AfterEach() {
+		[TestFixtureTearDown]
+		public void TestFixtureTearDown() {
 			if (AnyProduct != null) {
 				new DeleteCommand(Internet, Settings.BaseUrl).Delete(AnyProduct.Key);
 			}
