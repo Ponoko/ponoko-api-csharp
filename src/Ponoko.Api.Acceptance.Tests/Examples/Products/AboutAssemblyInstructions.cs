@@ -1,7 +1,7 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using NUnit.Framework;
 using Ponoko.Api.Core.Product;
-using Ponoko.Api.Core.Product.Commands;
 using Ponoko.Api.Core.Product.Repositories;
 using File = Ponoko.Api.Core.Product.File;
 
@@ -18,20 +18,18 @@ namespace Ponoko.Api.Acceptance.Tests.Examples.Products {
 			}
 		}
 
-		[SetUp]
-		new public void BeforeEach() {
+		[TestFixtureSetUp]
+		public void SetUp() {
 			AnyProduct = NewProduct("Example for testing assembly instructions");
 		}
 
-		[TearDown]
-		public void AfterEach() {
-			if (AnyProduct != null) {
-				new DeleteCommand(Internet, Settings.BaseUrl).Delete(AnyProduct.Key);
-			}
-		}
+		[TestFixtureTearDown]
+		public void TestFixtureTearDown() { Delete(AnyProduct); }
 
 		[Test]
 		public void you_can_add_assembly_instructions_to_a_product() {
+			RefreshProduct();
+
 			var theImage = new File(new FileInfo("res\\ponoko_logo_text_page.gif"), "image/gif");
 
 			var theProduct = AssemblyInstructionRepository.Add(AnyProduct.Key, theImage);
@@ -41,6 +39,8 @@ namespace Ponoko.Api.Acceptance.Tests.Examples.Products {
 
 		[Test]
 		public void you_can_add_multiple_assembly_instructions_to_a_product() {
+			RefreshProduct();
+
 			var theImage = new File(new FileInfo("res\\ponoko_logo_text_page.gif"), "image/gif");
 			var anotherImage = new File(new FileInfo("res\\example image with spaces.gif"), "image/gif");
 			
@@ -124,6 +124,11 @@ namespace Ponoko.Api.Acceptance.Tests.Examples.Products {
 			Assert.IsFalse(theProduct.DesignImages.Exists(it => it.Filename == theImage.Filename), 
 				"Expected the assembly instructions file <{0}> to have been deleted, but it's still there", theImage.Filename
 			);
+		}
+
+		private void RefreshProduct() {
+			Delete(AnyProduct);
+			AnyProduct = NewProduct("Example for testing assembly instructions");
 		}
 	}
 }
