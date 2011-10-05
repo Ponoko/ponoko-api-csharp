@@ -11,12 +11,8 @@ using System.Linq;
 namespace Ponoko.Api.Acceptance.Tests.Examples.Products {
 	[TestFixture]
 	public class AboutOrderHistory : OrderingAcceptanceTest {
-		public Order NewOrder { get; set; }
-		
-		[SetUp]
-		public void TestFixtureSetUp() {
-			NewOrder = CreateANewOrder();
-		}
+		private Order _newOrder;
+		public Order NewOrder { get { return _newOrder ?? (_newOrder = CreateANewOrder()); }}
 
 		[Test]
 		public void you_can_get_the_list_of_orders() {
