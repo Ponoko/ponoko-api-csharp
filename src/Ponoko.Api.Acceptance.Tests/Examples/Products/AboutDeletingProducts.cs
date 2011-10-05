@@ -7,13 +7,11 @@ namespace Ponoko.Api.Acceptance.Tests.Examples.Products {
 	public class AboutDeletingProducts : ProductAcceptanceTest {
 		[Test]
 		public void can_delete_a_product() {
-			given_at_least_one_product("Testing deletes");
-			
-			var id = FindFirstProductKey();
+			var product = NewProduct("A product for testing deletes");
 
-			new DeleteCommand(Internet, Settings.BaseUrl).Delete(id);
+			new DeleteCommand(Internet, Settings.BaseUrl).Delete(product.Key);
 
-			then_the_product_does_not_exist_with_key(id);
+			then_the_product_does_not_exist_with_key(product.Key);
 		}
 
 		private void then_the_product_does_not_exist_with_key(String id) {
