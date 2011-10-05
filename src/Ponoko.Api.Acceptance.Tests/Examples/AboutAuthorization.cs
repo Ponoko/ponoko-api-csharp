@@ -1,6 +1,5 @@
 ﻿using System;
 using NUnit.Framework;
-using Ponoko.Api.Core;
 using Ponoko.Api.Core.Repositories;
 using Ponoko.Api.Rest;
 using Ponoko.Api.Rest.Security.OAuth.Core;
@@ -23,7 +22,7 @@ namespace Ponoko.Api.Acceptance.Tests.Examples {
 
 			var theError = Assert.Throws<Exception>(() => nodes.FindAll());
 
-			Assert.That(theError.Message, Is.EqualTo("Invalid OAuth Request. The server returned status Unauthorized (401)."));
+			Assert.That(theError.Message, Is.StringEnding("The server returned status Unauthorized (401), and error message: \"Invalid OAuth Request\""));
 		}
 	}
 }
