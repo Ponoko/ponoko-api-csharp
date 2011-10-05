@@ -14,6 +14,11 @@ namespace Ponoko.Api.Rest {
 
 		public SystemInternet(AuthorizationPolicy authPolicy) : this(authPolicy, new DevNullLog()) {}
 
+		static SystemInternet() {
+			ServicePointManager.Expect100Continue = true;
+			ServicePointManager.SecurityProtocol = SecurityProtocolType.Ssl3;
+		}
+
 		public SystemInternet(AuthorizationPolicy authPolicy, Log log) {
 			_authPolicy = authPolicy;
 			_log = log;

@@ -58,11 +58,5 @@ namespace Ponoko.Api.Acceptance.Tests {
 		protected Response Post(Uri uri, HttpContentType contentType, Payload payload) {
 			return Internet.Post(uri, contentType, payload);
 		}
-
-		[TestFixtureSetUp]
-		protected void SslInitialize() {
-			ServicePointManager.Expect100Continue = true;
-			ServicePointManager.SecurityProtocol = SecurityProtocolType.Ssl3;
-		}
 	}
 }
