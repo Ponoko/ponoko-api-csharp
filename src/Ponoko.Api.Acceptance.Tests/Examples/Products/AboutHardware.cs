@@ -2,33 +2,25 @@
 using System.Linq;
 using NUnit.Framework;
 using Ponoko.Api.Core.Product;
-using Ponoko.Api.Core.Product.Commands;
 using Ponoko.Api.Core.Product.Repositories;
 
 namespace Ponoko.Api.Acceptance.Tests.Examples.Products {
 	[TestFixture]
 	public class AboutHardware : ProductAcceptanceTest {
 		private Product AnyProduct;
-		private HardwareRepository _hardwareRepository;
+		private HardwareRepository HardwareRepository;
 
 		// See: http://www.ponoko.com/make-and-sell/show-hardware/489-a-antenna-gps-3v-magnetic-mount-mcx?source_node=ponoko_united_states
 		private const String VALID_SKU = "GPS-08254"; 
-		
-		private HardwareRepository HardwareRepository {
-			get { return _hardwareRepository ?? (_hardwareRepository = new HardwareRepository(Internet, Settings.BaseUrl)); }
-		}
 
-		[SetUp]
-		new public void BeforeEach() {
-			AnyProduct = AnyProduct  ?? (AnyProduct = NewProduct("Example for testing hardware"));
+		[TestFixtureSetUp]
+		public void BeforeEach() {
+			HardwareRepository = new HardwareRepository(Internet, Settings.BaseUrl);
+			AnyProduct = NewProduct("Example for testing hardware");
 		}
 
 		[TestFixtureTearDown]
-		public void TestFixtureTearDown() {
-			if (AnyProduct != null) {
-				new DeleteCommand(Internet, Settings.BaseUrl).Delete(AnyProduct.Key);
-			}
-		}
+		public void TestFixtureTearDown() { Delete(AnyProduct); }
 
 		[Test]
 		public void you_can_add_hardware_to_a_product() {
