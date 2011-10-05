@@ -24,14 +24,6 @@ namespace Ponoko.Api.Rest {
 			_log = log;
 		}
 
-		public override Response Head(Uri uri) {
-			var unauthorized = new Request(RequestLine.Head(uri)) { ContentType = HttpContentTypeName.FormUrlEncoded };
-
-			var authorized = AuthorizeAndConvert(unauthorized);
-			
-			return TryExecute(authorized);
-		}
-
 		public override Response Get(Uri uri) {
 			var unauthorized = new Request(RequestLine.Get(uri)) { ContentType = HttpContentTypeName.FormUrlEncoded };
 			
@@ -61,7 +53,9 @@ namespace Ponoko.Api.Rest {
 		}
 
 		private void Copy(Stream from, Stream to) {
-			var buffer = new Byte[1024*512];
+			const Int32 BUFFER_SIZE = 1024*512;
+
+			var buffer = new Byte[BUFFER_SIZE];
 
 			var reader = new BinaryReader(from);
 			var writer = new BinaryWriter(to);

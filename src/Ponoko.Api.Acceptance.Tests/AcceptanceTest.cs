@@ -45,14 +45,6 @@ namespace Ponoko.Api.Acceptance.Tests {
 			}
 		}
 
-		protected Response Head(Uri uri) {
-			return Head(uri, new NameValueCollection());
-		}
-
-		protected Response Head(Uri uri, NameValueCollection parameters) {
-			return Internet.Head(uri);
-		}
-
 		protected Response Get(Uri uri) { return Internet.Get(uri); }
 
 		protected Response Post(Uri uri, HttpContentType contentType, Payload payload) {
