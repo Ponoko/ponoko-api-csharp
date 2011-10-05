@@ -1,14 +1,23 @@
 ﻿using System;
 using NUnit.Framework;
+using Ponoko.Api.Core.Product;
 using Ponoko.Api.Core.Product.Commands;
 
 namespace Ponoko.Api.Acceptance.Tests.Examples.Products {
 	[TestFixture]
 	public class AboutFetchingProducts : ProductAcceptanceTest {
+		private Product AnyProduct;
+
+		[TestFixtureSetUp]
+		public void TestFixtureSetUp() {
+			AnyProduct = NewProduct("At least one for testing find");
+		}
+
+		[TestFixtureTearDown]
+		public void TestFixtureTearDown() { Delete(AnyProduct); }
+
 		[Test]
 		public void you_can_get_a_list_of_products() {
-			given_at_least_one_product();
-
 			var finder = new FindCommand(Internet, Settings.BaseUrl);
 			var result = finder.FindAll();
 
@@ -17,26 +26,19 @@ namespace Ponoko.Api.Acceptance.Tests.Examples.Products {
 
 		[Test]
 		public void you_can_get_a_single_product() {
-			given_at_least_one_product();
-
-			var id = FindFirstProductKey();
-			
 			var finder = new FindCommand(Internet, Settings.BaseUrl);
-			var result = finder.Find(id);
+			var result = finder.Find(AnyProduct.Key);
 
 			Assert.IsNotNull(result, "Expected a non-null result");
-			Assert.AreEqual(result.Name, "example", "Unexpected name");
+			Assert.AreEqual(result.Name, AnyProduct.Name, "Unexpected name");
 			Assert.AreEqual("42", result.Designs[0].Reference, "Unexpected name");
 		}
 
 		[Test]
 		public void you_can_check_existence_of_a_product() {
-			given_at_least_one_product();
-
 			var finder = new FindCommand(Internet, Settings.BaseUrl);
 			
-			var id = FindFirstProductKey();
-			var result = finder.Exists(id);
+			var result = finder.Exists(AnyProduct.Key);
 			Assert.IsTrue(result, "Expected the result to be true because the Product does exist.");
 			
 			const String AN_ID_THAT_DOES_NOT_EXIST = "Phil Murphy's fanny pack";

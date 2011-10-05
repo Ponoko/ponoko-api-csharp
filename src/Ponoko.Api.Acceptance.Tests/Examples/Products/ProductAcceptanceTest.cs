@@ -19,34 +19,12 @@ namespace Ponoko.Api.Acceptance.Tests.Examples.Products {
 		protected CreateCommand CreateCommand { get; set; }
 
 		[TestFixtureSetUp]
-		public void TestFixtureSetUp() {
+		public void BeforeAll() {
 			CreateCommand = new CreateCommand(Internet, Settings.BaseUrl);
-		}
-
-		protected void given_at_least_one_product() {
-			given_at_least_one_product("example");
-		}
-
-		protected void given_at_least_one_product(String called) {
-			NewProduct(called);
 		}
 
 		protected Product NewProduct(String called) {
 			return CreateCommand.Create(ProductSeed.WithName(called), NewDesign());
-		}
-
-		protected String FindFirstProductKey() {
-			var uri = Map("/products");
-
-			using (var response = Get(uri)) {
-				var temp = new Deserializer().Deserialize(Body(response));
-				
-				var products = temp["products"];
-
-				Assert.That(products.HasValues, "There are zero products, so unable to return the first one.");
-				
-				return products.First.Value<String>("key");
-			}
 		}
 
 		protected void Delete(Product product) {
