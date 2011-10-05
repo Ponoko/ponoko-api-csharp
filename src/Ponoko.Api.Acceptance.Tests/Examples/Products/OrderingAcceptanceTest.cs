@@ -6,10 +6,10 @@ namespace Ponoko.Api.Acceptance.Tests.Examples.Products {
 	public class OrderingAcceptanceTest : ProductAcceptanceTest {
 		[SetUp]
 		public void SetUp() {
-			ExampleProduct = NewProduct("A product to for making");	
+			ExampleProduct = ExampleProduct ?? (ExampleProduct = NewProduct("A product to for making"));	
 		}
 
-		[TearDown]
+		[TestFixtureTearDown]
 		public void TearDown() {
 			Delete(ExampleProduct);
 		}
