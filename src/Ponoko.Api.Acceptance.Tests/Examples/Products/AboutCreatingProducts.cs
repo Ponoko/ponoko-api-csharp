@@ -170,7 +170,7 @@ namespace Ponoko.Api.Acceptance.Tests.Examples.Products {
     		var theError = Assert.Throws<Exception>(() => CreateCommand.Create(ProductSeed.WithName("xxx"), designWithInvalidMaterial));
 
 			Assert.That(theError.Message, Is.StringMatching(
-				"could not find requested material. is it available to this Node's materail catalog?"
+				"could not find requested material. is it available to this Node's material catalog?"
 			));
 		}
 
