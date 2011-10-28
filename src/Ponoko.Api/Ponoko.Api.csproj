@@ -35,18 +35,6 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\lib\Newtonsoft.Json.Net20.dll</HintPath>
     </Reference>
-    <Reference Include="OAuth.Net.Common, Version=0.7.1.0, Culture=neutral, PublicKeyToken=32209861c86e8a0d, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\lib\OAuth.Net.Common.dll</HintPath>
-    </Reference>
-    <Reference Include="OAuth.Net.Components, Version=0.7.1.0, Culture=neutral, PublicKeyToken=32209861c86e8a0d, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\lib\OAuth.Net.Components.dll</HintPath>
-    </Reference>
-    <Reference Include="OAuth.Net.Consumer, Version=0.7.1.0, Culture=neutral, PublicKeyToken=32209861c86e8a0d, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\lib\OAuth.Net.Consumer.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>

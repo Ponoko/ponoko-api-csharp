@@ -4,7 +4,7 @@ using System.Text;
 using NUnit.Framework;
 using Ponoko.Api.Core.IO;
 
-namespace Ponoko.Api.Integration.Tests.Core.IO {
+namespace Ponoko.Api.Rest.Integration.Tests.IO {
 	[TestFixture]
 	public class DefaultFileSystemTests {
 		[Test]
