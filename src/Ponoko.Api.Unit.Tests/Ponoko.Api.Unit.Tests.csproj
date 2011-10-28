@@ -62,6 +62,10 @@
     <Compile Include="Security\OAuth\Http\OAuthRequestAuthorizerTests.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Ponoko.Api.Rest\Ponoko.Api.Rest.csproj">
+      <Project>{BBFBD243-F267-421D-A304-8CD251A5EEE1}</Project>
+      <Name>Ponoko.Api.Rest</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Ponoko.Api\Ponoko.Api.csproj">
       <Project>{FACBA19D-639D-4155-8FB3-95D1B4477C53}</Project>
       <Name>Ponoko.Api</Name>

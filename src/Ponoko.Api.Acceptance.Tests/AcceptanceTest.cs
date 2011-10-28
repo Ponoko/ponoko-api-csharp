@@ -1,12 +1,9 @@
 ﻿using System;
-using System.Collections.Specialized;
 using System.IO;
-using System.Net;
 using Newtonsoft.Json;
-using NUnit.Framework;
 using Ponoko.Api.Json;
-using Ponoko.Api.Logging;
 using Ponoko.Api.Rest;
+using Ponoko.Api.Rest.Logging;
 using Ponoko.Api.Rest.Mime;
 using Ponoko.Api.Rest.Security.OAuth.Core;
 using Ponoko.Api.Rest.Security.OAuth.Http;

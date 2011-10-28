@@ -2,7 +2,7 @@
 using System.Collections.Specialized;
 using OAuth.Net.Common;
 using Ponoko.Api.Rest.Security.OAuth.Core;
-using Ponoko.Api.Sugar;
+using Ponoko.Api.Rest.Sugar;
 
 namespace Ponoko.Api.Rest.Security.OAuth.Impl.OAuth.Net {
     public class MadgexOAuthHeader : OAuthHeader {

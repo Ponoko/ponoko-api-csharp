@@ -69,10 +69,6 @@
     <Compile Include="Core\Domain.cs" />
     <Compile Include="Core\Error.cs" />
     <Compile Include="Core\ErrorMessage.cs" />
-    <Compile Include="Core\IO\DefaultFileSystem.cs" />
-    <Compile Include="Core\IO\DefaultReadonlyFileSystem.cs" />
-    <Compile Include="Core\IO\FileSystem.cs" />
-    <Compile Include="Core\IO\TempFileStream.cs" />
     <Compile Include="Core\MakeCost.cs" />
     <Compile Include="Core\Material.cs" />
     <Compile Include="Core\Repositories\MaterialsCatalogue.cs" />
@@ -107,17 +103,11 @@
     <Compile Include="Json\OrderDeserializer.cs" />
     <Compile Include="Json\OrderListDeserializer.cs" />
     <Compile Include="Json\ShippingOptionsDeserializer.cs" />
-    <Compile Include="Rest\Field.cs" />
-    <Compile Include="Rest\Mime\Body.cs" />
-    <Compile Include="Rest\Mime\HttpContentTypeName.cs" />
-    <Compile Include="Rest\Mime\MultipartFormDataBodyBuilder.cs" />
-    <Compile Include="Rest\Parameter.cs" />
     <Compile Include="Core\Product\Product.cs" />
     <Compile Include="Core\Product\ProductSeed.cs" />
     <Compile Include="Json\ProductDeserializer.cs" />
     <Compile Include="Core\Product\Commands\FindCommand.cs" />
     <Compile Include="Core\Product\Commands\CreateCommand.cs" />
-    <Compile Include="Core\IO\ReadonlyFileSystem.cs" />
     <Compile Include="Json\DateTimeReader.cs" />
     <Compile Include="Json\Deserializer.cs" />
     <Compile Include="Json\ErrorDeserializer.cs" />
@@ -129,30 +119,16 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Logging\ConsoleLog.cs" />
     <Compile Include="Logging\Log.cs" />
-    <Compile Include="Rest\Mime\FormUrlEncoded.cs" />
-    <Compile Include="Rest\Mime\HttpContentType.cs" />
-    <Compile Include="Rest\Mime\MultipartFormDataDataItemFormatter.cs" />
-    <Compile Include="Rest\Payload.cs" />
-    <Compile Include="Rest\SystemInternet.cs" />
-    <Compile Include="Rest\SystemResponse.cs" />
-    <Compile Include="Rest\TheInternet.cs" />
-    <Compile Include="Rest\Security\OAuth\Core\Credential.cs" />
-    <Compile Include="Rest\Security\OAuth\Core\CredentialSet.cs" />
-    <Compile Include="Rest\Security\OAuth\Core\Clock.cs" />
-    <Compile Include="Rest\RequestLine.cs" />
-    <Compile Include="Rest\Mime\MultipartFormData.cs" />
-    <Compile Include="Rest\Response.cs" />
-    <Compile Include="Rest\Security\OAuth\Http\OAuthAuthorizationPolicy.cs" />
-    <Compile Include="Rest\Security\AuthorizationPolicy.cs" />
-    <Compile Include="Rest\DataItem.cs" />
-    <Compile Include="Rest\Security\OAuth\Impl\OAuth.Net\MadgexOAuthHeader.cs" />
-    <Compile Include="Rest\Security\OAuth\Impl\OAuth.Net\MadgexSignature.cs" />
-    <Compile Include="Rest\Security\OAuth\Core\NonceFactory.cs" />
-    <Compile Include="Rest\Security\OAuth\Core\OAuthHeader.cs" />
-    <Compile Include="Rest\Security\OAuth\Core\Options.cs" />
-    <Compile Include="Rest\Request.cs" />
-    <Compile Include="Rest\Security\OAuth\Core\ParameterInclusionPolicy.cs" />
     <Compile Include="Sugar\Un.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Ponoko.Api.Rest\Ponoko.Api.Rest.csproj">
+      <Project>{BBFBD243-F267-421D-A304-8CD251A5EEE1}</Project>
+      <Name>Ponoko.Api.Rest</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Rest\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

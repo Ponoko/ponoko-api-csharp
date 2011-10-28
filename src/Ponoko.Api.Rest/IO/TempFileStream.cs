@@ -1,6 +1,6 @@
 ﻿using System;
 using System.IO;
-using Ponoko.Api.Sugar;
+using Ponoko.Api.Rest.Sugar;
 
 namespace Ponoko.Api.Core.IO {
 	public class TempFileStream : Stream {

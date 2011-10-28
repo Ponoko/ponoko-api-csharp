@@ -1,7 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Net;
-using Ponoko.Api.Logging;
+using Ponoko.Api.Rest.Logging;
 using Ponoko.Api.Rest.Mime;
 using Ponoko.Api.Rest.Security;
 
