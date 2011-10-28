@@ -1,12 +1,6 @@
-﻿using System.Collections.Generic;
-using System.Collections.Specialized;
-using NUnit.Framework;
-using Ponoko.Api.Core;
-using Ponoko.Api.Rest;
-using Ponoko.Api.Rest.Mime;
-using Rhino.Mocks;
+﻿using NUnit.Framework;
 
-namespace Ponoko.Api.Unit.Tests.Rest {
+namespace Ponoko.Api.Rest.Unit.Tests {
 	[TestFixture]
 	public class MultipartFormDataTests {
 		//TEST: the_content_type_includes_a_boundary() {

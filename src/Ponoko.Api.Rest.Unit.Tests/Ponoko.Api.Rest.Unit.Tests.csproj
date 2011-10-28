@@ -5,11 +5,11 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>9.0.21022</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{BDFD483B-1950-43AB-A00F-77F0220EA498}</ProjectGuid>
+    <ProjectGuid>{EABC985A-E80C-4B4A-B183-3EE93D52757E}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Ponoko.Api.Unit.Tests</RootNamespace>
-    <AssemblyName>Ponoko.Api.Unit.Tests</AssemblyName>
+    <RootNamespace>Ponoko.Api.Rest.Unit.Tests</RootNamespace>
+    <AssemblyName>Ponoko.Api.Rest.Unit.Tests</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -43,26 +43,28 @@
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
+    <Reference Include="System.Xml.Linq">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data.DataSetExtensions">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Core\DomainUnitTest.cs" />
-    <Compile Include="Core\MaterialsCatalogueTests.cs" />
-    <Compile Include="Core\Product\Commands\DeleteResourceCommandTests.cs" />
-    <Compile Include="Core\Product\Commands\FindCommandTests.cs" />
-    <Compile Include="Core\Product\Commands\CreateCommandTests.cs" />
-    <Compile Include="Core\Product\DesignImageTests.cs" />
+    <Compile Include="IO\TempFileStreamTests.cs" />
+    <Compile Include="Mime\BodyTests.cs" />
+    <Compile Include="Mime\FormUrlEncodedTests.cs" />
+    <Compile Include="MultipartFormDataTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Security\OAuth\Core\RequestTests.cs" />
+    <Compile Include="Security\OAuth\Http\OAuthRequestAuthorizerTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Ponoko.Api.Rest\Ponoko.Api.Rest.csproj">
       <Project>{BBFBD243-F267-421D-A304-8CD251A5EEE1}</Project>
       <Name>Ponoko.Api.Rest</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Ponoko.Api\Ponoko.Api.csproj">
-      <Project>{FACBA19D-639D-4155-8FB3-95D1B4477C53}</Project>
-      <Name>Ponoko.Api</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

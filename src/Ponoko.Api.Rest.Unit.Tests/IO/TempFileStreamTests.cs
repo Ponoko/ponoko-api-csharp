@@ -5,7 +5,7 @@ using NUnit.Framework;
 using Ponoko.Api.Core.IO;
 using Rhino.Mocks;
 
-namespace Ponoko.Api.Unit.Tests.Core.IO {
+namespace Ponoko.Api.Rest.Unit.Tests.IO {
 	[TestFixture]
 	public class TempFileStreamTests {
 		[Test]

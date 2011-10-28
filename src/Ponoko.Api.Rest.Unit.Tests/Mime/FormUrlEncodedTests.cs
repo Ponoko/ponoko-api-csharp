@@ -1,10 +1,9 @@
 ﻿using System;
 using System.IO;
 using NUnit.Framework;
-using Ponoko.Api.Rest;
 using Ponoko.Api.Rest.Mime;
 
-namespace Ponoko.Api.Unit.Tests.Rest.Mime {
+namespace Ponoko.Api.Rest.Unit.Tests.Mime {
 	[TestFixture]
 	public class FormUrlEncodedTests {
 		[Test]

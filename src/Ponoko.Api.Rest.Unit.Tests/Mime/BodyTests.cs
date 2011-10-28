@@ -3,7 +3,7 @@ using NUnit.Framework;
 using Ponoko.Api.Rest.Mime;
 using Rhino.Mocks;
 
-namespace Ponoko.Api.Unit.Tests.Rest.Mime {
+namespace Ponoko.Api.Rest.Unit.Tests.Mime {
 	[TestFixture]
 	public class BodyTests {
 		[Test]

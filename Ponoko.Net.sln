@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ponoko.Api.Integration.Test
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ponoko.Api.Rest", "src\Ponoko.Api.Rest\Ponoko.Api.Rest.csproj", "{BBFBD243-F267-421D-A304-8CD251A5EEE1}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ponoko.Api.Rest.Unit.Tests", "src\Ponoko.Api.Rest.Unit.Tests\Ponoko.Api.Rest.Unit.Tests.csproj", "{EABC985A-E80C-4B4A-B183-3EE93D52757E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -37,6 +39,10 @@ Global
 		{BBFBD243-F267-421D-A304-8CD251A5EEE1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BBFBD243-F267-421D-A304-8CD251A5EEE1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BBFBD243-F267-421D-A304-8CD251A5EEE1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EABC985A-E80C-4B4A-B183-3EE93D52757E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EABC985A-E80C-4B4A-B183-3EE93D52757E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EABC985A-E80C-4B4A-B183-3EE93D52757E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EABC985A-E80C-4B4A-B183-3EE93D52757E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
