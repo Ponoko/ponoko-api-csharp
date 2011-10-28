@@ -115,10 +115,7 @@
     <Compile Include="Json\MaterialDeserializer.cs" />
     <Compile Include="Json\MaterialCatalogueDeserializer.cs" />
     <Compile Include="Json\NodeListDeserializer.cs" />
-    <Compile Include="Logging\DevNullLog.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Logging\ConsoleLog.cs" />
-    <Compile Include="Logging\Log.cs" />
     <Compile Include="Sugar\Un.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -126,9 +123,6 @@
       <Project>{BBFBD243-F267-421D-A304-8CD251A5EEE1}</Project>
       <Name>Ponoko.Api.Rest</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Rest\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
