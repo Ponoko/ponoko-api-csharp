@@ -69,6 +69,7 @@
   <ItemGroup>
     <Compile Include="AcceptanceTest.cs" />
     <Compile Include="Examples\AboutAuthorization.cs" />
+    <Compile Include="Examples\About_authentication.cs" />
     <Compile Include="Examples\Products\AboutAssemblyInstructions.cs" />
     <Compile Include="Examples\Products\AboutDesignImages.cs" />
     <Compile Include="Examples\AboutMaterials.cs" />
