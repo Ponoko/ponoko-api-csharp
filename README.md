@@ -2,9 +2,9 @@
 
 To get the acceptance tests to pass, you will need: 
 
-* your consumer credential and 
-* a valid access token
-* and a base url for the version of the API you're connecting to
+* your **oauth consumer credential** and a valid **access token** and
+* your **app_key** and **user_access_key** and
+* the **base url** for the version of the API you're connecting to
 
 Place them in the spaces provided in __Ponoko.Api.Acceptance.Tests/App.example.config__, and rename it to __App.config__.
 
@@ -12,16 +12,17 @@ Place them in the spaces provided in __Ponoko.Api.Acceptance.Tests/App.example.c
 
 ### Internet
 The domain repositories require access to the internet. 
-There is a default implementation (SystemInternet) which uses System.Net classes.
+There is a default implementation (`SystemInternet`) expressed in terms of the `System.Net` classes.
 
 ### AuthorizationPolicy
-SystemInternet requires an AuthorizationPolicy. There are two to choose from: **OAuthAuthorizationPolicy** and **SimpleKeyAuthorizationPolicy**.
+`SystemInternet` requires an `AuthorizationPolicy`. 
+There are two default implementations choose from: `OAuthAuthorizationPolicy` and `SimpleKeyAuthorizationPolicy`.
 
 See `Examples\About_authorization` for usage instructions.
 
 ## Examples/How-to
 
-There is a fully-executable specification in __Ponoko.Api.Acceptance.Tests.Examples__.
+There is a fully-executable specification in `Ponoko.Api.Acceptance.Tests.Examples`.
 
 First you will need to satisfy some dependencies: 
 
