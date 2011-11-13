@@ -8,7 +8,7 @@ using Ponoko.Api.Rest.Security.OAuth.Impl.OAuth.Net;
 using Ponoko.Api.Rest.Security.Simple;
 
 namespace Ponoko.Api.Acceptance.Tests.Examples {
-	public class About_authentication : AcceptanceTest {
+	public class About_authorization : AcceptanceTest {
     	[Test]
         public void you_can_use_oauth() {
 			var authPolicy = new OAuthAuthorizationPolicy(
