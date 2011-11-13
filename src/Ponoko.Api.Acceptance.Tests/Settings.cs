@@ -2,6 +2,7 @@
 using System.Configuration;
 using Ponoko.Api.Acceptance.Tests.Examples;
 using Ponoko.Api.Rest.Security.OAuth.Core;
+using Ponoko.Api.Rest.Security.Simple;
 
 namespace Ponoko.Api.Acceptance.Tests {
 	public static class Settings {
