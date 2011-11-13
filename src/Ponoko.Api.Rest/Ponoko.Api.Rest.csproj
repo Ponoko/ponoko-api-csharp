@@ -92,6 +92,8 @@
     <Compile Include="Security\OAuth\Http\OAuthAuthorizationPolicy.cs" />
     <Compile Include="Security\OAuth\Impl\OAuth.Net\MadgexOAuthHeader.cs" />
     <Compile Include="Security\OAuth\Impl\OAuth.Net\MadgexSignature.cs" />
+    <Compile Include="Security\Simple\SimpleKeyAuthorization.cs" />
+    <Compile Include="Security\Simple\SimpleKeyAuthorizationCredential.cs" />
     <Compile Include="Sugar\Un.cs" />
     <Compile Include="SystemInternet.cs" />
     <Compile Include="SystemResponse.cs" />

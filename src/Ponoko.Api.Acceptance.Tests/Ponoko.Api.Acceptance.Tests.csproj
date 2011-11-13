@@ -84,6 +84,7 @@
     <Compile Include="Examples\Products\OrderingAcceptanceTest.cs" />
     <Compile Include="Examples\Products\ProductAcceptanceTest.cs" />
     <Compile Include="Examples\Products\ProductFileRepositoryAcceptanceTest.cs" />
+    <Compile Include="Examples\SimpleKeyAuthorizationTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Settings.cs" />
   </ItemGroup>

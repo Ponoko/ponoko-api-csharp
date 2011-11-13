@@ -60,6 +60,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Security\OAuth\Core\RequestTests.cs" />
     <Compile Include="Security\OAuth\Http\OAuthRequestAuthorizerTests.cs" />
+    <Compile Include="Security\Simple\SimpleKeyAuthorizationTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Ponoko.Api.Rest\Ponoko.Api.Rest.csproj">
