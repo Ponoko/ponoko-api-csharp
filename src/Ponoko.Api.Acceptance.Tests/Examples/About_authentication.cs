@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Text;
 using NUnit.Framework;
 using Ponoko.Api.Core.Repositories;
 using Ponoko.Api.Rest;
@@ -30,15 +31,15 @@ namespace Ponoko.Api.Acceptance.Tests.Examples {
         public void you_can_use_simple_key_authorization() {
 			var authPolicy = new SimpleKeyAuthorization(Settings.SimpleKeyAuthorizationCredential);
 				
-			var theInternetWithsimpleKeyauthorization =  new SystemInternet(authPolicy);
+			var theInternetWithSimpleKeyAuthorization =  new SystemInternet(authPolicy);
 
-			var nodes = new Nodes(theInternetWithsimpleKeyauthorization, Settings.BaseUrl);
+			var nodes = new Nodes(theInternetWithSimpleKeyAuthorization, Settings.BaseUrl);
 
 			Assert.That(nodes.FindAll().Count, Is.GreaterThan(0), "Expected at least one making node to be returned.");
     	}
 	}
 
-	internal class SimpleKeyAuthorizationTests {
+	public class SimpleKeyAuthorizationTests {
 		[Test]
 		public void it_adds_the_key_to_the_url() {
 			var simpleKeyAuthorizer = new SimpleKeyAuthorization(
@@ -46,13 +47,25 @@ namespace Ponoko.Api.Acceptance.Tests.Examples {
 			);
 
 			var request = new Request(RequestLine.Get(new Uri("http://xxx/")));
-			Request authorized = simpleKeyAuthorizer.Authorize(request);
+			var authorized = simpleKeyAuthorizer.Authorize(request);
 
 			var expected = new Uri("http://xxx/?app_key=abcdefgh&user_access_key=stuvwxyz");
 			Assert.AreEqual(expected, authorized.RequestLine.Uri);
 		}
 
-		// [Test] it_preserves_other_params
+		[Test] 
+		public void it_preserves_other_params() {
+			var simpleKeyAuthorizer = new SimpleKeyAuthorization(
+				new SimpleKeyAuthorizationCredential("abcdefgh", "stuvwxyz")
+			);
+
+			var request = new Request(RequestLine.Get(new Uri("http://xxx/?a=b")));
+			var authorized = simpleKeyAuthorizer.Authorize(request);
+
+			var expected = new Uri("http://xxx/?a=b&app_key=abcdefgh&user_access_key=stuvwxyz");
+			Assert.AreEqual(expected, authorized.RequestLine.Uri);
+		}
+
 		// [Test] it_fails_if_url_already_contains_either_parameter
 	}
 
@@ -74,12 +87,26 @@ namespace Ponoko.Api.Acceptance.Tests.Examples {
 		}
 
 		public Request Authorize(Request request) {
-			var newUri = new Uri(
-				request.RequestLine.Uri + 
-				"?app_key=" + _credential.AppKey + 
-				"&user_access_key=" + _credential.UserAccessKey
+			var originalParams = request.RequestLine.Parameters;
+			originalParams.Add(new Parameter { Name = "app_key", Value = _credential.AppKey });
+			originalParams.Add(new Parameter { Name = "user_access_key", Value = _credential.UserAccessKey});
+
+			var theQueryString = new StringBuilder();
+
+			foreach (var parameter in originalParams) {
+				theQueryString.AppendFormat("{0}={1}&", parameter.Name, parameter.Value);
+			}
+
+			var theBaseUri = new UriBuilder(
+				request.RequestLine.Uri.Scheme, 
+				request.RequestLine.Uri.Host,
+			    request.RequestLine.Uri.Port
 			);
+
+			var newUri = new Uri(theBaseUri + "?" + theQueryString.ToString().TrimEnd('&'));
+
 			var newRequestLine = new RequestLine(request.RequestLine.Verb, newUri, request.RequestLine.Version);
+			
 			return new Request(newRequestLine, request.Headers, request.Payload);
 		}
 	}
