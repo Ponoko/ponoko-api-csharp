@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Text;
 
 namespace Ponoko.Api.Rest.Security.Simple {
@@ -10,15 +11,7 @@ namespace Ponoko.Api.Rest.Security.Simple {
 		}
 
 		public Request Authorize(Request request) {
-			var originalParams = request.RequestLine.Parameters;
-			originalParams.Add(new Parameter { Name = "app_key", Value = _credential.AppKey });
-			originalParams.Add(new Parameter { Name = "user_access_key", Value = _credential.UserAccessKey});
-
-			var theQueryString = new StringBuilder();
-
-			foreach (var parameter in originalParams) {
-				theQueryString.AppendFormat("{0}={1}&", parameter.Name, parameter.Value);
-			}
+			var theQueryString = ApplyParams(request.RequestLine.Parameters);
 
 			var theBaseUri = new UriBuilder(
 				request.RequestLine.Uri.Scheme, 
@@ -32,6 +25,19 @@ namespace Ponoko.Api.Rest.Security.Simple {
 			var newRequestLine = new RequestLine(request.RequestLine.Verb, newUri, request.RequestLine.Version);
 			
 			return new Request(newRequestLine, request.Headers, request.Payload);
+		}
+
+		private String ApplyParams(List<Parameter> originalParams) {
+			originalParams.Add(new Parameter { Name = "app_key", Value = _credential.AppKey });
+			originalParams.Add(new Parameter { Name = "user_access_key", Value = _credential.UserAccessKey});
+
+			var theQueryString = new StringBuilder();
+
+			foreach (var parameter in originalParams) {
+				theQueryString.AppendFormat("{0}={1}&", parameter.Name, parameter.Value);
+			}
+
+			return theQueryString.ToString();
 		}
 	}
 }

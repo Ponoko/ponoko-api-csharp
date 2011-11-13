@@ -30,6 +30,18 @@ namespace Ponoko.Api.Rest.Unit.Tests.Security.Simple {
 			Assert.AreEqual(expected, authorized.RequestLine.Uri);
 		}
 
+		[Test] 
+		public void it_preserves_the_path() {
+			var simpleKeyAuthorizer = new SimpleKeyAuthorizationPolicy(
+				new SimpleKeyAuthorizationCredential("abcdefgh", "stuvwxyz")
+			);
+
+			var request = new Request(RequestLine.Get(new Uri("http://xxx/yyy/zzz")));
+			var authorized = simpleKeyAuthorizer.Authorize(request);
+
+			Assert.AreEqual(request.RequestLine.Uri.AbsolutePath, authorized.RequestLine.Uri.AbsolutePath);
+		}
+
 		// [Test] it_fails_if_url_already_contains_either_parameter
 	}
 }
