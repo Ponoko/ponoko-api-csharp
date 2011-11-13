@@ -7,7 +7,7 @@ namespace Ponoko.Api.Acceptance.Tests.Examples {
 	public class SimpleKeyAuthorizationTests {
 		[Test]
 		public void it_adds_the_key_to_the_url() {
-			var simpleKeyAuthorizer = new SimpleKeyAuthorization(
+			var simpleKeyAuthorizer = new SimpleKeyAuthorizationPolicy(
 				new SimpleKeyAuthorizationCredential("abcdefgh", "stuvwxyz")
 			);
 
@@ -20,7 +20,7 @@ namespace Ponoko.Api.Acceptance.Tests.Examples {
 
 		[Test] 
 		public void it_preserves_other_params() {
-			var simpleKeyAuthorizer = new SimpleKeyAuthorization(
+			var simpleKeyAuthorizer = new SimpleKeyAuthorizationPolicy(
 				new SimpleKeyAuthorizationCredential("abcdefgh", "stuvwxyz")
 			);
 
@@ -33,7 +33,7 @@ namespace Ponoko.Api.Acceptance.Tests.Examples {
 
 		[Test] 
 		public void it_preserves_the_path() {
-			var simpleKeyAuthorizer = new SimpleKeyAuthorization(
+			var simpleKeyAuthorizer = new SimpleKeyAuthorizationPolicy(
 				new SimpleKeyAuthorizationCredential("abcdefgh", "stuvwxyz")
 			);
 
