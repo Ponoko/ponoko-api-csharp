@@ -5,7 +5,7 @@ using Ponoko.Api.Rest.Security.Simple;
 namespace Ponoko.Api.Rest.Unit.Tests.Security.Simple {
 	public class SimpleKeyAuthorizationPolicyTests {
 		[Test]
-		public void it_adds_the_key_to_the_url() {
+		public void it_adds_the_app_key_and_user_access_key_to_the_url() {
 			var simpleKeyAuthorizer = new SimpleKeyAuthorizationPolicy(
 				new SimpleKeyAuthorizationCredential("abcdefgh", "stuvwxyz")
 			);
