@@ -3,10 +3,10 @@ using NUnit.Framework;
 using Ponoko.Api.Rest.Security.Simple;
 
 namespace Ponoko.Api.Rest.Unit.Tests.Security.Simple {
-	public class SimpleKeyAuthorizationTests {
+	public class SimpleKeyAuthorizationPolicyTests {
 		[Test]
 		public void it_adds_the_key_to_the_url() {
-			var simpleKeyAuthorizer = new SimpleKeyAuthorization(
+			var simpleKeyAuthorizer = new SimpleKeyAuthorizationPolicy(
 				new SimpleKeyAuthorizationCredential("abcdefgh", "stuvwxyz")
 			);
 
@@ -19,7 +19,7 @@ namespace Ponoko.Api.Rest.Unit.Tests.Security.Simple {
 
 		[Test] 
 		public void it_preserves_other_params() {
-			var simpleKeyAuthorizer = new SimpleKeyAuthorization(
+			var simpleKeyAuthorizer = new SimpleKeyAuthorizationPolicy(
 				new SimpleKeyAuthorizationCredential("abcdefgh", "stuvwxyz")
 			);
 

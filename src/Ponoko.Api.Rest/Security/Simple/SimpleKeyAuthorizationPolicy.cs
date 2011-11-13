@@ -2,10 +2,10 @@
 using System.Text;
 
 namespace Ponoko.Api.Rest.Security.Simple {
-	public class SimpleKeyAuthorization : AuthorizationPolicy {
+	public class SimpleKeyAuthorizationPolicy : AuthorizationPolicy {
 		private readonly SimpleKeyAuthorizationCredential _credential;
 
-		public SimpleKeyAuthorization(SimpleKeyAuthorizationCredential credential) {
+		public SimpleKeyAuthorizationPolicy(SimpleKeyAuthorizationCredential credential) {
 			_credential = credential;
 		}
 

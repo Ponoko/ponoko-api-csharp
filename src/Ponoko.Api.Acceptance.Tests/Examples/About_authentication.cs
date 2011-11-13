@@ -28,7 +28,7 @@ namespace Ponoko.Api.Acceptance.Tests.Examples {
 
 		[Test]
         public void you_can_use_simple_key_authorization() {
-			var authPolicy = new SimpleKeyAuthorization(Settings.SimpleKeyAuthorizationCredential);
+			var authPolicy = new SimpleKeyAuthorizationPolicy(Settings.SimpleKeyAuthorizationCredential);
 				
 			var theInternetWithSimpleKeyAuthorization =  new SystemInternet(authPolicy, new ConsoleLog());
 
