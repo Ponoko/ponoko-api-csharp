@@ -15,8 +15,9 @@ The domain repositories require access to the internet.
 There is a default implementation (SystemInternet) which uses System.Net classes.
 
 ### AuthorizationPolicy
-SystemInternet requires an AuthorizationPolicy, and there is a default one of those too (OAuthAuthorizationPolicy), 
-see below for how to create one.
+SystemInternet requires an AuthorizationPolicy. There are two to choose from: **OAuthAuthorizationPolicy** and **SimpleKeyAuthorizationPolicy**.
+
+See `Examples\About_authorization` for usage instructions.
 
 ## Examples/How-to
 
