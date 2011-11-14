@@ -11,23 +11,31 @@ namespace Ponoko.Api.Rest.Security.Simple {
 		}
 
 		public Request Authorize(Request request) {
-			var theQueryString = ApplyParams(request.RequestLine.Parameters);
+			var theQueryString = AddAuthParams(request.RequestLine.Parameters);
 
-			var theBaseUri = new UriBuilder(
+			var newRequestLine = NewRequestLine(request, theQueryString);
+
+			return new Request(newRequestLine, request.Headers, request.Payload);
+		}
+
+		private RequestLine NewRequestLine(Request request, string theQueryString) {
+			var theBaseUri = ToBaseUrl(request);
+
+			var newUri = new Uri(theBaseUri + "?" + theQueryString.TrimEnd('&'));
+
+			return new RequestLine(request.RequestLine.Verb, newUri, request.RequestLine.Version);
+		}
+
+		private UriBuilder ToBaseUrl(Request request) {
+			return new UriBuilder(
 				request.RequestLine.Uri.Scheme, 
 				request.RequestLine.Uri.Host,
 				request.RequestLine.Uri.Port,
 				request.RequestLine.Uri.AbsolutePath
 			);
-
-			var newUri = new Uri(theBaseUri + "?" + theQueryString.ToString().TrimEnd('&'));
-
-			var newRequestLine = new RequestLine(request.RequestLine.Verb, newUri, request.RequestLine.Version);
-			
-			return new Request(newRequestLine, request.Headers, request.Payload);
 		}
 
-		private String ApplyParams(List<Parameter> originalParams) {
+		private String AddAuthParams(List<Parameter> originalParams) {
 			originalParams.Add(new Parameter { Name = "app_key", Value = _credential.AppKey });
 			originalParams.Add(new Parameter { Name = "user_access_key", Value = _credential.UserAccessKey});
 
