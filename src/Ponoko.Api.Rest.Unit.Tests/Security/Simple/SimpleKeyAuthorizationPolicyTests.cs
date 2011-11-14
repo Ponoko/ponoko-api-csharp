@@ -18,7 +18,7 @@ namespace Ponoko.Api.Rest.Unit.Tests.Security.Simple {
 			Assert.AreEqual(expected, authorized.RequestLine.Uri);
 		}
 
-		[Test] 
+		[Test]
 		public void it_preserves_other_params() {
 			var simpleKeyAuthorizer = new SimpleKeyAuthorizationPolicy(
 				new SimpleKeyAuthorizationCredential("abcdefgh", "stuvwxyz")
@@ -31,7 +31,7 @@ namespace Ponoko.Api.Rest.Unit.Tests.Security.Simple {
 			Assert.AreEqual(expected, authorized.RequestLine.Uri);
 		}
 
-		[Test] 
+		[Test]
 		public void it_preserves_the_path() {
 			var simpleKeyAuthorizer = new SimpleKeyAuthorizationPolicy(
 				new SimpleKeyAuthorizationCredential("abcdefgh", "stuvwxyz")
@@ -49,17 +49,49 @@ namespace Ponoko.Api.Rest.Unit.Tests.Security.Simple {
 				new SimpleKeyAuthorizationCredential("abcdefgh", "stuvwxyz")
 			);
 
-			var headers = new NameValueCollection {{"Content-type", "Chubby bat"}};
-			var payload = new Payload { { "Cletus Spuckler's moustache", "sparse" }};
-			
+			var headers = new NameValueCollection { { "Content-type", "Chubby bat" } };
+			var payload = new Payload { { "Cletus Spuckler's moustache", "sparse" } };
+
 			var request = new Request(RequestLine.Get(new Uri("http://xxx")), headers, payload);
-			
+
 			var authorized = simpleKeyAuthorizer.Authorize(request);
 
 			Assert.AreSame(request.Headers, authorized.Headers, "Expected the headers to be unmodified");
 			Assert.AreSame(request.Payload, authorized.Payload, "Expected the payload to be unmodified");
 		}
 
-		// [Test] it_fails_if_url_already_contains_either_parameter
+		[Test]
+		public void it_fails_if_app_key_already_present() {
+			var simpleKeyAuthorizer = new SimpleKeyAuthorizationPolicy(
+				new SimpleKeyAuthorizationCredential("abcdefgh", "stuvwxyz")
+			);
+
+			var request = new Request(RequestLine.Get(new Uri("http://xxx?app_key=1337")));
+
+			var theError = Assert.Throws<Exception>(() => simpleKeyAuthorizer.Authorize(request),
+				"Expected an error, but there was none thrown"
+			);
+
+			Assert.AreEqual("Request has already been authorized.", theError.Message,
+				"An error was thrown, but the error message does not match."
+			);
+		}
+
+		[Test]
+		public void it_fails_if_user_access_key_already_present() {
+			var simpleKeyAuthorizer = new SimpleKeyAuthorizationPolicy(
+				new SimpleKeyAuthorizationCredential("abcdefgh", "stuvwxyz")
+			);
+
+			var request = new Request(RequestLine.Get(new Uri("http://xxx?user_access_key=1337")));
+
+			var theError = Assert.Throws<Exception>(() => simpleKeyAuthorizer.Authorize(request),
+				"Expected an error, but there was none thrown"
+			);
+
+			Assert.AreEqual("Request has already been authorized.", theError.Message,
+				"An error was thrown, but the error message does not match."
+			);
+		}
 	}
 }
