@@ -50,7 +50,7 @@ namespace Ponoko.Api.Rest.Unit.Tests.Security.Simple {
 			);
 
 			var headers = new NameValueCollection {{"Content-type", "Chubby bat"}};
-			var payload = new Payload { { "Phil Murphy's moustache", "sparse" }};
+			var payload = new Payload { { "Cletus Spuckler's moustache", "sparse" }};
 			
 			var request = new Request(RequestLine.Get(new Uri("http://xxx")), headers, payload);
 			
