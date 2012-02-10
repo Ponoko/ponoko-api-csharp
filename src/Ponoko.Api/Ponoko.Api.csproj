@@ -59,6 +59,7 @@
     <Compile Include="Core\ErrorMessage.cs" />
     <Compile Include="Core\MakeCost.cs" />
     <Compile Include="Core\Material.cs" />
+    <Compile Include="Core\Product\Urls.cs" />
     <Compile Include="Core\Repositories\MaterialsCatalogue.cs" />
     <Compile Include="Core\Node.cs" />
     <Compile Include="Core\Repositories\Nodes.cs" />

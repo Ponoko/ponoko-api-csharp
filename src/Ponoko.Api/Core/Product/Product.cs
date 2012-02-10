@@ -44,11 +44,4 @@ namespace Ponoko.Api.Core.Product {
 		[JsonProperty(PropertyName = "urls")]
 		public Urls Urls;
 	}
-
-	public class Urls {
-		[JsonProperty(PropertyName = "make")]
-		public Uri Make;
-		[JsonProperty(PropertyName = "view")]
-		public Uri View;
-	}
 }
