@@ -79,5 +79,20 @@ namespace Ponoko.Api.Integration.Tests.Json {
 
 			Assert.AreEqual(1, result.Hardware.Count, "Expected one hardware");
 		}
+
+		[Test]
+		public void can_deserialize_product_earls() {
+			var json = "{" +
+				"	'urls': {" +
+				"		'make': 'http://sandbox.ponoko.com/make/new/5330eef287c04b9af1ee84bafa6f0d78'," +
+				"		'view': 'http://sandbox.ponoko.com/products/show/5330eef287c04b9af1ee84bafa6f0d78'" +
+				"	}," +
+				"}";
+
+			var result = ProductDeserializer.Deserialize(json);
+
+			Assert.AreEqual("http://sandbox.ponoko.com/make/new/5330eef287c04b9af1ee84bafa6f0d78", result.Urls.Make.ToString());
+			Assert.AreEqual("http://sandbox.ponoko.com/products/show/5330eef287c04b9af1ee84bafa6f0d78", result.Urls.View.ToString());
+		}
 	}
 }
