@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<package >
+  <metadata>
+    <id>Ponoko.Net</id>
+    <version>0.0.11</version>
+    <authors>Ben Biddington</authors>
+    <owners>Ben Biddington</owners>
+    <projectUrl>https://github.com/Ponoko/ponoko-api-csharp</projectUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>Ponoko API client.</description>
+    <releaseNotes>Supports API version 2.2</releaseNotes>
+    <copyright>Copyright 2012</copyright>
+    <dependencies>
+      <dependency id="Newtonsoft.Json" version="[3.5.8]" />
+    </dependencies>
+		<tags>ponoko</tags>
+  </metadata>
+</package>

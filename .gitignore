@@ -7,3 +7,5 @@ TestResult.xml
 *.VisualState.xml
 src/Ponoko.Api.Acceptance.Tests/App.config
 readme.html
+nuget/lib/*
+*.nupkg
