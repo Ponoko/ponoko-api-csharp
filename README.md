@@ -1,3 +1,7 @@
+## Installation
+
+Now available as [nuget package](https://nuget.org/packages/Ponoko.Net).
+
 ## Getting Started
 
 To get the acceptance tests to pass, you will need: 
