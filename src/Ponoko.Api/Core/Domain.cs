@@ -17,6 +17,9 @@ namespace Ponoko.Api.Core {
 
 		protected Uri Map(String format, params Object[] args) {
 			var relativeUrl = String.Format(format, args);
+			
+			Console.WriteLine("Formatting with base url <{0}>", _baseUrl);
+			
 			return new Uri(String.Format("{0}{1}", _baseUrl, relativeUrl));
 		}
 
