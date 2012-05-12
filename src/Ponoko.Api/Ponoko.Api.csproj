@@ -54,6 +54,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Core\Design.cs" />
+    <Compile Include="Core\Dimension.cs" />
+    <Compile Include="Core\DimensionList.cs" />
     <Compile Include="Core\Domain.cs" />
     <Compile Include="Core\Error.cs" />
     <Compile Include="Core\ErrorMessage.cs" />

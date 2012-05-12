@@ -14,12 +14,4 @@ namespace Ponoko.Api.Core {
 
 		public DimensionList Dimensions;
 	}
-
-	public class DimensionList {
-		public Dimension Metric, Imperial;
-	}
-
-	public class Dimension {
-		public Decimal Weight, Length, Thickness, Width;
-	}
 }
