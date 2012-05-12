@@ -11,5 +11,15 @@ namespace Ponoko.Api.Core {
 
 		[JsonProperty(PropertyName = "updated_at")] 
 		public DateTime UpdatedAt;
+
+		public DimensionList Dimensions;
+	}
+
+	public class DimensionList {
+		public Dimension Metric, Imperial;
+	}
+
+	public class Dimension {
+		public Decimal Weight, Length, Thickness, Width;
 	}
 }
