@@ -50,7 +50,8 @@ namespace Ponoko.Api.Acceptance.Tests.Examples.Products {
 			var theImage = new File(new FileInfo("res\\ponoko_logo_text_page.gif"), "xxx_clearly_invalid_content_type_xxx");
 
 			var theError = Assert.Throws<Exception>(() => 
-				DesignImageRepository.Add(AnyProduct.Key, theImage)
+				DesignImageRepository.Add(AnyProduct.Key, theImage), 
+                "Expected an exception to be thrown because we supplied an invalid content type"
 			);
 
 			Assert.That(theError.Message, Is.StringEnding("\"Bad Request. Error adding image\""), 
