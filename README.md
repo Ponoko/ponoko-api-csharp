@@ -1,3 +1,7 @@
+## Installation
+
+Now available as [nuget package](https://nuget.org/packages/Ponoko.Net).
+
 ## Getting Started
 
 To get the acceptance tests to pass, you will need: 
@@ -34,10 +38,7 @@ First you will need to satisfy some dependencies:
 	var credentials = new CredentialSet(consumer, token);
 	
 	// and an authorization policy
-	var authPolicy = new OAuthAuthorizationPolicy(
-	  new MadgexOAuthHeader(new SystemClock(), new SystemNonceFactory()),
-	  credentials
-	);
+	var authPolicy = new DefaultOAuthAuthorizationPolicy(credentials);
 
 	// which is used by the Internet
 	var theInternet = new SystemInternet(authPolicy);

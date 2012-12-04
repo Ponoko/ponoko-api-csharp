@@ -18,7 +18,8 @@ namespace Ponoko.Api.Integration.Tests.Json {
 				"	'width': '181.0 mm'," +
 				"	'material_type': 'sheet'," +
 				"	'length': '181.0 mm'," +
-				"	'kind': 'Fabric'" +
+				"	'kind': 'Fabric'," + 
+				"   'dimensions':{'metric':{'weight':0.1,'length':181.0,'thickness':3.0,'width':1337.0},'imperial':{'weight':0.2204623,'length':7.1,'thickness':0.118,'width':7.1}}" +                
 				"}";
 
 			var result = MaterialDeserializer.Deserialize(json);
@@ -29,6 +30,10 @@ namespace Ponoko.Api.Integration.Tests.Json {
 			Assert.AreEqual("Felt"								, result.Name);
 			Assert.AreEqual("P1"								, result.Type);
 			Assert.AreEqual(expectedDate						, result.UpdatedAt);
+			Assert.AreEqual(0.1m								, result.Dimensions.Metric.Weight);
+			Assert.AreEqual(181.0m								, result.Dimensions.Metric.Length);
+			Assert.AreEqual(3.0m								, result.Dimensions.Metric.Thickness);
+			Assert.AreEqual(1337.0m								, result.Dimensions.Metric.Width);
 		}
 
 		[Test] 

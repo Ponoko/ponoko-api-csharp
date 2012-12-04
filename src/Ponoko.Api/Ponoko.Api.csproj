@@ -53,9 +53,9 @@
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Newtonsoft.Json.Net20, Version=3.5.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+    <Reference Include="Newtonsoft.Json, Version=3.5.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\lib\Newtonsoft.Json.Net20.dll</HintPath>
+      <HintPath>..\..\lib\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core">
@@ -76,11 +76,14 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Core\Design.cs" />
+    <Compile Include="Core\Dimension.cs" />
+    <Compile Include="Core\DimensionList.cs" />
     <Compile Include="Core\Domain.cs" />
     <Compile Include="Core\Error.cs" />
     <Compile Include="Core\ErrorMessage.cs" />
     <Compile Include="Core\MakeCost.cs" />
     <Compile Include="Core\Material.cs" />
+    <Compile Include="Core\Product\Urls.cs" />
     <Compile Include="Core\Repositories\MaterialsCatalogue.cs" />
     <Compile Include="Core\Node.cs" />
     <Compile Include="Core\Repositories\Nodes.cs" />

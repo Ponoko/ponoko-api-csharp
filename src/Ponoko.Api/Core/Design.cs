@@ -28,5 +28,16 @@ namespace Ponoko.Api.Core {
 
 		[JsonProperty(PropertyName = "make_cost")] 
 		public MakeCost MakeCost;
+
+		public String Units;
+
+		[JsonProperty(PropertyName = "bounding_box")] 
+		public BoundingBox BoundingBox;
+
+		public Decimal Volume;
+	}
+
+	public class BoundingBox {
+		public Decimal X, Y, Z;
 	}
 }

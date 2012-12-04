@@ -111,6 +111,7 @@
     <Compile Include="Security\OAuth\Core\OAuthHeader.cs" />
     <Compile Include="Security\OAuth\Core\Options.cs" />
     <Compile Include="Security\OAuth\Core\ParameterInclusionPolicy.cs" />
+    <Compile Include="Security\OAuth\Http\DefaultOAuthAuthorizationPolicy.cs" />
     <Compile Include="Security\OAuth\Http\OAuthAuthorizationPolicy.cs" />
     <Compile Include="Security\OAuth\Impl\OAuth.Net\MadgexOAuthHeader.cs" />
     <Compile Include="Security\OAuth\Impl\OAuth.Net\MadgexSignature.cs" />

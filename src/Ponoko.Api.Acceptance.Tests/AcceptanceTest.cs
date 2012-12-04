@@ -5,25 +5,17 @@ using Ponoko.Api.Json;
 using Ponoko.Api.Rest;
 using Ponoko.Api.Rest.Logging;
 using Ponoko.Api.Rest.Mime;
-using Ponoko.Api.Rest.Security.OAuth.Core;
 using Ponoko.Api.Rest.Security.OAuth.Http;
-using Ponoko.Api.Rest.Security.OAuth.Impl.OAuth.Net;
 
 namespace Ponoko.Api.Acceptance.Tests {
 	public class AcceptanceTest {
 		protected TheInternet Internet {
 			get {
-				var authPolicy = new OAuthAuthorizationPolicy(
-					new MadgexOAuthHeader(
-						new SystemClock(),
-						new SystemNonceFactory()
-					),
+				var authPolicy = new DefaultOAuthAuthorizationPolicy(
 					Settings.Credentials
 				);
-				
-				var log = new ConsoleLog();
 
-				return new SystemInternet(authPolicy, log);
+				return new SystemInternet(authPolicy, new ConsoleLog());
 			}
 		}
 

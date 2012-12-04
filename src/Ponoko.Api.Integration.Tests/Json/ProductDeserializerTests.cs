@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using NUnit.Framework;
+using Ponoko.Api.Core;
 using Ponoko.Api.Json;
 
 namespace Ponoko.Api.Integration.Tests.Json {
@@ -78,6 +79,85 @@ namespace Ponoko.Api.Integration.Tests.Json {
 			Assert.AreEqual(result.AssemblyInstructions.First().Filename, "phil_murphy_bike_shorts.pdf", "The first assembly instruction does not match");
 
 			Assert.AreEqual(1, result.Hardware.Count, "Expected one hardware");
+		}
+
+		[Test]
+		public void can_deserialize_product_earls() {
+			var json = "{" +
+				"	'urls': {" +
+				"		'make': 'http://sandbox.ponoko.com/make/new/5330eef287c04b9af1ee84bafa6f0d78'," +
+				"		'view': 'http://sandbox.ponoko.com/products/show/5330eef287c04b9af1ee84bafa6f0d78'" +
+				"	}," +
+				"}";
+
+			var result = ProductDeserializer.Deserialize(json);
+
+			Assert.AreEqual("http://sandbox.ponoko.com/make/new/5330eef287c04b9af1ee84bafa6f0d78", result.Urls.Make.ToString());
+			Assert.AreEqual("http://sandbox.ponoko.com/products/show/5330eef287c04b9af1ee84bafa6f0d78", result.Urls.View.ToString());
+		}
+
+		[Test]
+		public void can_deserialize_a_product_that_includes_design_with_units_bounding_box_and_volume() {
+			var json = @"{
+			  'name': 'Example for testing assembly instructions',
+			  'created_at': '2012/05/12 02:22:32 +0000',
+			  'urls': {
+				'make': 'http://sandbox.ponoko.com/make/new/d853602f61867bf470722824e7ab2c90',
+				'view': 'http://sandbox.ponoko.com/products/show/d853602f61867bf470722824e7ab2c90'
+			  },
+			  'updated_at': '2012/05/12 02:22:34 +0000',
+			  'locked?': false,
+			  'total_make_cost': {
+				'total': '18.85',
+				'making': '16.02',
+				'materials': '2.83',
+				'currency': 'USD',
+				'hardware': '0.00'
+			  },
+			  'node_key': '2e9d8c90326e012e359f404062cdb04a',
+			  'ref': '',
+			  'description': '',
+			  'key': 'd853602f61867bf470722824e7ab2c90',
+			  'materials_available?': true,
+			  'designs': [
+				{
+				  'size': 137984,
+				  'created_at': '2012/05/12 02:22:32 +0000',
+				  'quantity': 1,
+				  'content_type': 'application/stl',
+				  'updated_at': '2012/05/12 02:22:38 +0000',
+				  'units': 'mm',
+				  'bounding_box': {
+					'x': 14.0,
+					'y': 100.0,
+					'z': 50.0
+				  },
+				  'volume': 12351.5312,
+				  'material_key': '6bb50fd03269012e3526404062cdb04a',
+				  'filename': 'bottom_new.stl',
+				  'ref': '42',
+				  'key': '128aa489f093ebdc810d706b7b98cfea',
+				  'make_cost': {
+					'total': '18.85',
+					'making': '16.02',
+					'materials': '2.83',
+					'currency': 'USD'
+				  }
+				}
+			  ]
+			}";
+
+			var result = ProductDeserializer.Deserialize(json);
+
+			var theFirstDesign = result.Designs[0];
+			Assert.AreEqual("mm", theFirstDesign.Units);
+
+			var theBoundingBoxForTheFirstDesign = theFirstDesign.BoundingBox;
+			Assert.AreEqual(14.0m, theBoundingBoxForTheFirstDesign.X);
+			Assert.AreEqual(100.0m, theBoundingBoxForTheFirstDesign.Y);
+			Assert.AreEqual(50.0m, theBoundingBoxForTheFirstDesign.Z);
+
+			Assert.AreEqual(12351.5312m, theFirstDesign.Volume);
 		}
 	}
 }

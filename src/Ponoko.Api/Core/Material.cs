@@ -11,5 +11,7 @@ namespace Ponoko.Api.Core {
 
 		[JsonProperty(PropertyName = "updated_at")] 
 		public DateTime UpdatedAt;
+
+		public DimensionList Dimensions;
 	}
 }

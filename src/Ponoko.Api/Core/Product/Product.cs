@@ -38,6 +38,10 @@ namespace Ponoko.Api.Core.Product {
 		[JsonProperty(PropertyName = "materials_available?")] 
 		public Boolean AreMaterialsAvailable;
 
-		[JsonProperty(PropertyName = "total_make_cost")] public MakeCost TotalMakeCost;
+		[JsonProperty(PropertyName = "total_make_cost")] 
+		public MakeCost TotalMakeCost;
+
+		[JsonProperty(PropertyName = "urls")]
+		public Urls Urls;
 	}
 }
