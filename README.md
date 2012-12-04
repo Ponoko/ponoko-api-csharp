@@ -8,6 +8,8 @@ To get the acceptance tests to pass, you will need:
 
 Place them in the spaces provided in __Ponoko.Api.Acceptance.Tests/App.example.config__, and rename it to __App.config__.
 
+Make sure __App.config__ is included in the project.
+
 ## Key Abstractions
 
 ### Internet
