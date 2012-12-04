@@ -9,11 +9,6 @@ namespace Ponoko.Api.Acceptance.Tests.Examples.Products {
 			ExampleProduct = ExampleProduct ?? (ExampleProduct = NewProduct("A product to for making"));	
 		}
 
-		[TestFixtureTearDown]
-		public void TearDown() {
-			Delete(ExampleProduct);
-		}
-
 		protected NameAndAddress ExampleShippingAddress {
 			get { 
 				return new NameAndAddress {
