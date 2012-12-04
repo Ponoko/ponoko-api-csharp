@@ -29,7 +29,7 @@ namespace Ponoko.Api.Acceptance.Tests.Examples.Products {
 				=> new DeleteResourceCommand(Internet, Settings.BaseUrl).Delete(uri)
 			);
 
-			Assert.That(theError.Message, Is.StringMatching("^Delete failed. The server returned status NotFound \\(404\\).+"));
+			Assert.That(theError.Message, Is.StringMatching("^Delete failed.+"));
 		}
 
 		[Test]
