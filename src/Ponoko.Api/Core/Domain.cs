@@ -17,7 +17,11 @@ namespace Ponoko.Api.Core {
 
 		protected Uri Map(String format, params Object[] args) {
 			var relativeUrl = String.Format(format, args);
-			return new Uri(String.Format("{0}{1}", _baseUrl, relativeUrl));
+			
+            if (null == _baseUrl)
+                throw new InvalidOperationException("The base url has not been set, unable to map <" + relativeUrl + ">.");
+            
+            return new Uri(String.Format("{0}{1}", _baseUrl, relativeUrl));
 		}
 
 		protected Response Get(Uri uri) {
