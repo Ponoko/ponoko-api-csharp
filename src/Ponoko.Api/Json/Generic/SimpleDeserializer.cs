@@ -6,7 +6,7 @@ namespace Ponoko.Api.Json.Generic {
 	public static class SimpleDeserializer<T> {
 		public static T Deserialize(String json) {
 			var settings = new JsonSerializerSettings {
-				MissingMemberHandling = MissingMemberHandling.Error,
+				MissingMemberHandling = MissingMemberHandling.Ignore,
 				Converters = new List<JsonConverter> { new DateTimeReader() },
 			};
 
