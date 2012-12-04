@@ -21,7 +21,7 @@ namespace Ponoko.Api.Json {
 		private static NameValueCollection GetExtraAttributes(String json) {
 			var result = new NameValueCollection();
 
-			var skip = new List<String> {"key", "name", "type", "updated_at", "length", "thickness", "dimensions", "color", "material_type"};	
+			var skip = new List<String> {"key", "name", "type", "updated_at"};	
 
 			var material = new Deserializer().Deserialize(json);
 
