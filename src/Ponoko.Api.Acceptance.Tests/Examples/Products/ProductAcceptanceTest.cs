@@ -4,7 +4,6 @@ using NUnit.Framework;
 using Ponoko.Api.Core;
 using Ponoko.Api.Core.Product;
 using Ponoko.Api.Core.Product.Commands;
-using Ponoko.Api.Json;
 using Ponoko.Api.Sugar;
 
 namespace Ponoko.Api.Acceptance.Tests.Examples.Products {

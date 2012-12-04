@@ -1,6 +1,5 @@
 ﻿using System;
 using NUnit.Framework;
-using Ponoko.Api.Core;
 using Ponoko.Api.Core.Repositories;
 
 namespace Ponoko.Api.Acceptance.Tests.Examples {
