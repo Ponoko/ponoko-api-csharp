@@ -1,6 +1,6 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 10.00
-# Visual Studio 2008
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ponoko.Api", "src\Ponoko.Api\Ponoko.Api.csproj", "{FACBA19D-639D-4155-8FB3-95D1B4477C53}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ponoko.Api.Acceptance.Tests", "src\Ponoko.Api.Acceptance.Tests\Ponoko.Api.Acceptance.Tests.csproj", "{B8954D9A-1E76-4451-B8BA-B0D4FFB0E2C7}"
