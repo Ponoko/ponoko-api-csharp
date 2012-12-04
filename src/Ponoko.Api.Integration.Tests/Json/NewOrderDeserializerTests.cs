@@ -79,5 +79,25 @@ namespace Ponoko.Api.Integration.Tests.Json {
 			Assert.AreEqual(2, result.Length, "Expected two orders to be deserialized");
 			Assert.AreEqual("0bd8822ef8deca6f41e70e88f9dbc1ec", result.First().Key, "Expected two orders to be deserialized");
 		}
+
+	    [Test]
+	    public void it_ignores_extra_fields()
+	    {
+            var json = "{" +
+               "	'orders': [" +
+               "		{" +
+               "			'created_at': '2011/08/10 21:41:20 +0000'," +
+               "			'updated_at': '2011/08/10 21:41:24 +0000'," +
+               "			'node_key': '2e9d8c90326e012e359f404062cdb04a'," +
+               "			'ref': 'e080d218-f358-46e9-8309-222874e7805c'," +
+               "			'key': '0bd8822ef8deca6f41e70e88f9dbc1ec'," +
+               "			'xxx_extra_field_xxx': 'xxx'" +
+               "		}" + 
+               "	]" +
+               "}";
+
+            var result = OrderListDeserializer.Deserialize(json);
+            Assert.AreEqual("0bd8822ef8deca6f41e70e88f9dbc1ec", result.First().Key, "Expected serialization to be successful");
+	    }
 	}
 }

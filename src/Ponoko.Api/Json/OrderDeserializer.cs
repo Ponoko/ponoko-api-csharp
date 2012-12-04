@@ -6,10 +6,8 @@ namespace Ponoko.Api.Json {
 	public static class OrderDeserializer {
 		public static Order Deserialize(String json) {
 			var settings = new JsonSerializerSettings {
-				MissingMemberHandling = MissingMemberHandling.Error
+				MissingMemberHandling = MissingMemberHandling.Ignore
 			};
-
-			var payload = new Deserializer().Deserialize(json);
 			
 			return JsonConvert.DeserializeObject<Order>(json, settings);
 		}	
